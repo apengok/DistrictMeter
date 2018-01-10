@@ -1,0 +1,88 @@
+{% load staticfiles %}<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Default Title{% endblock %}</title>
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'dma/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dma/css/font-awesome.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dma/css/dashboard.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dma/css/treeview.css' %}">
+    
+    <script src="{% static 'dma/js/jquery-2.2.4.min.js' %}"></script>
+    <script src="{% static 'dma/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'dma/js/treeview.js' %}"></script>
+    
+    <!-- charts -->
+    <script src="{% static 'fusioncharts/fusioncharts.js' %}"></script>
+    <script src="{% static 'fusioncharts/themes/fusioncharts.theme.fint.js' %}"></script>
+    
+    
+  
+    {% block stylesheet %}{% endblock %}
+  </head>
+  <body>
+    
+      {% include "nav.html"  %}
+    
+    {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+            <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-2 sidebar">
+                {% block sidebar %}
+                    {% if side_content %}
+                    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                        {% for side in side_content %}
+                        <div class="list-group" role="tab" id="heading{{ forloop.counter0 }}">
+                            <div>
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse{{ forloop.counter0 }}" aria-expanded="true" aria-controls="collapse{{ forloop.counter0 }}" class="list-group-item active main-color-bg">
+                                <span class="fa fa-caret-down" title="Toggle dropdown menu"></span> {{ side.header }} 
+                              </a>
+                            </div>
+                            {% if side.listi %}
+                                <div id="collapse{{ forloop.counter0 }}" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading{{ forloop.counter0 }}">
+                                  <div>
+                                    {% for sl in side.listi %}
+                                      <a href="/dma/{{sl.href }}" class="list-group-item"><span class="glyphicon glyphicon-list-alt" aria-hidden="true"> </span> {{ sl.name }}</a>
+                                    {% endfor %}  
+                                  </div>
+                              </div>
+                            {% endif %}
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% endif %}
+                {% endblock %}
+            </div>
+            
+            <div class=" col-md-10 col-md-offset-2 main">
+                
+                {% block content %}
+
+                <iframe id="main_iframe" height="700px" width="100%" src="{% url 'main' %}"></iframe>
+                    
+                {% endblock %}
+                
+             
+            </div>
+            
+            
+        
+        </div> <!-- row -->
+    </div>
+    
+    <footer>
+      ...
+    </footer>
+    
+    {% block javascript %}{% endblock %}
+  </body>
+</html>
