@@ -10,8 +10,9 @@ from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
 
 from .models import DmaZone,Measure
-
+from .dmadata import static_monthly,generet_static
 import random
+
 # Create your views here.
 
 def home(request):
@@ -19,11 +20,11 @@ def home(request):
 
 
 def main(request):
-	print request.GET
+	# print request.GET
 	return render(request,"main.html",{})
 
 def test(request,var):
-	print var
+	# print var
 	# var = request.get("var")
 	return render(request,"home.html",{"item_d":var})
 
@@ -95,7 +96,7 @@ class WbalanceListview(ListView):
         return DmaZone.objects.all()
 
     def get_context_data(self, *args, **kwargs):
-        print self.request
+        # print self.request
         
         context = super(WbalanceListview, self).get_context_data(*args, **kwargs)
         slug=self.kwargs.get('slug')
@@ -139,7 +140,7 @@ class StaticListview(ListView):
         return DmaZone.objects.all()
 
     def get_context_data(self, *args, **kwargs):
-        print self.request
+        # print self.request
         
         context = super(StaticListview, self).get_context_data(*args, **kwargs)
         slug=self.kwargs.get('slug')
@@ -149,4 +150,5 @@ class StaticListview(ListView):
             context['current_zone'] = DmaZone.objects.get(pk=1)
 
         context['active_static'] = True
+        context['static_monthly'] = generet_static()
         return context        

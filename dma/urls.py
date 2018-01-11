@@ -9,6 +9,8 @@ from .views import (
     EconomyListview,
     StaticListview,
 )
+
+app_name = 'dma'
 urlpatterns = [
     #url(r'^(?P<slug>[\w-]+)/edit/$', RestaurantUpdateView.as_view(), name='edit'),
     url(r'^(?P<slug>[\w-]+)/$', DmazoneListview.as_view(), name='detail'),

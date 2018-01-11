@@ -24,11 +24,11 @@
     </ul>
     <br/>
 
-    {% block content_inner %}
     <h1 class="page-header">{{ current_zone.zone_name }}    <small>创建日期:{{ current_zone.timestamp}}</small></h1>
 
     <div>
-        <h2 class="sub-header">分区资料</h2>
+        
+        <h4 class="sub-header">分区资料</h4>
         <div>
             <ul class="nav nav-pills" role="tablist">
               <li role="presentation" class="active">分区名称: <span class="badge">{{ current_zone.zone_name}}</span></li>
@@ -50,6 +50,11 @@
             分区中 DMA 数量（个）:<span class="badge">{{ current_zone.dma_num}}</span>
         </div>
     </div>
+
+    {% block content_inner %}
+    
+
+
     <br/>
 
     <h2 class="sub-header">Measure info</h2>

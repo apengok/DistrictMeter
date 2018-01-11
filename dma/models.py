@@ -37,6 +37,9 @@ class DmaZone(models.Model):
     def __unicode__(self):
         return self.zone_name
 
+    def __str__(self):
+        return self.zone_name
+
     def get_absolute_url(self): #get_absolute_url
         #return f"/restaurants/{self.slug}" 
         return reverse('dma:detail', kwargs={'slug': self.slug})
