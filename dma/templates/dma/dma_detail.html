@@ -1,0 +1,101 @@
+{% extends "_base.html" %}
+
+{% block title %}DMA detail{% endblock %}
+
+{% block sidebar %}
+<ul>
+    {% for zone in object_list %}
+
+        <li><a href="{{ zone.get_absolute_url }}">{{ zone }}</a></li>
+    {% endfor %}
+    
+</ul>
+
+{% endblock %}
+
+
+{% block content %}
+    
+    <ul class="nav nav-tabs">
+      <li role="presentation" {% if active_detail %}class="active" {% endif %}><a href="/dma/{{current_zone.slug}}/">分区资料</a></li>
+      <li role="presentation" {% if active_balance %}class="active" {% endif %}><a href="/dma/{{current_zone.slug}}/wbalance">水平衡表</a></li>
+      <li role="presentation" {% if active_econic %}class="active" {% endif %}><a href="/dma/{{current_zone.slug}}/economy">节能水平评价表</a></li>
+      <li role="presentation" {% if active_static %}class="active" {% endif %}><a href="/dma/{{current_zone.slug}}/static">水量统计报表</a></li>
+    </ul>
+    <br/>
+
+    {% block content_inner %}
+    <h1 class="page-header">{{ current_zone.zone_name }}    <small>创建日期:{{ current_zone.timestamp}}</small></h1>
+
+    <div>
+        <h2 class="sub-header">分区资料</h2>
+        <div>
+            <ul class="nav nav-pills" role="tablist">
+              <li role="presentation" class="active">分区名称: <span class="badge">{{ current_zone.zone_name}}</span></li>
+              <li role="presentation">分区面积（平方公里）:<span class="badge">{{ current_zone.zone_area}}</span></li>
+              <li role="presentation">注册用户总数（万户） <span class="badge">{{ current_zone.registed_user}}</span></li>
+            </ul>
+                        
+        </div>
+        <div>
+            分区进水量（ m3）:<span class="badge">{{ current_zone.zone_water_in}}</span>
+            管线长度（ km）:<span class="badge">{{ current_zone.pipeline_length}}</span>
+            在线压力点数量（个）:<span class="badge">{{ current_zone.online_presspoint_num}}</span>
+            在线流量计数量（个）:<span class="badge">{{ current_zone.online_flowmeter_num}}</span>
+        </div>
+        <div>
+            在线水质监测点数量（个）:<span class="badge">{{ current_zone.online_water_quality_m_num}}</span>
+            收费用远传水表数量（只）:<span class="badge">{{ current_zone.charge_watermeter_num}}</span>
+            下一级分区数量（个）:<span class="badge">{{ current_zone.sub_zone_num}}</span>
+            分区中 DMA 数量（个）:<span class="badge">{{ current_zone.dma_num}}</span>
+        </div>
+    </div>
+    <br/>
+
+    <h2 class="sub-header">Measure info</h2>
+    <div class="table-responsive">
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>水表抄见率（ %）</th>
+                    <th>抄表准确率（ %）</th>
+                    <th>分区销售水量（ m3）</th>
+                    <th>夜间最小流量（ m3）</th>
+                    <th>水量比（ %）</th>
+                    <th>分区探出漏点总数（个）</th>
+                    <th>漏失水量（ m3）</th>
+                    <th>暗漏水量（ m3）</th>
+                    <th>明漏水量（ m3）</th>
+                    <th>漏损率（ %）</th>
+                    <th>压力合格率（ %）</th>
+                    <th>水质合格率（ %）</th>
+                    <th>分区内压力（ MPa）</th>
+                    <th>更新时间</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for m in current_zone.zone_set.all %}
+                <tr>
+                    <td>{{ m.measure_per_actual }}</td>
+                    <td>{{ m.measure_precision }}</td>
+                    <td>{{ m.zone_sale }}</td>
+                    <td>{{ m.nightflow_min }}</td>
+                    <td>{{ m.charge_waterwater_percent }}</td>
+                    <td>{{ m.zone_detect_leak_num }}</td>
+                    <td>{{ m.leak_water }}</td>
+                    <td>{{ m.leak_obscur_water }}</td>
+                    <td>{{ m.leak_obvious_water }}</td>
+                    <td>{{ m.leak_rate }}</td>
+                    <td>{{ m.pressure_quality }}</td>
+                    <td>{{ m.water_quality }}</td>
+                    <td>{{ m.zone_inner_pressure }}</td>
+                    <td>{{ m.updated }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    
+    {% endblock %} {# conntent-inner #}
+    
+{% endblock %}

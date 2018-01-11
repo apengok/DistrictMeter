@@ -1,0 +1,40 @@
+{% extends "dma/dma_detail.html" %}
+
+{% block title %}水量统计报表{% endblock %}
+
+
+
+{% block content_inner %}
+    <h1 class="page-header">水量统计报表</h1>
+
+    <div class="row">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th scope="col">序号</th>
+              <th scope="col">项目</th>
+              <th scope="col">上月止累计</th>
+              <th scope="col">当月</th>
+              <th scope="col">本月止累计</th>
+              <th scope="col">说明</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for key,summary in static_monthly.items %}
+            <tr>
+              <th scope="row">{{  forloop.counter  }}</th>
+              <td>{{ summary.name }}</td>
+              <td>{{ summary.last_month_total }}</td>
+              <td>{{ summary.cur_month }}</td>
+              <td>{{ summary.cur_month_total }}</td>
+              <td>{{ summary.note }}</td>
+            </tr>
+            {% endfor %}
+            
+            
+          </tbody>
+        </table>
+        
+    </div>    
+
+{% endblock %}

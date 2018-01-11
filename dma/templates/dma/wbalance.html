@@ -1,0 +1,49 @@
+{% extends "dma/dma_detail.html" %}
+
+{% block title %}水平衡分析表{% endblock %}
+
+
+
+{% block content_inner %}
+    <h1 class="page-header">水平衡分析表</h1>
+
+    <div>
+        <table border="1">
+          <tr>
+            <td rowspan="8"><p>系统进水量<br><br>{{ balance.totoal_in }}[立方米]<br>误差幅度[+/-]:1.0%</p></td>
+            <td rowspan="4"> <p>授权用水量<br><br>{{ balance.auth_use }}[立方米]<br>误差幅度[+/-]:1.0%</p></td>
+            <td rowspan="2"> <p>收费授权用水量<br>{{ balance.charge_auth }}[立方米]</p></td>
+            <td> <p>计量收费用水量<br>{{ balance.charge_measure }}[立方米]</p></td>
+            <td rowspan="2"> <p>得到收入用水量<br>{{ balance.money_back }}[立方米]</p></td>
+           </tr>
+          <tr>
+             <td> <p>未计量收费用水量<br>{{ balance.charge_unmeasure }}[立方米]</p></td>
+           </tr>
+          <tr>
+            <td rowspan="2"> <p>未收费授权用水量<br><br>{{ balance.uncharge_auth }}[立方米]<br>误差幅度[+/-]:2.1%</p></td>
+            <td> <p>未收费计量用水量<br>{{ balance.uncharge_measure }}[立方米]</p></td>
+            <td rowspan="6"> <p>未得到收入用水量<br>{{ balance.money_waste }}[立方米]<br>误差幅度[+/-]:4.0%</p></td>
+          </tr>
+          <tr>
+            <td> <p>未收费未计量用水量<br>{{ balance.uncharge_unmeasure }}[立方米]<br>误差幅度[+/-]:3.0%</p></td>
+           </tr>
+          <tr>
+            <td rowspan="4"> <p>水损失<br>{{ balance.loss }}[立方米]<br>误差幅度[+/-]:4.8%</p></td>
+            <td rowspan="2"><p>表观损失水量<br><br>{{ balance.apparent_loss }}[立方米]<br>误差幅度[+/-]:1.4%</p></td>
+            <td> <p>未授权用水量<br>{{ balance.unauth_use }}[立方米]<br>误差幅度[+/-]:1.2%</p></td>
+           </tr>
+          <tr>
+             <td> <p>用户水表误差及数据处理之误差<br>{{ balance.statistic_error }}[立方米]<br>误差幅度[+/-]:1.4%</p></td>
+          </tr>
+          <tr>
+            <td rowspan="2" colspan="2"> <p>实际损失水量<br>{{ balance.actual_loss }}[立方米]<br>误差幅度[+/-]:7.6%</p></td>
+         
+          </tr>
+          <tr>
+         
+           </tr>
+        </table>
+    </div>
+
+    
+{% endblock %}

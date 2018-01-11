@@ -13,7 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url
+from django.conf.urls import url,include
 from django.contrib import admin
 
 from dma.views import home,main,test
@@ -24,4 +24,8 @@ urlpatterns = [
     url(r'^$',home,name='home'),
     url(r'^main/', main,name='main'),
     url(r'^test/(?P<var>\d+)/$', test,name='test'),
+
+    #dma
+    url(r'^dma/', include('dma.urls', namespace='dma')),
+
 ]

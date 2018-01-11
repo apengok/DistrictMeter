@@ -1,0 +1,52 @@
+{% extends "dma/dma_detail.html" %}
+
+{% block title %}节能水平评价表{% endblock %}
+
+
+
+{% block content_inner %}
+    <h1 class="page-header">节能水平评价表</h1>
+
+    <div class="row">
+            <table class="table table-bordered">
+              <thead>
+                <tr>
+                  <th scope="col"></th>
+                  <th scope="col">一级泵站</th>
+                  <th scope="col">二级泵站</th>
+                  <th scope="col">合计</th>
+                  
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <th scope="row">日供水量(万吨)</th>
+                  <td>100</td>
+                  <td>200</td>
+                  <td>300</td>
+                </tr>
+                <tr>
+                  <th scope="row">日耗电量（度）</th>
+                  <td>450</td>
+                  <td>540</td>
+                  <td>990</td>
+                </tr>
+                <tr>
+                  <th scope="row">供水扬程（Mpa）</th>
+                  <td>1234</td>
+                  <td>4321</td>
+                  <td>5555</td>
+                </tr>
+                <tr>
+                  <th scope="row">千吨水耗电量（度/千吨）</th>
+                  <td>234</td>
+                  <td>345</td>
+                  <td>579</td>
+                </tr>
+                
+              </tbody>
+            </table>
+            
+        </div>    
+
+{% endblock %}
