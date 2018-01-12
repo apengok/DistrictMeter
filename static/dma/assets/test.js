@@ -69,7 +69,7 @@ var vector_background = new ol.layer.Vector({
     url: function(extent, resolution, projection){
 		var topRight = ol.proj.transform(ol.extent.getTopRight(extent),'EPSG:3857', 'EPSG:4326');
 		var bottomLeft = ol.proj.transform(ol.extent.getBottomLeft(extent),'EPSG:3857', 'EPSG:4326');
-		var tUrl = "/map/getGeom?left=" + bottomLeft[0] + '&top=' + bottomLeft[1] +
+		var tUrl = "/gis/getGeom?left=" + bottomLeft[0] + '&top=' + bottomLeft[1] +
    		                    '&right=' + topRight[0] + "&bottom=" + topRight[1]+"&layerName=dlzxc"; 
         //var tUrl = "china.json";  							  
 		return tUrl;

@@ -4,13 +4,15 @@ from __future__ import unicode_literals
 from django.http import HttpResponse
 from django.shortcuts import render,get_object_or_404
 from django.db.models import Q
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
 
 from .models import DmaZone,Measure
 from .dmadata import static_monthly,generet_static
+from .fusioncharts import FusionCharts
+
 import random
 
 # Create your views here.
@@ -49,7 +51,45 @@ class DmazoneListview(ListView):
             context['current_zone'] = DmaZone.objects.get(pk=1)
 
         context['active_detail'] = True
+        context['output'] = self.nightflow().render()   #column2d.render(),
         return context
+
+    def nightflow(self):
+        # Create an object for the column2d chart using the FusionCharts class constructor
+        flow_list=[random.randint(1,5) for _ in range(20)]
+        
+        cates = [{"label":n} for n in range(20) ]
+        values0 = [{"value":10} for v in flow_list ]
+        values = [{"value":v} for v in flow_list ]
+        datasource = {}
+        datasource["chart"] = {
+            "caption": "夜间最小流量",
+            "subcaption": 'day',
+            "xaxisname": "Time",
+            "yaxisname": "watermeter flow",
+            "numberprefix": "$",
+            "theme": "ocean"
+        }
+        datasource["categories"] = [{
+            "category": cates
+        }]
+
+        datasource["dataset"] = [ {
+                "seriesname": "flow ceiling",
+                "renderas": "line",
+                "showvalues": "0",
+                "data": values0
+            }, {
+                "seriesname": "meter flow",
+                "renderas": "line",
+                "showvalues": "0",
+                "data": values
+            }
+        ]
+        column2d = FusionCharts("mscombi2d", "ex3" , "600", "400", "chart-1", "json",datasource)
+
+        return column2d
+        
 
 
 def generic_balance(t_in):
@@ -70,21 +110,21 @@ def generic_balance(t_in):
     money_waste=loss + uncharge_auth    #52500
 
     balance = {'totoal_in':totoal_in,
-                    'auth_use':auth_use,
-                    'loss':loss,
-                    'charge_auth':charge_auth,
-                    'uncharge_auth':uncharge_auth,
-                    'charge_measure':charge_measure,
-                    'charge_unmeasure':charge_unmeasure,
-                    'uncharge_measure':uncharge_measure,
-                    'uncharge_unmeasure':uncharge_unmeasure,
-                    'apparent_loss':apparent_loss,
-                    'actual_loss':actual_loss,
-                    'unauth_use':unauth_use,
-                    'statistic_error':statistic_error,
-                    'money_back':money_back,
-                    'money_waste':money_waste,
-                }
+                'auth_use':auth_use,
+                'loss':loss,
+                'charge_auth':charge_auth,
+                'uncharge_auth':uncharge_auth,
+                'charge_measure':charge_measure,
+                'charge_unmeasure':charge_unmeasure,
+                'uncharge_measure':uncharge_measure,
+                'uncharge_unmeasure':uncharge_unmeasure,
+                'apparent_loss':apparent_loss,
+                'actual_loss':actual_loss,
+                'unauth_use':unauth_use,
+                'statistic_error':statistic_error,
+                'money_back':money_back,
+                'money_waste':money_waste,
+            }
 
     return balance
 
@@ -152,3 +192,26 @@ class StaticListview(ListView):
         context['active_static'] = True
         context['static_monthly'] = generet_static()
         return context        
+
+
+def press_value(request):
+    if request.method == 'GET':
+        id = request.GET.get('pid')
+            
+    if request.method == 'POST':
+        id = request.POST.get('pid')
+        
+    
+    # pp=PressShareDayTax.objects.filter(pid=id)[0]
+    sv_list={'lsl':random.randint(1,10),
+        'cxc':random.randint(1,10),
+        'dgc':random.randint(1,10),
+        'jll':random.randint(1,10),
+        'bll':random.randint(1,10),
+        'nyl':random.randint(1,10), #pp.pressure,
+        'dts':random.randint(1,10),}
+    #results = [random.randint(1,10),]
+    return JsonResponse({'press':sv_list})        
+
+
+

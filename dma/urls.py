@@ -8,6 +8,7 @@ from .views import (
     WbalanceListview,
     EconomyListview,
     StaticListview,
+    press_value,
 )
 
 app_name = 'dma'
@@ -20,4 +21,6 @@ urlpatterns = [
     url(r'^(?P<slug>[\w-]+)/economy/$', EconomyListview.as_view()),
     url(r'^(?P<slug>[\w-]+)/static/$', StaticListview.as_view()),
 
+    url(r'^press_value', press_value, name='press_value'),
+    
 ]

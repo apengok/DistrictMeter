@@ -5,12 +5,44 @@
 {% block sidebar %}
 <ul>
     {% for zone in object_list %}
-
+        
         <li><a href="{{ zone.get_absolute_url }}">{{ zone }}</a></li>
     {% endfor %}
     
 </ul>
 
+{% endblock %}
+
+{% block javascript %}
+  <script type="text/javascript">
+  var id=1;
+  $( document ).ready(function() {
+       setInterval(function(){
+       
+       $.ajax({
+        url: '/dma/press_value',
+        data: {'pid': id, 'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        type: 'POST',
+        success: function(res){
+            var json = res['press'];
+            
+            
+            
+            $('#myTable1 span').html(json['lsl']);
+            $('#myTable2 span').html(json['cxc']);
+            $('#myTable3 span').html(json['dgc']);
+            $('#myTable4 span').html(json['jll']);
+            $('#myTable5 span').html(json['bll']);
+            $('#myTable6 span').html(json['nyl']);
+            $('#myTable7 span').html(json['dts']);
+            //this_.dimTexts = geojsonObject.dimTexts;
+        }
+    });
+    id+=1;
+       },1000);
+    });
+
+  </script>
 {% endblock %}
 
 
@@ -100,7 +132,28 @@
             </tbody>
         </table>
     </div>
-    
+    <div class="container-fluid">
+        <div class="row">
+            <div class="list-group col-md-3">
+                <a href="#" class="list-group-item active">统计分析</a>
+                <a id="myTable1" href="#" class="list-group-item">漏失率（%） <span class="badge">4</span></a>
+                <a id="myTable2" href="#" class="list-group-item">产销差率（%） <span class="badge">4</span></a>
+                <a id="myTable3" href="#" class="list-group-item">单位管长漏失量（m³/km/h） <span class="badge">4</span></a>
+                <a id="myTable4" href="#" class="list-group-item">基础设施漏失指数（ILI） <span class="badge">4</span></a>
+                <a id="myTable5" href="#" class="list-group-item">不可避免物理损失水量(L/d) <span class="badge">4</span></a>
+                <a id="myTable6" href="#" class="list-group-item">年平均出厂压力 <span class="badge">4</span></a>
+                <a id="myTable7" href="#" class="list-group-item">最大冻土深度 <span class="badge">4</span></a>
+            
+            </div>
+
+          
+            <div id="chart-1" class="col-md-3">
+                <h4 class="sub-header">夜间最小流量分析</h4>
+                {{ output|safe }}
+            </div>
+
+        </div>
+    </div>
     {% endblock %} {# conntent-inner #}
     
 {% endblock %}

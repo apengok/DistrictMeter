@@ -11,6 +11,7 @@ from django.urls import reverse
 class DmaZone(models.Model):
     dma_id 						= models.AutoField(primary_key=True)
 
+    parent                      = models.ForeignKey('self',blank=True, null=True,related_name='children',on_delete=models.CASCADE)
     zone_name 					= models.CharField('分区名称',unique=True, max_length=64, blank=True, null=True)
     zone_area 					= models.FloatField('分区面积（平方公里）',blank=True, null=True)
     zone_water_in 				= models.FloatField('分区进水量（ m3）',blank=True, null=True)

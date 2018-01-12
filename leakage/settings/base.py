@@ -36,7 +36,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'dma'
+    'dma',
+    'gis',
 ]
 
 MIDDLEWARE = [
@@ -77,9 +78,34 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    },
+    # 'ems': {
+        # 'ENGINE': 'django.db.backends.mysql',#postgresql_psycopg2  or django.contrib.gis.db.backends.postgis or django.db.backends.postgresql_psycopg2
+        # 'NAME': 'gis',
+        # 'USER': 'scada',
+        # 'PASSWORD': 'scada',
+        # 'HOST': '120.25.223.180',
+        # 'PORT': '3306',
+    # },
+    'dma_db':{
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',
+        'NAME': 'dma',
+        'USER': 'scada',
+        'PASSWORD': 'scada',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    },
+    'gis': {
+        'ENGINE': 'django.contrib.gis.db.backends.postgis',#postgresql_psycopg2  or django.contrib.gis.db.backends.postgis or django.db.backends.postgresql_psycopg2
+        'NAME': 'scada',
+        'USER': 'scada',
+        'PASSWORD': 'scada',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    },
 }
 
+DATABASE_ROUTERS = ['gis.routers.GisRouter', ]
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -113,6 +139,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+#add geospatial something
+GEOS_LIBRARY_PATH = '/usr/local/lib/libgeos_c.so'
+GDAL_LIBRARY_PATH = '/usr/local/lib/libgdal.so'
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/

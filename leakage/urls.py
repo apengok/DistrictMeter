@@ -27,5 +27,7 @@ urlpatterns = [
 
     #dma
     url(r'^dma/', include('dma.urls', namespace='dma')),
+    #map
+    url(r'^gis/', include('gis.urls', namespace='gis')),
 
 ]

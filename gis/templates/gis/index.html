@@ -1,0 +1,27 @@
+{% extends "_base.html" %}
+
+{% block title %}DMA | Gis {% endblock %}
+
+<!-- head -->
+{% block head %}
+    
+    {% load staticfiles %}
+    <link rel="stylesheet" href="{% static 'dma/assets/ol3/ol.css' %}" type = "text/css"/>
+    
+    <link rel="stylesheet" href="{% static 'dma/css/sample.css' %}" type = "text/css"/>
+    
+    
+{% endblock %}
+
+  {% block content %}
+    <div id="map" class="map"></div>
+    <div id="myposition"></div>
+    
+    <script src="{%  static 'dma/assets/ol3/ol.js' %} "></script>
+    <script src="{%  static 'dma/assets/test.js' %} "></script>
+    
+    
+      
+    
+    
+    {% endblock %}
