@@ -7,11 +7,12 @@ from django.db.models import Q
 from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 
 from django.views import View
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView,FormView
 
 from .models import DmaZone,Measure
 from .dmadata import static_monthly,generet_static
 from .fusioncharts import FusionCharts
+from .forms import JoinForm
 
 import random
 
@@ -30,6 +31,29 @@ def test(request,var):
 	# var = request.get("var")
 	return render(request,"home.html",{"item_d":var})
 
+
+class JoinFormView(FormView):
+    form_class = JoinForm
+    template_name = "home.html"
+    success_url = '/form_success/'
+
+    def form_invalid(self,form):
+        response = super(JoinFormView,self).form_invalid(form)
+        if self.request.is_ajax():
+            return JsonResponse(form.errors,status=400)
+        else:
+            return response
+
+    def form_valid(self,form):
+        response = super(JoinFormView,self).form_valid(form)
+        if self.request.is_ajax():
+            print(form.cleaned_data)
+            data = {
+                'message':"successfully submit form data!"
+            }
+            return JsonResponse(data)
+        else:
+            return response
 
 # def wbalance(request):
 #     return render(request,"dma/wbalance.html",{})
