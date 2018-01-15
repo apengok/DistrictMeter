@@ -5,13 +5,40 @@ from django.db import models
 
 #from django.core.urlresolvers import reverse
 from django.urls import reverse
+from mptt.models import MPTTModel, TreeForeignKey
 
 
 # Create your models here.
-class DmaZone(models.Model):
+class ZoneTree(MPTTModel):
+    name = models.CharField(max_length=50, unique=True)
+    parent = TreeForeignKey('self', null=True, blank=True,on_delete=models.CASCADE, related_name='children', db_index=True)
+    slug = models.SlugField()
+    
+    # def get_absolute_url(self):
+    #     return reverse('sub_dma', kwargs={'path': self.get_path()})
+
+    def get_absolute_url(self): #get_absolute_url
+        #return f"/restaurants/{self.slug}" 
+        return reverse('dma:detail', kwargs={'slug': self.slug})
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
+        
+    class Meta:
+        
+        unique_together = ('slug', 'parent')
+        db_table = 'zonetree'
+    
+
+    def __unicode__(self):
+        return self.name
+
+
+class ZoneBase(models.Model):
     dma_id 						= models.AutoField(primary_key=True)
 
-    parent                      = models.ForeignKey('self',blank=True, null=True,related_name='children',on_delete=models.CASCADE)
+    zonetree                    = models.ForeignKey(ZoneTree,blank=True, null=True,related_name='zbase',on_delete=models.CASCADE)
+    # parent                      = TreeForeignKey('self', null=True, blank=True,on_delete=models.CASCADE, related_name='children', db_index=True)
     zone_name 					= models.CharField('分区名称',unique=True, max_length=64, blank=True, null=True)
     zone_area 					= models.FloatField('分区面积（平方公里）',blank=True, null=True)
     zone_water_in 				= models.FloatField('分区进水量（ m3）',blank=True, null=True)
@@ -33,7 +60,10 @@ class DmaZone(models.Model):
     slug = models.SlugField(null=True, blank=True)
 
     class Meta:
-        db_table = 'dmazone'
+        db_table = 'zonebase'
+
+    # class MPTTMeta:
+    #     order_insertion_by = ['zone_name']
         
     def __unicode__(self):
         return self.zone_name
@@ -46,8 +76,8 @@ class DmaZone(models.Model):
         return reverse('dma:detail', kwargs={'slug': self.slug})
 
 
-class Measure(models.Model):
-    zone           				= models.ForeignKey(DmaZone,related_name='zone_set',on_delete=models.CASCADE) # class_instance.model_set.all()
+class ZoneMeasure(models.Model):
+    zone_base           		= models.ForeignKey(ZoneBase,related_name='zmeasure',on_delete=models.CASCADE) # class_instance.model_set.all()
     measure_per_actual 			= models.FloatField('水表抄见率（ %）',blank=True, null=True)
     measure_precision 			= models.FloatField('抄表准确率（ %）',blank=True, null=True)
     zone_sale 					= models.FloatField('分区销售水量（ m3）',blank=True, null=True)
@@ -66,7 +96,7 @@ class Measure(models.Model):
     updated         			= models.DateTimeField(auto_now=True)
 
     class Meta:
-        db_table = 'measure'
+        db_table = 'zonemeasure'
 
     def __unicode__(self):
-        return self.zone.zone_name
+        return self.zone_base.zone_name
