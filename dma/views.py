@@ -9,7 +9,7 @@ from django.http import HttpResponse, HttpResponseRedirect,JsonResponse
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView
 
-from .models import DmaZone,Measure
+from .models import ZoneTree,ZoneBase,ZoneMeasure
 from .dmadata import static_monthly,generet_static
 from .fusioncharts import FusionCharts
 
@@ -39,18 +39,24 @@ class DmazoneListview(ListView):
     template_name = 'dma/dma_detail.html'
 
     def get_queryset(self):
-        return DmaZone.objects.all()
+        return ZoneTree.objects.all()
 
     def get_context_data(self, *args, **kwargs):
         
         context = super(DmazoneListview, self).get_context_data(*args, **kwargs)
         slug=self.kwargs.get('slug')
         if slug:
-            context['current_zone'] = DmaZone.objects.get(slug=slug)
+            current_zone = ZoneTree.objects.get(slug=slug)
         else:
-            context['current_zone'] = DmaZone.objects.get(pk=1)
+            current_zone = ZoneTree.objects.first()
 
+        context['current_zone'] = current_zone
         context['active_detail'] = True
+        context['active_balance'] = False
+        context['active_econic'] = False
+        context['active_static'] = False
+        context['nodes'] = ZoneTree.objects.all()
+
         context['output'] = self.nightflow().render()   #column2d.render(),
         return context
 
@@ -128,67 +134,46 @@ def generic_balance(t_in):
 
     return balance
 
-class WbalanceListview(ListView):
+class WbalanceListview(DmazoneListview):
 
     template_name = 'dma/wbalance.html'
 
-    def get_queryset(self):
-        return DmaZone.objects.all()
-
+    
     def get_context_data(self, *args, **kwargs):
         # print self.request
         
         context = super(WbalanceListview, self).get_context_data(*args, **kwargs)
-        slug=self.kwargs.get('slug')
-        if slug:
-            current_zone = DmaZone.objects.get(slug=slug)
-        else:
-            current_zone = DmaZone.objects.get(pk=1)
-
-        context['current_zone'] = current_zone
-        context['active_balance'] = True
         
-        context['balance'] = generic_balance(current_zone.zone_water_in)
+        context['active_detail'] = False
+        context['active_balance'] = True
+        t_in = 1000000
+        context['balance'] = generic_balance(t_in)
         return context
 
 
-class EconomyListview(ListView):
+class EconomyListview(DmazoneListview):
 
     template_name = 'dma/econic.html'
 
-    def get_queryset(self):
-        return DmaZone.objects.all()
-
+    
     def get_context_data(self, *args, **kwargs):
         
         context = super(EconomyListview, self).get_context_data(*args, **kwargs)
-        slug=self.kwargs.get('slug')
-        if slug:
-            context['current_zone'] = DmaZone.objects.get(slug=slug)
-        else:
-            context['current_zone'] = DmaZone.objects.get(pk=1)
-
+        
+        context['active_detail'] = False
         context['active_econic'] = True
         return context
 
 
-class StaticListview(ListView):
+class StaticListview(DmazoneListview):
 
     template_name = 'dma/static.html'
 
-    def get_queryset(self):
-        return DmaZone.objects.all()
-
     def get_context_data(self, *args, **kwargs):
         # print self.request
-        
         context = super(StaticListview, self).get_context_data(*args, **kwargs)
-        slug=self.kwargs.get('slug')
-        if slug:
-            context['current_zone'] = DmaZone.objects.get(slug=slug)
-        else:
-            context['current_zone'] = DmaZone.objects.get(pk=1)
-
+        
+        context['active_detail'] = False
         context['active_static'] = True
         context['static_monthly'] = generet_static()
         return context        

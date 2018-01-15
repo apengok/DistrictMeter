@@ -1,20 +1,31 @@
+
 {% extends "_base.html" %}
 
 {% block title %}DMA detail{% endblock %}
 
 {% block sidebar %}
-<ul>
-    {% for zone in object_list %}
-        
-        <li><a href="{{ zone.get_absolute_url }}">{{ zone }}</a></li>
-    {% endfor %}
-    
-</ul>
+
+<ul id="tree">
+    {% load mptt_tags %}
+
+{% recursetree nodes %}
+    <li>
+        <a href="{{node.get_absolute_url }}">{{ node.name }}</a>
+        {% if not node.is_leaf_node %}
+            <ul class="children">
+                <a href="{{node.get_absolute_url }}">{{ children }}</a> 
+            </ul>
+        {% endif %}
+    </li>
+{% endrecursetree %}
 
 {% endblock %}
 
 {% block javascript %}
   <script type="text/javascript">
+
+    $('#tree').treed();
+
   var id=1;
   $( document ).ready(function() {
        setInterval(function(){
@@ -111,7 +122,7 @@
                 </tr>
             </thead>
             <tbody>
-            {% for m in current_zone.zone_set.all %}
+            {% for m in current_zone.zmeasure_set.all %}
                 <tr>
                     <td>{{ m.measure_per_actual }}</td>
                     <td>{{ m.measure_precision }}</td>
