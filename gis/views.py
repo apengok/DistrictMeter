@@ -2,10 +2,10 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse,JsonResponse
 from django.contrib import messages
 from django.contrib.gis.geos import Polygon
-
+import json
 from gis import models as gis_model
 #from models import *
 # Create your views here.
@@ -87,4 +87,11 @@ def getGeom(request):
     
     
     return return_feature_collection(gd)
+    
+def fuck(request):
+    data = {}
+
+    data = json.dumps(data)
+    return HttpResponse(data, content_type='application/json')
+    # return JsonResponse(data)
     

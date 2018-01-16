@@ -10,6 +10,28 @@
 
 {% endblock %}
 
+{% block stylesheet %}
+<style type="text/css">
+    .chart div{
+        font:10px sans-serif;
+        background-color: steelblue;
+        text-align: right;
+        padding: 3px;
+        margin: 2px;
+        color: white;
+    }
+
+    #dashboard {
+        width:320px;
+        border: 1px solid black;
+    }
+
+    p {
+        text-align: center;
+    }
+</style>
+{% endblock %}
+
 
 {% block content %}
     <h1 class="page-header">Ajaxify form demo</h1>
@@ -25,11 +47,30 @@
         <span></span>
     </div>
 
+    <div id="dashboard">
+        <p>Earnings</p>
+        <div class="chart"></div>
+    </div>
+
 {% endblock %}
 
 
 {% block javascript %}
 <script type="text/javascript">
+
+    var data = [30,86,168,281,198,325];
+
+    var scale = d3.scaleLinear()
+        .domain([0,365])
+        .range([0,300])
+
+    d3.select(".chart")
+        .selectAll("div")
+        .data(data)
+        .enter()
+        .append("div")
+        .style("width",function(d){return scale(d) + "px";})
+        .text(function(d){return d;});
 
     
 
