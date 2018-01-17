@@ -7,6 +7,7 @@ from django.contrib import messages
 from django.contrib.gis.geos import Polygon
 import json
 from gis import models as gis_model
+import os
 #from models import *
 # Create your views here.
 
@@ -88,10 +89,11 @@ def getGeom(request):
     
     return return_feature_collection(gd)
     
-def fuck(request):
-    data = {}
+def countries(request):
+    jsonfile = os.path.join(os.path.dirname(os.path.abspath(__file__)),"templates","gis","data","geojson", "countries.geojson")
+    d = open(jsonfile).read()
+    data = json.loads(d)    # loads a string of json and converts the data to a python dict
 
-    data = json.dumps(data)
-    return HttpResponse(data, content_type='application/json')
-    # return JsonResponse(data)
+    return HttpResponse(json.dumps(data), content_type='application/json')
+    
     

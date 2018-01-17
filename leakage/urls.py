@@ -16,13 +16,14 @@ Including another URLconf
 from django.conf.urls import url,include
 from django.contrib import admin
 
-from dma.views import home,main,test,JoinFormView
+from dma.views import home,main,test,HomeView,JoinFormView
 from django.views.generic import TemplateView
 
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$',home,name='home'),
+    # url(r'^$',home,name='home'),
+    url(r'^$',JoinFormView.as_view(),name='home'),
     url(r'^main/', main,name='main'),
     url(r'^test/(?P<var>\d+)/$', test,name='test'),
 

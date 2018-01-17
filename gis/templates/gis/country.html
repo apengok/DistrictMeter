@@ -7,7 +7,7 @@
 <div class="container-fluid">
 
 <div class="row-fluid">
-  <div class="span8">
+  <div class="col-md-7">
     <div id="map" class="map"></div>
   </div>
   <div class="span4 offset4 pull-right">
@@ -27,7 +27,8 @@
 
 
     var vectorSource = new ol.source.Vector({
-      url: 'http://openlayers.org/en/v3.6.0/examples/data/geojson/countries.geojson',
+      //url: 'http://openlayers.org/en/v3.6.0/examples/data/geojson/countries.geojson',
+      url:'{% url 'gis:countries' %}',
       format: new ol.format.GeoJSON()
     });
 
@@ -89,10 +90,19 @@
       selectedFeatures.clear();
       infoBox.innerHTML = '&nbsp;';
     });
-    map.on('click', function() {
+    map.on('click', function(e) {
       selectedFeatures.clear();
       infoBox.innerHTML = selectedFeatures.get('name');
     });
+
+    if (select !== null) {
+        map.addInteraction(select);
+        select.on('select', function(e) {
+          $('#info').html('&nbsp;' + e.selected[0].get('name') + e.target.getFeatures().getLength() +
+              ' selected features (last operation selected ' + e.selected.length +
+              ' and deselected ' + e.deselected.length + ' features)');
+        });
+      }
 
 </script>
 {% endblock %}

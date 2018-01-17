@@ -31,6 +31,10 @@ def test(request,var):
 	# var = request.get("var")
 	return render(request,"home.html",{"item_d":var})
 
+class HomeView(View):
+    def get(self,request):
+        form = JoinForm()
+        return render(request,"home.html",{'form':form})
 
 class JoinFormView(FormView):
     form_class = JoinForm
