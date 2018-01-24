@@ -1,0 +1,31 @@
+
+{% extends "_base.html" %}
+
+{% block title %}DMA detail{% endblock %}
+
+{% block sidebar %}
+
+<ul id="tree">
+    {% load mptt_tags %}
+
+{% recursetree nodes %}
+    <li>
+        <a href="{{node.get_absolute_url }}">{{ node.name }}</a>
+        {% if not node.is_leaf_node %}
+            <ul class="children">
+                <a href="{{node.get_absolute_url }}">{{ children }}</a> 
+            </ul>
+        {% endif %}
+    </li>
+{% endrecursetree %}
+
+{% endblock %}
+
+
+
+
+{% block content %}
+    
+    {% include 'form-snippet.html' %}
+    
+{% endblock %}

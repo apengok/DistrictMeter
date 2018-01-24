@@ -9,6 +9,8 @@ from .views import (
     EconomyListview,
     StaticListview,
     press_value,
+    MeasureCreateView,
+    MeasureUpdateView,
 )
 
 app_name = 'dma'
@@ -20,6 +22,10 @@ urlpatterns = [
     url(r'^(?P<slug>[\w-]+)/wbalance/$', WbalanceListview.as_view()),
     url(r'^(?P<slug>[\w-]+)/economy/$', EconomyListview.as_view()),
     url(r'^(?P<slug>[\w-]+)/static/$', StaticListview.as_view()),
+
+    #dma create update etc
+    url(r'^(?P<slug>[\w-]+)/create/$', MeasureCreateView.as_view(), name='create'),
+    url(r'^(?P<slug>[\w-]+)/(?P<pk>\d+)/edit/$', MeasureUpdateView.as_view(), name='edit'),
 
     url(r'^press_value', press_value, name='press_value'),
     

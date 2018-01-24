@@ -12,7 +12,7 @@ from django.views.generic import TemplateView, ListView, DetailView, CreateView,
 from .models import ZoneTree,ZoneBase,ZoneMeasure
 from .dmadata import static_monthly,generet_static
 from .fusioncharts import FusionCharts
-from .forms import JoinForm
+from .forms import JoinForm,MeasureForm
 
 import random
 
@@ -226,5 +226,58 @@ def press_value(request):
     #results = [random.randint(1,10),]
     return JsonResponse({'press':sv_list})        
 
+class MeasureCreateView( CreateView):
+    template_name = 'dma/dma-edit.html'
+    success_url = '/dma/'
+    form_class = MeasureForm
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        # obj.user = self.request.user
+        return super(MeasureCreateView, self).form_valid(form)
+
+    def get_form_kwargs(self):
+        kwargs = super(MeasureCreateView, self).get_form_kwargs()
+        # kwargs['user'] = self.request.user
+
+        return kwargs
+
+    # def get_queryset(self):
+    #     return Item.objects.filter(user=self.request.user)
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MeasureCreateView, self).get_context_data(*args, **kwargs)
+        context['title'] = 'Create Item'
+        context['nodes'] = ZoneTree.objects.all()
+        return context
 
 
+class MeasureUpdateView( UpdateView):
+    template_name = 'dma/dma-edit.html'
+    form_class = MeasureForm
+
+    def get_queryset(self,**kwargs):
+        print self.request
+        slug=self.kwargs.get('slug')
+        if slug:
+            current_zone = ZoneTree.objects.get(slug=slug)
+        else:
+            current_zone = ZoneTree.objects.first()
+
+        print '1.',current_zone
+        print '2.',current_zone.zbase
+        
+        pk = int(self.kwargs.get('pk'))
+        print '4.',pk
+        return ZoneMeasure.objects.first()
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(MeasureUpdateView, self).get_context_data(*args, **kwargs)
+        context['title'] = 'Update Item'
+        context['nodes'] = ZoneTree.objects.all()
+        return context
+
+    def get_form_kwargs(self):
+        kwargs = super(MeasureUpdateView, self).get_form_kwargs()
+        # kwargs['current_zone'] = self.request.current_zone
+        return kwargs
