@@ -100,3 +100,6 @@ class ZoneMeasure(models.Model):
 
     def __unicode__(self):
         return self.zone_base.zone_name
+
+
+

@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'mptt',
     'dma',
     'gis',
+    'water',
 ]
 
 MIDDLEWARE = [
@@ -88,7 +89,7 @@ DATABASES = {
         # 'HOST': '120.25.223.180',
         # 'PORT': '3306',
     # },
-    'dma_db':{
+    'water':{
         'ENGINE': 'django.contrib.gis.db.backends.postgis',
         'NAME': 'dma',
         'USER': 'scada',
@@ -106,7 +107,7 @@ DATABASES = {
     },
 }
 
-DATABASE_ROUTERS = ['gis.routers.GisRouter', ]
+DATABASE_ROUTERS = ['gis.routers.GisRouter','water.routers.WaterRouter', ]
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators

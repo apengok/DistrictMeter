@@ -34,5 +34,8 @@ urlpatterns = [
     #map
     url(r'^gis/', include('gis.urls', namespace='gis')),
 
+     #water
+    url(r'^water/', include('water.urls', namespace='water')),
+
 
 ]
