@@ -108,14 +108,16 @@ class Watermeter(models.Model):
     metertype = models.CharField(db_column='MeterType', max_length=30, blank=True, null=True)  # Field name made lowercase.
     meterstate = models.CharField(db_column='MeterState', max_length=30, blank=True, null=True)  # Field name made lowercase.
     commstate = models.CharField(db_column='CommState', max_length=30, blank=True, null=True)  # Field name made lowercase.
-    rtime = models.CharField(db_column='RTime', max_length=30, blank=True, null=True)  # Field name made lowercase.
+    rtime = models.DateTimeField(db_column='RTime',  blank=True, null=True)  # Field name made lowercase.
     lastrvalue = models.CharField(db_column='LastRValue', max_length=30, blank=True, null=True)  # Field name made lowercase.
-    lastrtime = models.CharField(db_column='LastRTime', max_length=30, blank=True, null=True)  # Field name made lowercase.
+    lastrtime = models.DateTimeField(db_column='LastRTime', blank=True, null=True)  # Field name made lowercase.
     dosage = models.CharField(db_column='Dosage', max_length=30, blank=True, null=True)  # Field name made lowercase.
     islargecalibermeter = models.IntegerField(db_column='IsLargeCaliberMeter', blank=True, null=True)  # Field name made lowercase.
-    # communityid = models.IntegerField(db_column='CommunityId', blank=True, null=True)  # Field name made lowercase.
-    communityid = models.ForeignKey(Community,db_column='CommunityId', blank=True, null=True) 
+    communityid = models.IntegerField(db_column='CommunityId', blank=True, null=True)  # Field name made lowercase.
+    
     metabinding = models.CharField(db_column='MetaBinding', max_length=20, blank=True, null=True)  # Field name made lowercase.
+
+    community = models.ForeignKey(Community,blank=True, null=True) 
 
     class Meta:
         managed = True

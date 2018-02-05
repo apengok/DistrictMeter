@@ -48,32 +48,43 @@ class WatermeterAdmin(admin.ModelAdmin):
     #     request, object_id, form_url, extra_context=extra_context,
     #     )
 
-    def changelist_view(self, request, extra_context=None):
-        response = super(WatermeterAdmin,self).changelist_view(request, extra_context)
+    # def changelist_view(self, request, extra_context=None):
+    #     response = super(WatermeterAdmin,self).changelist_view(request, extra_context)
 
-        try:
-            qs = response.context_data['cl'].queryset
+    #     try:
+    #         qs = response.context_data['cl'].queryset
 
-        except (AttributeError, KeyError):
-            return response
-        # rtime_tmp = response.context['rtime']
+    #     except (AttributeError, KeyError):
+    #         return response
+    #     # rtime_tmp = response.context['rtime']
 
-        metrics = {
-            'rtime': parse_datetime('rtime'),
-            'lastrtime': parse_datetime('lastrtime'),
-        }
-        response.context_data['summary'] = list(
-            qs.values('product__name').annotate(**metrics)
-        )
-        response.context_data['summary_total'] = dict(
-            qs.aggregate(**metrics)
-        )
-        return response
+    #     metrics = {
+    #         'rtime': parse_datetime('rtime'),
+    #         'lastrtime': parse_datetime('lastrtime'),
+    #     }
+    #     # response.context_data['summary'] = list(
+    #     #     qs.values('product__name').annotate(**metrics)
+    #     # )
+    #     # response.context_data['summary_total'] = dict(
+    #     #     qs.aggregate(**metrics)
+    #     # )
+    #     return response
 
         
-        # response.context_data['rtime'] = parse_datetime(rtime_tmp)
+    def save_model(self, request, obj, form, change):
+        print 'communityid:',obj.communityid
+        super().save_model(request, obj, form, change)
 
-        return response
+    def save_formset(self, request, form, formset, change):
+        instances = formset.save(commit=False)
+        print 'save_formset'
+        for obj in formset.deleted_objects:
+            obj.delete()
+        for instance in instances:
+            print instance.communityid
+            print request.communityid
+            instance.save()
+            formset.save_m2m()
 
     def change_meterstate(self,request,queryset):
         rows_updated = queryset.update(meterstate='正常')
