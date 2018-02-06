@@ -3,15 +3,62 @@
 {% block title %}漏损控制系统{% endblock %}
 
 {% block sidebar %}
-<ul>
-	<li><a href="/test/1" target="main_iframe">item1</a></li>
-	<li><a href="/test/2" target="main_iframe">item2</a></li>
-</ul>
+
+<div class="navbar">  
+        <div class="navbar-inner">  
+            <ul class="nav nav-pills nav-stacked">  
+                <li class="dropdown"><a href="#" class="title">每页显示</a>  
+                    <ul class="dropdown-menu">  
+                        <li><a href="#">10</a></li>  
+                        <li><a href="#">20</a></li>  
+                        <li><a href="#">50</a></li>  
+                        <li><a href="#">100</a></li>  
+                    </ul>  
+                </li>  
+
+                <li class="dropdown"><a href="#" class="title">每页显示2</a>  
+                    <ul class="dropdown-menu">  
+                        <li><a href="#">10</a></li>  
+                        <li><a href="#">20</a></li>  
+                        <li><a href="#">50</a></li>  
+                        <li><a href="#">100</a></li>  
+                    </ul>  
+                </li>  
+
+
+            </ul>  
+        </div>  
+    </div>  
+</div>
 
 {% endblock %}
 
 {% block stylesheet %}
 <style type="text/css">
+.navbar .nav > li .dropdown-menu {  
+            margin: 10;  
+        }  
+        .navbar .nav > li:hover .dropdown-menu {  
+            display: block;  
+        }  
+        .title{  
+            height: 30px;  
+            width: 100px;  
+            background-color: rgba(45, 182, 224, 0.09) !important;  
+            border-radius: 0 !important;  
+            line-height: 10px;  
+            color: black !important;  
+            border-style:solid;  
+            border-width:1px;  
+            border-color: rgba(20, 248, 249, 0.15)  
+        }  
+        .dropdown-menu{  
+            border-radius: 0;  
+        }  
+        a:hover{  
+            background-color: rgba(45, 182, 224, 0.09) !important;  
+        }  
+
     .chart div{
         font:10px sans-serif;
         background-color: steelblue;

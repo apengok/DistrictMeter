@@ -1,0 +1,223 @@
+{% extends "_base.html" %}
+
+{% block title %}漏损控制系统{% endblock %}
+
+{% block sidebar %}
+
+<div class="navbar">  
+        <div class="navbar-inner">  
+            <ul class="nav nav-pills nav-stacked">  
+                <li><a href="#">首页</a></li> 
+                
+                <li  class="dropdown"><a href="#" class="title">数据监控</a>  
+                    <ul class="dropdown-menu">  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;站点地图监控</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;站点实时曲线</a></li>  
+                        <li><a href="dma_online/">&nbsp;&nbsp; &nbsp;DMA在线监控</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;大用户在线监控</a></li>  
+                    </ul>  
+                </li>  
+
+
+                <li class="dropdown"><a href="#" class="title">数据分析</a>  
+                    <ul class="dropdown-menu">  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;日用水量分析</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;用水趋势分析</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;时段用水量分析</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;DMA产销差分析</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;流量压力分析</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;配表分析</a></li>  
+                    </ul>  
+                </li> 
+
+                <li class="dropdown"><a href="#" class="title">报警中心</a>  
+                    <ul class="dropdown-menu">  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;参数设置</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;报警查询</a></li>  
+                        
+                    </ul>  
+                </li>  
+
+                <li class="dropdown"><a href="#" class="title">基础管理</a>  
+                    <ul class="dropdown-menu">  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;管道管理</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;站点管理</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;大用户管理</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;DMA管理</a></li>  
+                        
+                    </ul>  
+                </li> 
+
+                <li class="dropdown"><a href="#" class="title">企业管理</a>  
+                    <ul class="dropdown-menu">  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;组织与用户管理</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;角色管理</a></li>  
+                         
+                    </ul>  
+                </li>  
+
+                <li class="dropdown"><a href="#" class="title">设备管理</a>  
+                    <ul class="dropdown-menu">  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;水表管理</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;流量计管理</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;参数指令</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;特殊参数指令</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;SIM卡管理</a></li>  
+                        
+                    </ul>  
+                </li> 
+
+                <li class="dropdown"><a href="#" class="title">基准分析</a>  
+                    <ul class="dropdown-menu">  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;DMA基准分析</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;最小夜间流量分析</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;日基准水量分析</a></li>  
+                        
+                    </ul>  
+                </li>  
+
+                <li class="dropdown"><a href="#" class="title">系统配置</a>  
+                    <ul class="dropdown-menu">  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;平台个性化配置</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;图标配置</a></li>  
+                        <li><a href="#">&nbsp;&nbsp; &nbsp;日志查询</a></li>  
+                        
+                    </ul>  
+                </li>  
+
+
+            </ul>  
+        </div>  
+    </div>  
+</div>
+
+{% endblock %}
+
+{% block stylesheet %}
+<style type="text/css">
+.navbar .nav > li .dropdown-menu {  
+            margin: 10;  
+            
+        }  
+        .navbar .nav > li:hover .dropdown-menu {  
+            display: block;  
+        }  
+        .title{  
+            height: 30px;  
+            width: 100px;  
+            background-color: rgba(45, 182, 224, 0.09) !important;  
+            border-radius: 0 !important;  
+            line-height: 10px;  
+            color: black !important;  
+            border-style:solid;  
+            border-width:1px;  
+            border-color: rgba(20, 248, 249, 0.15)  
+        }  
+        .dropdown-menu{  
+            border-radius: 0;  
+        }  
+        a:hover{  
+            background-color: rgba(45, 182, 224, 0.09) !important;  
+        }  
+
+
+
+
+</style>
+{% endblock %}
+
+
+{% block content %}
+    <h1 class="page-header">智慧水务管控一体化平台</h1>
+    <div >
+        <div class="panel panel-default">
+          
+          <div class="panel-body">
+            <div class="col-md-3">
+                <div class="well dash-box">
+                    <h2 style="text-align:center;">昨日用水量</h2>
+                    <h3 style="text-align:center;">21908.9m3</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="well dash-box">
+                    <h2 style="text-align:center;">今日用水量</h2>
+                    <h3 style="text-align:center;">12823.6m3</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="well dash-box">
+                    <h2 style="text-align:center;">本月用水量</h2>
+                    <h3 style="text-align:center;">122823.6m3</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="well dash-box">
+                    <h2 style="text-align:center;">用水性质</h2>
+                    <h3 style="text-align:center;">（本月）</h3>
+                </div>
+            </div>
+            
+          </div>
+
+          <div class="panel-body">
+            <div class="col-md-3">
+                <div class="well dash-box">
+                    <h2 style="text-align:center;">DMA总数量</h2>
+                    <h3 style="text-align:center;">6个</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="well dash-box">
+                    <h2 style="text-align:center;">表具总数量</h2>
+                    <h3 style="text-align:center;">28个</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="well dash-box">
+                    <h2 style="text-align:center;">大用户数量</h2>
+                    <h3 style="text-align:center;">12个</h3>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="well dash-box">
+                    <h2 style="text-align:center;">报警表具总数量</h2>
+                    <h3 style="text-align:center;">5个</h3>
+                </div>
+            </div>
+            
+          </div>
+
+        </div>
+        
+
+        
+    </div>
+
+    <div class="col-md-6">
+        <div class="well dash-box" style="height:  300px;">
+            <div style="text-align:center;position:absolute;">
+                <p><span>行业新闻</span></p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="well dash-box" style="height:  300px;">
+            <h2 style="text-align:center;">平台公告</h2>
+            
+        </div>
+    </div>
+
+
+    
+
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+
+    
+</script>
+{% endblock %}
