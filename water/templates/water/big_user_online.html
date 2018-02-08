@@ -1,0 +1,75 @@
+{% extends "water/dma_online.html" %}
+
+
+{% block content %}
+    <h1>大用户监控</h1>
+
+    <form class="navbar-form navbar-left" role="search" method='POST' action='.' data-url='{{ request.build_absolute_uri|safe }}'>
+        {% csrf_token %}
+        <div class="form-group">
+          {{form.as_p|safe}}
+        </div>
+        <button type='submit'>搜索</button>
+    </form>
+
+    <div class="col-md-12">
+      <!-- Default panel contents -->
+      <div class="panel-heading">计算时间段：2017-12-21 00:00:00 至 2017-12-21 06:00:00</div>
+      <div class="panel-body">
+        <!-- Table -->
+      <table class="table table-stripped table-bordered">
+        <tr>
+            <th>大用户名称</th>
+            <th>用户编号</th>
+            <th>所属组织</th>
+            <th>用户地址</th>
+            <th>站点名称</th>
+            <th>关联表具</th>
+            <th>表具类型</th>
+            <th>表具口径mm</th>
+            <th>最新采样时间</th>
+            <th>采样间隔M</th>
+            <th>当日用水量m3</th>
+            <th>当月用水量m3</th>
+            <th>正向累计水量m3</th>
+            <th>反向累计水量m3</th>
+            <th>瞬时流量m3/h</th>
+            <th>压力MPa</th>
+            <th>基表电量%</th>
+            <th>远传电量%</th>
+            <th>信号强度%</th>
+            <th>报警数量</th>
+        </tr>
+        <tr>
+            <td>{{ big_user }}</td>
+            <td>CQSS-CQDX001</td>
+            <td>深圳水司总公司</td>
+            <td>沙坪坝正街68号</td>
+            <td>北门站</td>
+            <td>SB0001</td>
+            <td>水表</td>
+            <td>200</td>
+            <td>2017-10-25 12:00:00</td>
+            <td>15</td>
+            <td>1200.8</td>
+            <td>3000.9</td>
+            <td>50000.7</td>
+            <td>300</td>
+            <td>20.23</td>
+            <td>4.05</td>
+            <td>50</td>
+            <td>55</td>
+            <td>80</td>
+            <td>0</td>
+        </tr>
+        
+        
+      </table>
+      </div>
+
+      
+    </div>
+
+    
+
+{% endblock %}

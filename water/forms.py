@@ -6,6 +6,11 @@ from django.contrib.admin.widgets import AdminDateWidget,AdminSplitDateTime
 from . import models
 import datetime
 
+
+class SearchForm(forms.Form):
+    name = forms.CharField(max_length=120,initial='shenzhen')
+
+
 class WatermeterForm(forms.ModelForm):
     the_id = forms.IntegerField(widget=forms.HiddenInput)
     # rtime = forms.DateField(widget=AdminSplitDateTime())
