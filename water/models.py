@@ -5,18 +5,36 @@ from django.db import models
 
 # Create your models here.
 class District(models.Model):
-    id = models.IntegerField(db_column='Id', primary_key=True)  # Field name made lowercase.
+    pid = models.IntegerField(db_column='Id',primary_key=True)  # Field name made lowercase.
     name = models.CharField(db_column='Name', unique=True, max_length=128, blank=True, null=True)  # Field name made lowercase.
     
     class Meta:
         managed = True
         db_table = 'district'        
         
+    
     def __unicode__(self):
         return self.name
 
+
+'''
+Django In postgresql legacy database, bind model with table primary key to autoincrement
+1.add new sequence
+create sequence public.Community_id_seq
+    start 1
+    increment 1
+    NO MAXVALUE
+    CACHE 1;
+ALTER TABLE public.Community_id_seq
+OWNER TO scada;
+
+ If there is no data in the table, leave the sequence as it is, don't make any changes. Just save it. If there is existing data, add the last or highest value in the primary key column to the Current value
+
+2.add the line nextval('your_sequence_name'::regclass) to the Default value in your primary key
+'''        
+
 class Community(models.Model):
-    id = models.IntegerField(db_column='Id', primary_key=True)  # Field name made lowercase.
+    id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     name = models.CharField(db_column='Name', unique=True, max_length=128, blank=True, null=True)  # Field name made lowercase.
     metabinding = models.CharField(db_column='MetaBinding', max_length=20, blank=True, null=True)  # Field name made lowercase.
     # districtid = models.IntegerField(db_column='DistrictId', blank=True, null=True)  # Field name made lowercase.
@@ -25,6 +43,7 @@ class Community(models.Model):
     class Meta:
         managed = True
         db_table = 'community'
+
 
     def __unicode__(self):
         return self.name
@@ -113,11 +132,9 @@ class Watermeter(models.Model):
     lastrtime = models.DateTimeField(db_column='LastRTime', blank=True, null=True)  # Field name made lowercase.
     dosage = models.CharField(db_column='Dosage', max_length=30, blank=True, null=True)  # Field name made lowercase.
     islargecalibermeter = models.IntegerField(db_column='IsLargeCaliberMeter', blank=True, null=True)  # Field name made lowercase.
-    communityid = models.IntegerField(db_column='CommunityId', blank=True, null=True)  # Field name made lowercase.
-    
+    # communityid = models.IntegerField(db_column='CommunityId', blank=True, null=True)  # Field name made lowercase.
+    communityid = models.ForeignKey(Community,db_column='CommunityId',blank=True, null=True) 
     metabinding = models.CharField(db_column='MetaBinding', max_length=20, blank=True, null=True)  # Field name made lowercase.
-
-    community = models.ForeignKey(Community,blank=True, null=True,on_delete=models.CASCADE) 
 
     class Meta:
         managed = True
@@ -138,7 +155,7 @@ class HdbTianhouBig(models.Model):
     lastrvalue = models.CharField(db_column='LastRValue', max_length=30, blank=True, null=True)  # Field name made lowercase.
     lastrtime = models.CharField(db_column='LastRTime', max_length=30, blank=True, null=True)  # Field name made lowercase.
     dosage = models.CharField(db_column='Dosage', max_length=30, blank=True, null=True)  # Field name made lowercase.
-    watermeterid = models.IntegerField(db_column='WaterMeterId', blank=True, null=True)  # Field name made lowercase.
+    watermeterid = models.ForeignKey(Watermeter,db_column='WaterMeterId', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
         managed = True

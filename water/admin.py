@@ -11,9 +11,11 @@ from .forms import WatermeterForm
 class CommunityAdmin(admin.ModelAdmin):
     list_display = ['name','districtid']
 
+    fields = ('name','districtid')
+
 
    
-
+# @admin.site.register(models.Watermeter)
 class WatermeterAdmin(admin.ModelAdmin):
     form = WatermeterForm
     actions = ['change_meterstate','change_datetime']
@@ -108,4 +110,4 @@ class WatermeterAdmin(admin.ModelAdmin):
 
 admin.site.register(models.District)
 admin.site.register(models.Community,CommunityAdmin)
-admin.site.register(models.Watermeter,WatermeterAdmin)
+admin.site.register(models.Watermeter)
