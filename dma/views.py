@@ -257,18 +257,16 @@ class MeasureUpdateView( UpdateView):
     form_class = MeasureForm
 
     def get_queryset(self,**kwargs):
-        print self.request
+        
         slug=self.kwargs.get('slug')
         if slug:
             current_zone = ZoneTree.objects.get(slug=slug)
         else:
             current_zone = ZoneTree.objects.first()
 
-        print '1.',current_zone
-        print '2.',current_zone.zbase
         
         pk = int(self.kwargs.get('pk'))
-        print '4.',pk
+        
         return ZoneMeasure.objects.first()
 
     def get_context_data(self, *args, **kwargs):

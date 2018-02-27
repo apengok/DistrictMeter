@@ -42,9 +42,7 @@ class CustomZoneWidget(forms.ModelChoiceField):
     def render(self,name,value,attrs=None):
         super(CustomZoneWidget,self).render(name,value,attrs)
 
-        print 'name',name
-        print 'value',value
-        print 'attrs',attrs
+        
 
         html = '''
             <div class="form-row field-zone_base">

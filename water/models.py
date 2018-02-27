@@ -20,7 +20,7 @@ class Community(models.Model):
     name = models.CharField(db_column='Name', unique=True, max_length=128, blank=True, null=True)  # Field name made lowercase.
     metabinding = models.CharField(db_column='MetaBinding', max_length=20, blank=True, null=True)  # Field name made lowercase.
     # districtid = models.IntegerField(db_column='DistrictId', blank=True, null=True)  # Field name made lowercase.
-    districtid = models.ForeignKey(District,db_column='DistrictId', blank=True, null=True)  # Field name made lowercase.
+    districtid = models.ForeignKey(District,db_column='DistrictId', blank=True, null=True,on_delete=models.CASCADE)  # Field name made lowercase.
 
     class Meta:
         managed = True
@@ -117,7 +117,7 @@ class Watermeter(models.Model):
     
     metabinding = models.CharField(db_column='MetaBinding', max_length=20, blank=True, null=True)  # Field name made lowercase.
 
-    community = models.ForeignKey(Community,blank=True, null=True) 
+    community = models.ForeignKey(Community,blank=True, null=True,on_delete=models.CASCADE) 
 
     class Meta:
         managed = True

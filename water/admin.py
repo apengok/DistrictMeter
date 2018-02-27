@@ -72,17 +72,16 @@ class WatermeterAdmin(admin.ModelAdmin):
 
         
     def save_model(self, request, obj, form, change):
-        print 'communityid:',obj.communityid
+        # print 'communityid:',obj.communityid
         super().save_model(request, obj, form, change)
 
     def save_formset(self, request, form, formset, change):
         instances = formset.save(commit=False)
-        print 'save_formset'
+        
         for obj in formset.deleted_objects:
             obj.delete()
         for instance in instances:
-            print instance.communityid
-            print request.communityid
+            
             instance.save()
             formset.save_m2m()
 
@@ -97,7 +96,7 @@ class WatermeterAdmin(admin.ModelAdmin):
 
 
     def change_datetime(self,request,queryset):
-        print 'change_datetime:',queryset
+        
         rows_updated = queryset.update(rtime=parse_datetime('rtime'),
             lastrtime=parse_datetime('lastrtime'))
         if rows_updated == 1:

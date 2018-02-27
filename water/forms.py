@@ -43,17 +43,16 @@ class WatermeterForm(forms.ModelForm):
         # print self.instance.rtime,type(self.instance.rtime)
 
     def clean(self):
-        print 'clean'
+        
         self.cleaned_data['communityid'] = self.cleaned_data['community'].id
-        print self.cleaned_data
-        print self.cleaned_data['communityid']
+        
 
     def save_existing(self, form, instance, commit=True):
         """Save and return an existing model instance for the given form."""
-        print 'save_existing'
+        
         return form.save(commit=commit)
 
     def save(self,commit=True):
-        print self.instance,asdfasd
+        
         instance = super(WatermeterForm, self).save(commit)
-        print 'save:',instance
+        

@@ -114,9 +114,8 @@ class BigUserOnlineView(TemplateView):
         context = self.get_context_data()
 
         if context['form'].is_valid():
-            print 'is valid'
-            print context['form'].cleaned_data['name']
-        else:
-            print 'not valid form?'
+            pass
+            print (context['form'].cleaned_data['name'])
+        
 
         return super(BigUserOnlineView,self).render_to_response(context)
