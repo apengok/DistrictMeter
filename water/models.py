@@ -133,7 +133,7 @@ class Watermeter(models.Model):
     dosage = models.CharField(db_column='Dosage', max_length=30, blank=True, null=True)  # Field name made lowercase.
     islargecalibermeter = models.IntegerField(db_column='IsLargeCaliberMeter', blank=True, null=True)  # Field name made lowercase.
     # communityid = models.IntegerField(db_column='CommunityId', blank=True, null=True)  # Field name made lowercase.
-    communityid = models.ForeignKey(Community,db_column='CommunityId',blank=True, null=True) 
+    communityid = models.ForeignKey(Community,db_column='CommunityId',blank=True, null=True,on_delete=models.CASCADE) 
     metabinding = models.CharField(db_column='MetaBinding', max_length=20, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
@@ -155,7 +155,7 @@ class HdbTianhouBig(models.Model):
     lastrvalue = models.CharField(db_column='LastRValue', max_length=30, blank=True, null=True)  # Field name made lowercase.
     lastrtime = models.CharField(db_column='LastRTime', max_length=30, blank=True, null=True)  # Field name made lowercase.
     dosage = models.CharField(db_column='Dosage', max_length=30, blank=True, null=True)  # Field name made lowercase.
-    watermeterid = models.ForeignKey(Watermeter,db_column='WaterMeterId', blank=True, null=True)  # Field name made lowercase.
+    watermeterid = models.ForeignKey(Watermeter,db_column='WaterMeterId', blank=True, null=True,on_delete=models.CASCADE)  # Field name made lowercase.
 
     class Meta:
         managed = True
