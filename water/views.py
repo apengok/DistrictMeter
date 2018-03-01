@@ -67,6 +67,17 @@ class WaterListview(ListView):
         return context
 
 
+class StaionMonitorView(TemplateView):
+    template_name = 'water/station_monitor.html'
+
+    def get_context_data(self, *args, **kwargs):
+        
+        context = super(StaionMonitorView, self).get_context_data(*args, **kwargs)
+
+        
+        
+        return context
+
 class DmaOnlineView(TemplateView):
     template_name = 'water/dma_online.html'
 
@@ -119,3 +130,17 @@ class BigUserOnlineView(TemplateView):
         
 
         return super(BigUserOnlineView,self).render_to_response(context)
+
+
+
+#数据分析
+class AnalyUsageView(TemplateView):
+    template_name = 'water/analy_usage.html'        
+
+
+    def get_context_data(self, *args, **kwargs):
+        
+        context = super(AnalyUsageView, self).get_context_data(*args, **kwargs)
+
+                
+        return context      

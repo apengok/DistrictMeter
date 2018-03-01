@@ -2,6 +2,15 @@
 
 
 {% block content %}
+    {% block breadcrumbs %}
+        <ol class="breadcrumb">
+            <li><a href="{% url 'water:home' %}">Home</a></li>
+            <li>数据监控</li>
+            <li><a href="{% url 'water:rt_curve' %}">站点实时曲线</a></li>
+            
+        </ol>
+    {% endblock %}
+
     <h1>站点实时曲线</h1>
 
     <div class="col-md-6">

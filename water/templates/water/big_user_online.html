@@ -2,6 +2,14 @@
 
 
 {% block content %}
+    {% block breadcrumbs %}
+        <ol class="breadcrumb">
+            <li><a href="{% url 'water:home' %}">Home</a></li>
+            <li>数据监控</li>
+            <li><a href="{% url 'water:big_user_online' %}">大用户在线监控</a></li>
+            
+        </ol>
+    {% endblock %}
     <h1>大用户监控</h1>
 
     <form class="navbar-form navbar-left" role="search" method='POST' action='.' data-url='{{ request.build_absolute_uri|safe }}'>
