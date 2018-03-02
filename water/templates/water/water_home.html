@@ -10,21 +10,21 @@
 <div class="navbar">  
         <div class="navbar-inner">  
             <ul class="nav nav-pills nav-stacked">  
-                <li><a href="#">首页</a></li> 
+                <li><a href="{% url 'water:home' %}">首页</a></li> 
                 
                 <li  class="dropdown" ><a href="#" class="title">数据监控</a>  
                     <ul class="dropdown-menu">  
-                        <li><a href="station_monitor/">&nbsp;&nbsp; &nbsp;站点地图监控</a></li>  
-                        <li><a href="rt_curve/">&nbsp;&nbsp; &nbsp;站点实时曲线</a></li>  
-                        <li><a href="dma_online/">&nbsp;&nbsp; &nbsp;DMA在线监控</a></li>  
-                        <li><a href="big_user_online/">&nbsp;&nbsp; &nbsp;大用户在线监控</a></li>  
+                        <li><a href="/water/station_monitor/">&nbsp;&nbsp; &nbsp;站点地图监控</a></li>  
+                        <li><a href="/water/rt_curve/">&nbsp;&nbsp; &nbsp;站点实时曲线</a></li>  
+                        <li><a href="/water/dma_online/">&nbsp;&nbsp; &nbsp;DMA在线监控</a></li>  
+                        <li><a href="/water/big_user_online/">&nbsp;&nbsp; &nbsp;大用户在线监控</a></li>  
                     </ul>  
                 </li>  
 
 
                 <li class="dropdown"><a href="#" class="title">数据分析</a>  
                     <ul class="dropdown-menu">  
-                        <li><a href="analy_usage/">&nbsp;&nbsp; &nbsp;日用水量分析</a></li>  
+                        <li><a href="/water/analy_usage/">&nbsp;&nbsp; &nbsp;日用水量分析</a></li>  
                         <li><a href="#">&nbsp;&nbsp; &nbsp;用水趋势分析</a></li>  
                         <li><a href="#">&nbsp;&nbsp; &nbsp;时段用水量分析</a></li>  
                         <li><a href="#">&nbsp;&nbsp; &nbsp;DMA产销差分析</a></li>  

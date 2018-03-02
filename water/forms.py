@@ -1,7 +1,11 @@
+# -*- coding: utf-8 -*-
+
 from django import forms
 from django.utils.dateparse import parse_datetime
 from django.contrib.admin import widgets
 from django.contrib.admin.widgets import AdminDateWidget,AdminSplitDateTime
+from django.contrib.postgres.forms.ranges import DateRangeField, RangeWidget
+
 
 from . import models
 import datetime
@@ -9,6 +13,16 @@ import datetime
 
 class SearchForm(forms.Form):
     name = forms.CharField(max_length=120,initial='shenzhen')
+
+
+class AnalyWaterForm(forms.Form):
+    organization = forms.CharField(label="组织",max_length=256)
+    station      = forms.CharField(label="站点名称",max_length=256)
+    date         = forms.DateField()
+
+
+class DateRangeForm(forms.Form):
+    date_range = DateRangeField(widget=RangeWidget(AdminDateWidget()))
 
 
 class WatermeterForm(forms.ModelForm):

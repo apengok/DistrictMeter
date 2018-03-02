@@ -4,14 +4,15 @@ from __future__ import unicode_literals
 from django.shortcuts import render,HttpResponse
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView,FormView
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from dma.fusioncharts import FusionCharts
-from .forms import SearchForm
+from .forms import SearchForm,AnalyWaterForm,DateRangeForm
 
 import random
 
 
-def nightflow(chartid,chartname):
+def nightflow(chartid,chartname,width=600,height=400):
     # Create an object for the column2d chart using the FusionCharts class constructor
     flow_list=[random.randint(1,5) for _ in range(20)]
     
@@ -43,7 +44,7 @@ def nightflow(chartid,chartname):
             "data": values
         }
     ]
-    column2d = FusionCharts("mscombi2d", chartid , "600", "400", chartname, "json",datasource)
+    column2d = FusionCharts("mscombi2d", chartid , width, height, chartname, "json",datasource)
 
     return column2d
 
@@ -142,5 +143,49 @@ class AnalyUsageView(TemplateView):
         
         context = super(AnalyUsageView, self).get_context_data(*args, **kwargs)
 
+        form = AnalyWaterForm(self.request.POST or None)
+        context['form'] = form
+
+        context['output'] = nightflow("ext1","chart-day_water",1100,600).render()
+
+        range_form = DateRangeForm(self.request.POST or None)
+        context['range_form'] = range_form
+
+        contact_list = range(100)
+        paginator = Paginator(contact_list, 10) # Show 25 contacts per page
+
+        page = self.request.GET.get('page')
+        try:
+            contacts = paginator.page(page)
+        except PageNotAnInteger:
+            # If page is not an integer, deliver first page.
+            contacts = paginator.page(1)
+        except EmptyPage:
+            # If page is out of range (e.g. 9999), deliver last page of results.
+            contacts = paginator.page(paginator.num_pages)
+        context['contacts'] = contacts
                 
         return context      
+
+    def post(self,request,*args,**kwargs):
+        context = self.get_context_data()
+
+        if context['form'].is_valid():
+
+            if "today" in self.request.POST:
+                print 'query today'
+
+            elif "prevday" in self.request.POST:
+                print 'prevday'
+            
+            else:
+                print (context['form'].cleaned_data['organization'])
+
+        elif context['range_form'].is_valid():
+            print 'daterange'
+
+        else:
+            print 'else'
+        
+
+        return super(AnalyUsageView,self).render_to_response(context)
