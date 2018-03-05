@@ -92,7 +92,7 @@ class ZoneMeasure(models.Model):
     water_quality 				= models.FloatField('水质合格率（ %）',blank=True, null=True)
     zone_inner_pressure 		= models.FloatField('分区内压力（ MPa）',blank=True, null=True)
 
-    timestamp       			= models.DateTimeField(auto_now_add=True)
+    timestamp       			= models.DateTimeField() #auto_now_add=True
     updated         			= models.DateTimeField(auto_now=True)
 
     class Meta:

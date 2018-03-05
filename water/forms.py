@@ -18,7 +18,7 @@ class SearchForm(forms.Form):
 class AnalyWaterForm(forms.Form):
     organization = forms.CharField(label="组织",max_length=256)
     station      = forms.CharField(label="站点名称",max_length=256)
-    date         = forms.DateField()
+    date         = forms.DateField(widget=AdminDateWidget())
 
 
 class DateRangeForm(forms.Form):

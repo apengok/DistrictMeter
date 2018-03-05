@@ -4,10 +4,14 @@ from django import forms
 from .models import ZoneTree,ZoneBase,ZoneMeasure
 
 from .widgets import CustomZoneWidget
+from django.forms.extras.widgets import SelectDateWidget
+from django.contrib.admin.widgets import AdminDateWidget,AdminSplitDateTime
+from django.contrib.postgres.forms.ranges import DateRangeField, RangeWidget
 
 class JoinForm(forms.Form):
     email   = forms.EmailField()
     name    = forms.CharField(max_length=120)
+    test_date = forms.DateField(widget=AdminDateWidget)
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
@@ -38,11 +42,13 @@ class MeasureForm(forms.ModelForm):
             'pressure_quality',
             'water_quality',
             'zone_inner_pressure',
+            'timestamp'
         ]
 
-        # widgets = {
-        #     'zone_base':CustomZoneWidget(ZoneBase), #Textarea(attrs={'cols': 80, 'rows': 20})
-        # }
+        widgets = {
+            #'zone_base':CustomZoneWidget(ZoneBase), #Textarea(attrs={'cols': 80, 'rows': 20})
+            'timestamp':AdminDateWidget
+        }
     def __init__(self, *args,**kwargs):
         super(MeasureForm, self).__init__(*args,**kwargs)#http://127.0.0.1:1080/pac?t=201801191012346085
         slug=kwargs.get('slug')

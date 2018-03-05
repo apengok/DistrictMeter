@@ -15,8 +15,12 @@ from .fusioncharts import FusionCharts
 from .forms import JoinForm,MeasureForm
 
 import random
-
+from django.contrib import admin
 # Create your views here.
+
+
+def i18n_javascript(request):
+    return admin.site.i18n_javascript(request)
 
 def home(request):
 	return render(request,"home.html",{"item_d":"dasfasdf"})
