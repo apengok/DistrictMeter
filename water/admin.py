@@ -3,8 +3,11 @@ from __future__ import unicode_literals
 
 from django.contrib import admin
 from django.utils.dateparse import parse_datetime
+from django.db import models as dj_models
 from . import models
 from .forms import WatermeterForm
+
+from .widgets import StringDateTimeWidget,StringSplitDateTime
 
 # Register your models here.
 
@@ -14,14 +17,37 @@ class CommunityAdmin(admin.ModelAdmin):
     fields = ('name','districtid')
 
 
+
+class FlowShareDayTaxAdmin(admin.ModelAdmin):
+
+    # date_hierarchy = 'readtime'
+    list_filter = ['warning','warningdesc']
+
+    list_display = ['readtime','simid','flux','plustotalflux','reversetotalflux','warning','warningdesc']
+
+    formfield_overrides = {
+        dj_models.DateTimeField: {'widget': StringSplitDateTime},
+    }
+
+    # def save_model(self, request, obj, form, change):
+    #     print 'FlowShareDayTaxAdmin::',obj.readtime
+    #     print 'form.cleaned_data',form.cleaned_data['readtime']
+    #     obj.readtime = obj.readtime[:20]
+    #     print 'FlowShareDayTaxAdmin::',obj.readtime
+    #     super(FlowShareDayTaxAdmin,self).save_model(request, obj, form, change)
+
    
-# @admin.site.register(models.Watermeter)
+@admin.register(models.Watermeter)
 class WatermeterAdmin(admin.ModelAdmin):
-    form = WatermeterForm
+    # form = WatermeterForm
     actions = ['change_meterstate','change_datetime']
     list_display = ['id','communityid','buildingname','roomname','nodeaddr','wateraddr','rvalue','fvalue','metertype','meterstate','commstate','rtime','lastrvalue','lastrtime','dosage','islargecalibermeter']
 
     list_filter = ['metertype','meterstate','commstate']
+
+    formfield_overrides = {
+        dj_models.DateTimeField: {'widget': StringSplitDateTime},
+    }
 
     fieldsets = (
             (None,{
@@ -40,6 +66,8 @@ class WatermeterAdmin(admin.ModelAdmin):
                 'fields':('dosage','islargecalibermeter')
                 }),
         )
+
+
 
     # def change_view(self, request, object_id, form_url='', extra_context=None):
     #     extra_context = extra_context or {}
@@ -110,4 +138,5 @@ class WatermeterAdmin(admin.ModelAdmin):
 
 admin.site.register(models.District)
 admin.site.register(models.Community,CommunityAdmin)
-admin.site.register(models.Watermeter)
+# admin.site.register(models.Watermeter)
+admin.site.register(models.FlowShareDayTax,FlowShareDayTaxAdmin)

@@ -51,7 +51,7 @@ class Community(models.Model):
 
 class FlowShareDayTax(models.Model):
     pid = models.IntegerField(db_column='PID', primary_key=True)  # Field name made lowercase.
-    readtime = models.CharField(db_column='ReadTime', max_length=20)  # Field name made lowercase.
+    readtime = models.DateTimeField(db_column='ReadTime', max_length=20)  # Field name made lowercase.
     simid = models.CharField(db_column='SIMID', max_length=20)  # Field name made lowercase.
     flux = models.FloatField(db_column='Flux', blank=True, null=True)  # Field name made lowercase.
     plustotalflux = models.FloatField(db_column='PlusTotalFlux', blank=True, null=True)  # Field name made lowercase.
