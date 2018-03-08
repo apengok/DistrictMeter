@@ -16,9 +16,14 @@ class SearchForm(forms.Form):
 
 
 class AnalyWaterForm(forms.Form):
-    organization = forms.CharField(label="组织",max_length=256)
-    station      = forms.CharField(label="站点名称",max_length=256)
+    organization = forms.ChoiceField()
+    station      = forms.ModelChoiceField(queryset=models.Tblfminfo.objects.all(),to_field_name='simid')
     date         = forms.DateField(widget=AdminDateWidget())
+
+    def __init__(self, *args, **kwargs):
+        super(AnalyWaterForm, self).__init__(*args, **kwargs)
+
+        self.fields['organization'].choices = (('1','shenzhen'),('2','nanshan'))
 
 
 class DateRangeForm(forms.Form):

@@ -19,4 +19,5 @@ urlpatterns = [
 
     #数据分析 
     url(r'analy_usage/',views.AnalyUsageView.as_view(),name='analy_usage'),
+    url(r'analy_flow_press/',views.AnalyFlowPressView.as_view(),name='analy_flow_press'),
 ]

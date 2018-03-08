@@ -8,7 +8,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from dma.fusioncharts import FusionCharts
 from .forms import SearchForm,AnalyWaterForm,DateRangeForm
-
+from .models import FlowShareDayTax,PressShareDayTax,Tblfminfo
 import random
 
 
@@ -189,3 +189,144 @@ class AnalyUsageView(TemplateView):
         
 
         return super(AnalyUsageView,self).render_to_response(context)
+
+
+
+class AnalyFlowPressView(TemplateView):
+    template_name = 'water/analy_flow_press.html'        
+
+
+    def draw_chart(self,chartid,chartname,width,height,flow_list):
+        # Create an object for the column2d chart using the FusionCharts class constructor
+        flow_list=flow_list
+        
+        if len(flow_list)>0:
+            subc = flow_list[0].readtime[:10]
+        else:
+            subc = "day"
+            
+        cates = [{"label":v.readtime[11:]} for v in flow_list ]
+        values0 = [{"value":10} for v in flow_list ]
+        values = [{"value":v.flux} for v in flow_list ]
+        datasource = {}
+        datasource["chart"] = {
+            "caption": "夜间最小流量",
+            "subcaption": subc,
+            "xaxisname": "Time",
+            "yaxisname": "watermeter flow",
+            "numberprefix": "$",
+            "theme": "ocean"
+        }
+        datasource["categories"] = [{
+            "category": cates
+        }]
+
+        datasource["dataset"] = [ {
+                "seriesname": "flow ceiling",
+                "renderas": "line",
+                "showvalues": "0",
+                "data": values0
+            }, {
+                "seriesname": "meter flow",
+                "renderas": "line",
+                "showvalues": "0",
+                "data": values
+            }
+        ]
+        column2d = FusionCharts("mscombi2d", chartid , width, height, chartname, "json",datasource)
+
+        return column2d
+
+    def get_context_data(self, *args, **kwargs):
+        
+        context = super(AnalyFlowPressView, self).get_context_data(*args, **kwargs)
+
+        if self.request.method == 'POST':
+            form = AnalyWaterForm(self.request.POST or None)
+        else:
+            
+            form = AnalyWaterForm(initial = {'organization':'2'})
+            
+        context['form'] = form
+
+        context['output'] = nightflow("ext1","chart-day_water",1100,600).render()
+
+        
+                
+        return context      
+
+
+
+    def post(self,request,*args,**kwargs):
+        context = self.get_context_data()
+
+        if context['form'].is_valid():
+
+            if "today" in self.request.POST:
+                print 'query today'
+
+            elif "prevday" in self.request.POST:
+                print 'prevday'
+            
+            else:
+                ix=context['form'].cleaned_data['organization']
+                print ix,context['form'].fields['organization'].choices[int(ix)-1][1]
+                st = context['form'].cleaned_data['station']
+                simid = st.simid
+                rtime = context['form'].cleaned_data['date']
+
+                print simid,rtime
+                flow_list=FlowShareDayTax.objects.filter(simid=simid).filter(readtime__icontains=rtime)
+                # print len(flow_list),flow_list[0].readtime
+                # for fl in flow_list:
+                #     print fl.simid,fl.readtime
+
+                if len(flow_list)>0:
+                    subc = flow_list[0].readtime[:10]
+                else:
+                    subc = "day"
+                cates = [{"label":v.readtime[11:]} for v in flow_list ]
+                values0 = [{"value":10} for v in flow_list ]
+                values = [{"value":v.flux} for v in flow_list ]
+                datasource = {}
+                datasource["chart"] = {
+                    "caption": "flow day data",
+                    "subcaption": subc,
+                    "xaxisname": "Time",
+                    "yaxisname": "watermeter flow",
+                    "numberprefix": "$",
+                    "theme": "ocean"
+                }
+                datasource["categories"] = [{
+                    "category": cates
+                }]
+
+                datasource["dataset"] = [ {
+                        "seriesname": "flow ceiling",
+                        "renderas": "line",
+                        "showvalues": "0",
+                        "data": values0
+                    }, {
+                        "seriesname": "meter flow",
+                        "renderas": "line",
+                        "showvalues": "0",
+                        "data": values
+                    }
+                ]
+                #column2d = FusionCharts("mscombi2d", "chart-day_water" , "1100", "600", "chart-day_water", "json",datasource)
+
+                context['output'] = self.draw_chart("ext1","chart-day_water",1100,600,flow_list).render()
+
+
+
+
+                
+
+        elif context['range_form'].is_valid():
+            print 'daterange'
+
+        else:
+            print 'else'
+        
+
+        return super(AnalyFlowPressView,self).render_to_response(context)        
