@@ -18,13 +18,27 @@ class SearchForm(forms.Form):
 class AnalyWaterForm(forms.Form):
     organization = forms.ChoiceField()
     station      = forms.ModelChoiceField(queryset=models.Tblfminfo.objects.all(),to_field_name='simid')
+    readdate     = forms.ChoiceField()
     date         = forms.DateField(widget=AdminDateWidget())
 
     def __init__(self, *args, **kwargs):
         super(AnalyWaterForm, self).__init__(*args, **kwargs)
 
-        self.fields['organization'].choices = (('1','shenzhen'),('2','nanshan'))
+        organs = models.Tblfminfo.objects.all().distinct('filialename')
+        fns = [f.filialename for f in organs]
+        self.fields['organization'].choices = tuple(enumerate(fns))
 
+        press_all = models.PressShareDayTax.objects.all().distinct('simid')
+
+        pr_rtime = [x.readtime[:10] for x in press_all]
+        self.fields['readdate'].choices = tuple(enumerate(pr_rtime))
+
+        self.fields['organization'].initial = fns[1]
+        self.fields['station'].initial = models.Tblfminfo.objects.first()
+        self.fields['readdate'].initial = pr_rtime[0][:10]
+        self.fields['date'].initial = pr_rtime[0][:10]
+
+        # flows_all = models.FlowShareDayTax.objects.all().distinct('simid')
 
 class DateRangeForm(forms.Form):
     date_range = DateRangeField(widget=RangeWidget(AdminDateWidget()))

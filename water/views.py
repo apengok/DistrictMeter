@@ -204,7 +204,7 @@ class AnalyFlowPressView(TemplateView):
             subc = flow_list[0].readtime[:10]
         else:
             subc = "day"
-            
+
         cates = [{"label":v.readtime[11:]} for v in flow_list ]
         values0 = [{"value":10} for v in flow_list ]
         values = [{"value":v.flux} for v in flow_list ]
@@ -245,9 +245,11 @@ class AnalyFlowPressView(TemplateView):
             form = AnalyWaterForm(self.request.POST or None)
         else:
             
-            form = AnalyWaterForm(initial = {'organization':'2'})
+            form = AnalyWaterForm()
             
         context['form'] = form
+
+        print form['organization'].value(), form['station'].value(),form['readdate'].value(),form['date'].value()
 
         context['output'] = nightflow("ext1","chart-day_water",1100,600).render()
 
@@ -270,13 +272,15 @@ class AnalyFlowPressView(TemplateView):
             
             else:
                 ix=context['form'].cleaned_data['organization']
-                print ix,context['form'].fields['organization'].choices[int(ix)-1][1]
+                
                 st = context['form'].cleaned_data['station']
                 simid = st.simid
-                rtime = context['form'].cleaned_data['date']
+                rtime = context['form'].cleaned_data['readdate']
 
                 print simid,rtime
                 flow_list=FlowShareDayTax.objects.filter(simid=simid).filter(readtime__icontains=rtime)
+                press_list=PressShareDayTax.objects.filter(simid=simid).filter(readtime__icontains=rtime)
+                print press_list
                 # print len(flow_list),flow_list[0].readtime
                 # for fl in flow_list:
                 #     print fl.simid,fl.readtime
@@ -286,7 +290,10 @@ class AnalyFlowPressView(TemplateView):
                 else:
                     subc = "day"
                 cates = [{"label":v.readtime[11:]} for v in flow_list ]
-                values0 = [{"value":10} for v in flow_list ]
+                if len(press_list) == 0:
+                    values0 = [{"value":10} for v in flow_list ]
+                else:
+                    values0 = [{"value":v.pressure} for v in press_list ]
                 values = [{"value":v.flux} for v in flow_list ]
                 datasource = {}
                 datasource["chart"] = {
@@ -302,20 +309,20 @@ class AnalyFlowPressView(TemplateView):
                 }]
 
                 datasource["dataset"] = [ {
-                        "seriesname": "flow ceiling",
+                        "seriesname": "press ceiling",
                         "renderas": "line",
                         "showvalues": "0",
                         "data": values0
                     }, {
-                        "seriesname": "meter flow",
+                        "seriesname": "flows flow",
                         "renderas": "line",
                         "showvalues": "0",
                         "data": values
                     }
                 ]
-                #column2d = FusionCharts("mscombi2d", "chart-day_water" , "1100", "600", "chart-day_water", "json",datasource)
+                column2d = FusionCharts("mscombi2d", "ext1" , "1100", "600", "chart-day_water", "json",datasource)
 
-                context['output'] = self.draw_chart("ext1","chart-day_water",1100,600,flow_list).render()
+                context['output'] = column2d.render()    #self.draw_chart("ext1","chart-day_water",1100,600,flow_list).render()
 
 
 
