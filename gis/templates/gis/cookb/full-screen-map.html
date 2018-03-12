@@ -1,39 +1,31 @@
-<!doctype html>
-<html>
+{% extends 'gis/cookb/cookbook.html' %}
 
 {% block title %}Open layer3 cook-book - ch01 full screen map {% endblock %}
 
 <!-- head -->
 {% block head %}
     
+    super()
     {% load staticfiles %}
-    <link rel="stylesheet" href="{% static 'dma/assets/ol3/ol.css' %}" type = "text/css"/>
     
     <link rel="stylesheet" href="{% static 'gis/style.css' %}" type = "text/css"/>
     
     
 {% endblock %}
 
-    <body>
-    {% block sidebar %}
-    {% endblock %}
 
-      {% block content %}
-        <div id="js-map" class="map"></div>
-        <div class="pane">
-            <h1>Layers</h1>
-            <p>Drag the layer you wish to view over the satellite imagery into the box.</p>
-            <ul id="js-layers" class="layers"></ul>
-        </div>
-        
-        
-        <script src="{%  static 'dma/assets/ol3/ol.js' %} "></script>
-        <script src="{%  static 'gis/script.js' %} "></script>
-        
-        
-          
-        
-        
-        {% endblock %}
-    </body>
-</html>
+
+{% block content %}
+    <div id="js-map" class="map"></div>
+    <div class="pane">
+        <h1>Layers</h1>
+        <p>Drag the layer you wish to view over the satellite imagery into the box.</p>
+        <ul id="js-layers" class="layers"></ul>
+    </div>
+    
+    
+    
+    <script src="{%  static 'gis/script.js' %} "></script>
+    
+    
+{% endblock %}
