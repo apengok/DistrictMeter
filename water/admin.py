@@ -7,7 +7,7 @@ from django.db import models as dj_models
 from . import models
 from .forms import WatermeterForm
 
-# from .widgets import StringDateTimeWidget,StringSplitDateTime
+from .widgets import StringDateTimeWidget,StringSplitDateTime
 
 # Register your models here.
 
@@ -17,6 +17,15 @@ class CommunityAdmin(admin.ModelAdmin):
     fields = ('name','districtid')
 
 
+@admin.register(models.Tblfminfo)
+class TblfminfoAdmin(admin.ModelAdmin):
+    list_display = ['precinctname','filialename','usertype','userid','username','simid']
+
+
+    formfield_overrides = {
+        dj_models.DateTimeField: {'widget': StringSplitDateTime},
+    }
+
 
 class FlowShareDayTaxAdmin(admin.ModelAdmin):
 
@@ -25,9 +34,9 @@ class FlowShareDayTaxAdmin(admin.ModelAdmin):
 
     list_display = ['readtime','simid','flux','plustotalflux','reversetotalflux','warning','warningdesc']
 
-    # formfield_overrides = {
-    #     dj_models.DateTimeField: {'widget': StringSplitDateTime},
-    # }
+    formfield_overrides = {
+        dj_models.DateTimeField: {'widget': StringSplitDateTime},
+    }
 
     # def save_model(self, request, obj, form, change):
     #     print 'FlowShareDayTaxAdmin::',obj.readtime
@@ -45,9 +54,9 @@ class WatermeterAdmin(admin.ModelAdmin):
 
     list_filter = ['metertype','meterstate','commstate']
 
-    # formfield_overrides = {
-    #     dj_models.DateTimeField: {'widget': StringSplitDateTime},
-    # }
+    formfield_overrides = {
+        dj_models.DateTimeField: {'widget': StringSplitDateTime},
+    }
 
     fieldsets = (
             (None,{

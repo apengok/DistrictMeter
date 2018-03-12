@@ -50,7 +50,7 @@ class Community(models.Model):
 
 
 class FlowShareDayTax(models.Model):
-    pid = models.IntegerField(db_column='PID', primary_key=True)  # Field name made lowercase.
+    pid = models.AutoField(db_column='PID', primary_key=True)  # Field name made lowercase.
     readtime = models.DateTimeField(db_column='ReadTime', max_length=20)  # Field name made lowercase.
     simid = models.CharField(db_column='SIMID', max_length=20)  # Field name made lowercase.
     flux = models.FloatField(db_column='Flux', blank=True, null=True)  # Field name made lowercase.
@@ -68,8 +68,8 @@ class FlowShareDayTax(models.Model):
 
 
 class PressShareDayTax(models.Model):
-    pid = models.IntegerField(db_column='PID', primary_key=True)  # Field name made lowercase.
-    readtime = models.CharField(db_column='ReadTime', max_length=20)  # Field name made lowercase.
+    pid = models.AutoField(db_column='PID', primary_key=True)  # Field name made lowercase.
+    readtime = models.DateTimeField(db_column='ReadTime', max_length=20)  # Field name made lowercase.
     simid = models.CharField(db_column='SIMID', max_length=20)  # Field name made lowercase.
     pressure = models.FloatField(db_column='Pressure', blank=True, null=True)  # Field name made lowercase.
     warning = models.CharField(db_column='Warning', max_length=50)  # Field name made lowercase.
@@ -93,19 +93,19 @@ class Tblfminfo(models.Model):
     simid = models.CharField(db_column='SIMID', primary_key=True, max_length=20)  # Field name made lowercase.
     fmtype = models.CharField(db_column='FMType', max_length=50)  # Field name made lowercase.
     fmaddress = models.CharField(db_column='FMAddress', max_length=20)  # Field name made lowercase.
-    installdate = models.CharField(db_column='InstallDate', max_length=20)  # Field name made lowercase.
+    installdate = models.DateField(db_column='InstallDate', max_length=20)  # Field name made lowercase.
     install_jd = models.CharField(db_column='Install_JD', max_length=10)  # Field name made lowercase.
     install_wd = models.CharField(db_column='Install_WD', max_length=10)  # Field name made lowercase.
-    updatetime = models.CharField(db_column='UpdateTime', max_length=20)  # Field name made lowercase.
-    lastreadtime = models.CharField(db_column='LastReadTime', max_length=20)  # Field name made lowercase.
+    updatetime = models.DateTimeField(db_column='UpdateTime', max_length=20)  # Field name made lowercase.
+    lastreadtime = models.DateTimeField(db_column='LastReadTime', max_length=20)  # Field name made lowercase.
     lastflux = models.FloatField(db_column='LastFlux', blank=True, null=True)  # Field name made lowercase.
     lasttotalflux = models.FloatField(db_column='LastTotalFlux', blank=True, null=True)  # Field name made lowercase.
     lastpressure = models.FloatField(db_column='LastPressure', blank=True, null=True)  # Field name made lowercase.
     lastwarning = models.CharField(db_column='LastWarning', max_length=50)  # Field name made lowercase.
     lastwarningdesc = models.CharField(db_column='LastWarningDesc', max_length=20)  # Field name made lowercase.
-    lastwarningtime = models.CharField(db_column='LastWarningTime', max_length=20)  # Field name made lowercase.
-    lastreadpressuretime = models.CharField(db_column='LastReadPressureTime', max_length=20)  # Field name made lowercase.
-    lastreadfluxtime = models.CharField(db_column='LastReadFluxTime', max_length=20)  # Field name made lowercase.
+    lastwarningtime = models.DateTimeField(db_column='LastWarningTime', max_length=20)  # Field name made lowercase.
+    lastreadpressuretime = models.DateTimeField(db_column='LastReadPressureTime', max_length=20)  # Field name made lowercase.
+    lastreadfluxtime = models.DateTimeField(db_column='LastReadFluxTime', max_length=20)  # Field name made lowercase.
 
     class Meta:
         managed = True
@@ -116,7 +116,7 @@ class Tblfminfo(models.Model):
 
 
 class Watermeter(models.Model):
-    id = models.IntegerField(db_column='Id', primary_key=True)  # Field name made lowercase.
+    id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     numbersth = models.CharField(db_column='NumberSth', max_length=30, blank=True, null=True)  # Field name made lowercase.
     buildingname = models.CharField(db_column='BuildingName', max_length=128, blank=True, null=True)  # Field name made lowercase.
     roomname = models.CharField(db_column='RoomName', max_length=128, blank=True, null=True)  # Field name made lowercase.
@@ -146,12 +146,12 @@ class Watermeter(models.Model):
 
 
 class HdbTianhouBig(models.Model):
-    id = models.IntegerField(db_column='Id', primary_key=True)  # Field name made lowercase.
+    id = models.AutoField(db_column='Id', primary_key=True)  # Field name made lowercase.
     rvalue = models.CharField(db_column='RValue', max_length=30, blank=True, null=True)  # Field name made lowercase.
     fvalue = models.CharField(db_column='FValue', max_length=30, blank=True, null=True)  # Field name made lowercase.
     meterstate = models.CharField(db_column='MeterState', max_length=30, blank=True, null=True)  # Field name made lowercase.
     commstate = models.CharField(db_column='CommState', max_length=30, blank=True, null=True)  # Field name made lowercase.
-    rtime = models.CharField(db_column='RTime', max_length=30, blank=True, null=True)  # Field name made lowercase.
+    rtime = models.DateTimeField(db_column='RTime', max_length=30, blank=True, null=True)  # Field name made lowercase.
     lastrvalue = models.CharField(db_column='LastRValue', max_length=30, blank=True, null=True)  # Field name made lowercase.
     lastrtime = models.CharField(db_column='LastRTime', max_length=30, blank=True, null=True)  # Field name made lowercase.
     dosage = models.CharField(db_column='Dosage', max_length=30, blank=True, null=True)  # Field name made lowercase.

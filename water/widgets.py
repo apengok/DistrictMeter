@@ -1,4 +1,6 @@
 from django import forms
+from django.utils.dateparse import parse_datetime
+from django.forms.utils import to_current_timezone
 from django.forms.widgets import SplitDateTimeWidget
 from django.contrib.admin.widgets import AdminDateWidget,AdminTimeWidget,AdminSplitDateTime
 
@@ -13,9 +15,12 @@ class StringDateTimeWidget(SplitDateTimeWidget):
     def decompress(self,value):
         #allowed datetime string render in datatiemfield pengwl 2018.02.05
         if isinstance(value,unicode) or isinstance(value,str):
-            return [value[:10],value[11:19]]
+            value = parse_datetime(value)   # if set USE_TZ=True will be cause execute_sql DataError: value too long for type character varying(20)
+            
+            # return [value[:10],value[11:19]]
         if value:
             value = to_current_timezone(value)
+            
             return [value.date(), value.time().replace(microsecond=0)]
         return [None, None]
 
@@ -39,3 +44,6 @@ class StringSplitDateTime(StringDateTimeWidget):
         context['date_label'] = _('Date:')
         context['time_label'] = _('Time:')
         return context        
+
+
+
