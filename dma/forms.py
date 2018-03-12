@@ -4,7 +4,7 @@ from django import forms
 from .models import ZoneTree,ZoneBase,ZoneMeasure
 
 from .widgets import CustomZoneWidget
-from django.forms.extras.widgets import SelectDateWidget
+# from django.forms.extras.widgets import SelectDateWidget
 from django.contrib.admin.widgets import AdminDateWidget,AdminSplitDateTime
 from django.contrib.postgres.forms.ranges import DateRangeField, RangeWidget
 

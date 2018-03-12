@@ -127,7 +127,7 @@ class BigUserOnlineView(TemplateView):
 
         if context['form'].is_valid():
             pass
-            print (context['form'].cleaned_data['name'])
+            
         
 
         return super(BigUserOnlineView,self).render_to_response(context)
@@ -173,19 +173,19 @@ class AnalyUsageView(TemplateView):
         if context['form'].is_valid():
 
             if "today" in self.request.POST:
-                print 'query today'
+                pass
 
             elif "prevday" in self.request.POST:
-                print 'prevday'
+                pass
             
             else:
-                print (context['form'].cleaned_data['organization'])
+                pass
 
         elif context['range_form'].is_valid():
-            print 'daterange'
+            pass
 
         else:
-            print 'else'
+            pass
         
 
         return super(AnalyUsageView,self).render_to_response(context)
@@ -249,7 +249,7 @@ class AnalyFlowPressView(TemplateView):
             
         context['form'] = form
 
-        print form['organization'].value(), form['station'].value(),form['readdate'].value(),form['date'].value()
+        # print form['organization'].value(), form['station'].value(),form['readdate'].value(),form['date'].value()
 
         context['output'] = nightflow("ext1","chart-day_water",1100,600).render()
 
@@ -265,10 +265,10 @@ class AnalyFlowPressView(TemplateView):
         if context['form'].is_valid():
 
             if "today" in self.request.POST:
-                print 'query today'
+                pass
 
             elif "prevday" in self.request.POST:
-                print 'prevday'
+                pass
             
             else:
                 ix=context['form'].cleaned_data['organization']
@@ -277,10 +277,10 @@ class AnalyFlowPressView(TemplateView):
                 simid = st.simid
                 rtime = context['form'].cleaned_data['readdate']
 
-                print simid,rtime
+                
                 flow_list=FlowShareDayTax.objects.filter(simid=simid).filter(readtime__icontains=rtime)
                 press_list=PressShareDayTax.objects.filter(simid=simid).filter(readtime__icontains=rtime)
-                print press_list
+                
                 # print len(flow_list),flow_list[0].readtime
                 # for fl in flow_list:
                 #     print fl.simid,fl.readtime
@@ -329,11 +329,7 @@ class AnalyFlowPressView(TemplateView):
 
                 
 
-        elif context['range_form'].is_valid():
-            print 'daterange'
-
-        else:
-            print 'else'
+       
         
 
         return super(AnalyFlowPressView,self).render_to_response(context)        
