@@ -1,0 +1,91 @@
+
+{% extends "water/water_home.html" %}
+
+{% load static %}
+
+{% block stylesheet %}
+    {{ block.super }}
+<script type="text/javascript" src="/admin/jsi18n/"></script>
+<script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
+{{ form.media }}
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'admin/css/widgets.css' %}"/>
+
+
+{% endblock %}
+
+{% block content %}
+    {% block breadcrumbs %}
+        <ol class="breadcrumb">
+            <li><a href="{% url 'water:home' %}">Home</a></li>
+            <li>数据分析</li>
+            <li><a href="{% url 'water:analy_usage' %}">压力流量分析</a></li>
+            
+        </ol>
+    {% endblock %}
+
+    <h1>日用水量分析</h1>
+
+    <form class="navbar-form navbar-left" role="search" method='POST' action='.' data-url='{{ request.build_absolute_uri|safe }}'>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div class="container">
+
+
+            <div class="row">
+                <div class="col-md-2">
+                    {{ form.organization.errors }}
+                    <label for="{{ form.organization.id_for_label }}">组织:</label>
+                    {{ form.organization }}
+                </div>
+                <div class="col-md-4">
+                    {{ form.station.errors }}
+                    <label for="{{ form.station.id_for_label }}">站点名称:</label>
+                    {{ form.station }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.date.errors }}
+                    <label for="{{ form.date.id_for_label }}">pr日期:</label>
+                    {{ form.readdate }}
+                </div>
+                <div class="col-md-3">
+                    {{ form.date.errors }}
+                    <label for="{{ form.date.id_for_label }}">日期:</label>
+                    {{ form.date }}
+                </div>
+                <div class="col-md-1">
+                    <button type='submit' name="today">今天</button>
+                </div>
+                <div class="col-md-1">
+                    <button type='submit' name="prevday">前一天</button>
+                </div>
+                <div class="col-md-1">
+                    <button type='submit' name="query">查询</button>
+                </div>
+                
+            </div>
+
+        </div>
+    </form>
+
+    <div class="container">
+        <div id="chart-day_water" class="col-md-12">
+            <h4 class="sub-header">压力流量分析</h4>
+            {{ output|safe }}
+        </div>
+
+        <div class="col-md-12">
+            <p>平均压力：0.825 MPa             最高压力：0.925 MPa         最低压力：0.683 MPa
+                <br>
+
+                平均流量：320.28 m3/h         对应瞬时流量：350.56 m3/h     对应瞬时流量：275.01 m3/h
+            </p>
+        </div>
+    </div>
+
+
+
+
+{% endblock %}    
