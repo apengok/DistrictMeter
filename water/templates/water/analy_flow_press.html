@@ -28,7 +28,7 @@
 
     <h1>日用水量分析</h1>
 
-    <form class="navbar-form navbar-left" role="search" method='POST' action='.' data-url='{{ request.build_absolute_uri|safe }}'>
+    <form id="searchForm" class="navbar-form navbar-left" role="search" method='POST' data-station-url="{% url 'water:ajax_load_station' %}" action='.' data-url='{{ request.build_absolute_uri|safe }}'>
         {% csrf_token %}
         {{ form.non_field_errors }}
         <div class="container">
@@ -89,3 +89,30 @@
 
 
 {% endblock %}    
+
+
+
+{% block javascript %}
+ super() 
+<script type="text/javascript">
+     $("#id_organization").change(function () {
+      var url = $("#searchForm").attr("data-station-url");  // get the url of the `load_cities` view
+      var idx = $(this).val();
+      var myselect=document.getElementById("id_organization");
+      var organization =  myselect.options[idx].text; // get the selected country ID from the HTML input
+
+      $.ajax({                       // initialize an AJAX request
+        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
+        data: {
+          'organization': organization       // add the country id to the GET parameters
+        },
+        success: function (data) {   // `data` is the return of the `load_cities` view function
+          $("#id_station").html(data);  // replace the contents of the city input with the data that came from the server
+        }
+      });
+
+    });
+
+
+</script>
+{% endblock %}

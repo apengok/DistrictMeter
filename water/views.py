@@ -191,6 +191,12 @@ class AnalyUsageView(TemplateView):
         return super(AnalyUsageView,self).render_to_response(context)
 
 
+def ajax_load_station(request):
+    organization = request.GET.get('organization')
+    print 'organization',organization
+
+    stations = Tblfminfo.objects.filter(filialename__icontains=organization)
+    return render(request,'water/stations_list.html',{'stations':stations})
 
 class AnalyFlowPressView(TemplateView):
     template_name = 'water/analy_flow_press.html'        
