@@ -51,7 +51,7 @@ class WatermeterAdmin(admin.ModelAdmin):
     # form = WatermeterForm
     actions = ['change_meterstate','change_datetime']
     list_display = ['id','communityid','buildingname','roomname','nodeaddr','wateraddr','rvalue','fvalue','metertype','meterstate','commstate','rtime','lastrvalue','lastrtime','dosage','islargecalibermeter']
-
+    search_fields = ['metertype','meterstate',]
     list_filter = ['metertype','meterstate','commstate']
 
     formfield_overrides = {

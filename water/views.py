@@ -297,7 +297,7 @@ class AnalyFlowPressView(TemplateView):
                     subc = "day"
                 cates = [{"label":v.readtime[11:]} for v in flow_list ]
                 if len(press_list) == 0:
-                    values0 = [{"value":10} for v in flow_list ]
+                    values0 = [{"value":1} for v in flow_list ]
                 else:
                     values0 = [{"value":v.pressure} for v in press_list ]
                 values = [{"value":v.flux} for v in flow_list ]
