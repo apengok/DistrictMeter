@@ -1,0 +1,150 @@
+{% extends 'gis/cookb/cookbook.html' %}
+
+{% block title %}Openlayer3 cookbook|ch01 map control {% endblock %}
+
+
+{% block stylesheet %}
+<style type="text/css">
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 20%;
+}
+
+.ol-mouse-position {
+    top:inherit;
+    bottom: 8px;
+    left: 8px;
+    background-color: rgba(255,255,255,0.4);
+    border-radius: 2px;
+    width: 100px;
+    text-align: center;
+    font-family: Arial,sans-serif;
+    font-size: 12px;
+}
+
+.pane {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 20%;
+    background: ghostwhite;
+    border-left: 5px solid lightsteelblue;
+    box-sizing: border-box;
+    padding: 0 20px;
+    font-family: Arial, sans-serif;
+}
+
+p {
+    font-size: 12px;
+}
+
+.layers {
+    cursor: move;
+    list-style: none;
+    padding: 0;
+    position: relative;
+}
+
+.layers::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    height: 30px;
+    width: 100%;
+    border: 4px solid lightsteelblue;
+    z-index: 0;
+}
+
+.layers li {
+    z-index: 1;
+    position: relative;
+    line-height: 38px;
+    display: block;
+    height: 38px;
+    padding: 0 10px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+    <h1>show map control</h1>
+    <div id="js-map" class="map"></div>
+    <div class="pane">
+        <h1>Controls</h1>
+        <ul id="js-controls">
+            <li>
+                <label>
+                    <input type="checkbox" checked value="zoomControl">
+                    <span>Zoom control</span>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input type="checkbox" checked value="attributionControl">
+                    <span>Attribution control</span>
+                </label>
+            </li>
+            <li>
+                <label>
+                    <input type="checkbox" checked value="rotateControl">
+                    <span>Rotate control</span>
+                </label>
+            </li>
+        </ul>
+    </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+    var map = new ol.Map({
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM({
+                    layer: 'osm'
+                })
+            })
+        ],
+        view: new ol.View({
+            center: [12930000, -78000],
+            zoom: 3
+        }),
+        target: 'js-map',
+        controls: []
+    });
+
+    var zoomControl = new ol.control.Zoom({
+        zoomInTipLabel: 'Zoom closer in',
+        zoomOutTipLabel: 'Zoom further out',
+        className: 'ol-zoom custom-zoom-control'
+    });
+    var attributionControl = new ol.control.Attribution({
+        collapsible: false,
+        collapsed: false
+    });
+    var rotateControl = new ol.control.Rotate({
+        autoHide: false
+    });
+    map.addControl(zoomControl);
+    map.addControl(attributionControl);
+    map.addControl(rotateControl);
+
+    $('#js-controls').on('change', function(event) {
+        var target = $(event.target);
+        var control = target.val();
+        if (target.prop('checked')) {
+            map.addControl(window[control]);
+        } else {
+            map.removeControl(window[control]);
+        }
+    });
+
+</script>
+{% endblock %}

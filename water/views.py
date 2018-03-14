@@ -193,7 +193,7 @@ class AnalyUsageView(TemplateView):
 
 def ajax_load_station(request):
     organization = request.GET.get('organization')
-    print 'organization',organization
+    # print 'organization',organization
 
     stations = Tblfminfo.objects.filter(filialename__icontains=organization)
     return render(request,'water/stations_list.html',{'stations':stations})

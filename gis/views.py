@@ -14,10 +14,6 @@ import os
 scada_classes_all = dict([(name, cls) for name, cls in gis_model.__dict__.items() if isinstance(cls, type)])
 
 
-def ch01(request):
-    
-    return render(request,'gis/cookb/full-screen-map.html')
-
 
 
 def return_feature_collection(cur):
