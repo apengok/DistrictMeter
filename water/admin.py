@@ -53,6 +53,7 @@ class WatermeterAdmin(admin.ModelAdmin):
     list_display = ['id','communityid','buildingname','roomname','nodeaddr','wateraddr','rvalue','fvalue','metertype','meterstate','commstate','rtime','lastrvalue','lastrtime','dosage','islargecalibermeter']
     search_fields = ['metertype','meterstate',]
     list_filter = ['metertype','meterstate','commstate']
+    show_admin_actions = False
 
     formfield_overrides = {
         dj_models.DateTimeField: {'widget': StringSplitDateTime},

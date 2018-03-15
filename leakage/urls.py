@@ -13,10 +13,10 @@ Including another URLconf
     1. Import the include() function: from django.conf.urls import url, include
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
-from django.conf.urls import url,include
+from django.conf.urls import url,include,handler404,handler500
 from django.contrib import admin
 
-from dma.views import i18n_javascript,home,main,test,HomeView,JoinFormView
+from dma.views import i18n_javascript,home,main,test,HomeView,JoinFormView,error_404,error_500
 from django.views.generic import TemplateView
 
 
@@ -40,3 +40,6 @@ urlpatterns = [
 
 
 ]
+
+handler404 = error_404
+handler500 = error_500

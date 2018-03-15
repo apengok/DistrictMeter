@@ -11,6 +11,9 @@ from .forms import SearchForm,AnalyWaterForm,DateRangeForm
 from .models import FlowShareDayTax,PressShareDayTax,Tblfminfo
 import random
 
+import logging
+
+log = logging.getLogger("error_logger")
 
 def nightflow(chartid,chartname,width=600,height=400):
     # Create an object for the column2d chart using the FusionCharts class constructor
@@ -282,6 +285,9 @@ class AnalyFlowPressView(TemplateView):
                 st = context['form'].cleaned_data['station']
                 simid = st.simid
                 rtime = context['form'].cleaned_data['readdate']
+
+                log.error(simid)
+
 
                 
                 flow_list=FlowShareDayTax.objects.filter(simid=simid).filter(readtime__icontains=rtime)

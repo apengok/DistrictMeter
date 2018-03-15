@@ -155,3 +155,7 @@ STATICFILES_DIRS = [
     
 ]
 
+try:
+    from .loggers_seeting import *
+except Exception as e:
+    pass

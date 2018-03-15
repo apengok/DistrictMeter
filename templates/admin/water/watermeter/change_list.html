@@ -36,15 +36,6 @@
       {% block search %}{% search_form cl %}{% endblock %}
       {% block date_hierarchy %}{% date_hierarchy cl %}{% endblock %}
 
-      {% block whatever %}
-        
-          <div id="changelist-filter">
-            <h2>{% trans 'Sidebar' %}</h2>
-            <h1>let see</h1>
-          </div>
-        
-      {% endblock %}
-
       {% block filters %}
         {% if cl.has_filters %}
           <div id="changelist-filter">
