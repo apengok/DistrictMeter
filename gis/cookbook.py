@@ -20,3 +20,6 @@ def ch01(request):
 
 def ch01_map_controls(request):
     return render(request,'gis/cookb/ch01_map_controls.html')
+
+def ch01_moving_around(request):
+    return render(request,'gis/cookb/ch01_moving_around.html')

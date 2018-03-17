@@ -14,6 +14,8 @@ urlpatterns = [
 
     url(r'^cookbook/$', TemplateView.as_view(template_name='gis/cookb/cookbook.html')),
     # url(r'^cookbook/ch01',cb.ch01,name='fullscreen'),
-    url(r'^cookbook/ch01-map-controls',cb.ch01_map_controls,name='map_control'),
+    url(r'^cookbook/ch01-map-controls/$',cb.ch01_map_controls,name='map_control'),
+    url(r'^cookbook/ch01-moving-around/$',cb.ch01_moving_around,name='moving_around'),
+    url(r'^cookbook/ch01-map-extent/$',TemplateView.as_view(template_name='gis/cookb/ch01_map_extent.html'),name='map_extent'),
     url(r'^cookbook/map-layer', TemplateView.as_view(template_name='gis/cookb/map-layers.html')),
 ]
