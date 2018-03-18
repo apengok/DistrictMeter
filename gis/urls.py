@@ -17,5 +17,11 @@ urlpatterns = [
     url(r'^cookbook/ch01-map-controls/$',cb.ch01_map_controls,name='map_control'),
     url(r'^cookbook/ch01-moving-around/$',cb.ch01_moving_around,name='moving_around'),
     url(r'^cookbook/ch01-map-extent/$',TemplateView.as_view(template_name='gis/cookb/ch01_map_extent.html'),name='map_extent'),
+
+    url(r'^cookbook/ch02-bing-maps/$',TemplateView.as_view(template_name='gis/cookb/ch02_bing_maps.html'),name='bing_maps'),
+    url(r'^cookbook/ch02-openstreetmap/$',TemplateView.as_view(template_name='gis/cookb/ch02_openstreetmap.html'),name='openstreetmap'),
+    url(r'^cookbook/ch02-wms-layers/$',TemplateView.as_view(template_name='gis/cookb/ch02_wms_layers.html'),name='wms_layers'),
+
+
     url(r'^cookbook/map-layer', TemplateView.as_view(template_name='gis/cookb/map-layers.html')),
 ]

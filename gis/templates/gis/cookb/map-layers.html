@@ -12,7 +12,53 @@
     bottom: 0;
     left: 0;
     right: 20%;
+    font-family: Arial, sans-serif;
 }
+
+.pane {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 20%;
+    background: ghostwhite;
+    border-left: 5px solid lightsteelblue;
+    box-sizing: border-box;
+    padding: 0 20px;
+    font-family: Arial, sans-serif;
+}
+
+p {
+    font-size: 12px;
+}
+
+.layers {
+    cursor: move;
+    list-style: none;
+    padding: 0;
+    position: relative;
+}
+
+.layers::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    height: 30px;
+    width: 100%;
+    border: 4px solid lightsteelblue;
+    z-index: 0;
+}
+
+.layers li {
+    z-index: 1;
+    position: relative;
+    line-height: 38px;
+    display: block;
+    height: 38px;
+    padding: 0 10px;
+}
+
 
 
 </style>
@@ -21,7 +67,11 @@
 {% block content %}
     <h1>show map control</h1>
     <div id="js-map" class="map"></div>
-    
+    <div class="pane">
+        <h1>Layers</h1>
+        <p>Drag the layer imagery you wish to view into the box.</p>
+        <ul id="js-layers" class="layers"></ul>
+    </div>
 
 {% endblock %}
 
@@ -41,34 +91,10 @@
             zoom: 3
         }),
         target: 'js-map',
-        controls: []
+        
     });
 
-    var zoomControl = new ol.control.Zoom({
-        zoomInTipLabel: 'Zoom closer in',
-        zoomOutTipLabel: 'Zoom further out',
-        className: 'ol-zoom custom-zoom-control'
-    });
-    var attributionControl = new ol.control.Attribution({
-        collapsible: false,
-        collapsed: false
-    });
-    var rotateControl = new ol.control.Rotate({
-        autoHide: false
-    });
-    map.addControl(zoomControl);
-    map.addControl(attributionControl);
-    map.addControl(rotateControl);
-
-    $('#js-controls').on('change', function(event) {
-        var target = $(event.target);
-        var control = target.val();
-        if (target.prop('checked')) {
-            map.addControl(window[control]);
-        } else {
-            map.removeControl(window[control]);
-        }
-    });
+    
 
 </script>
 {% endblock %}
