@@ -1,0 +1,155 @@
+{% extends 'gis/cookb/cookbook.html' %}
+
+{% block title %}Openlayer3 cookbook|ch01 map control {% endblock %}
+
+
+{% block stylesheet %}
+<style type="text/css">
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 20%;
+    font-family: Arial, sans-serif;
+}
+
+.pane {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 20%;
+    background: ghostwhite;
+    border-left: 5px solid lightsteelblue;
+    box-sizing: border-box;
+    padding: 0 20px;
+    font-family: Arial, sans-serif;
+}
+
+p {
+    font-size: 12px;
+}
+
+.layers {
+    cursor: move;
+    list-style: none;
+    padding: 0;
+    position: relative;
+}
+
+.layers::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    height: 30px;
+    width: 100%;
+    border: 4px solid lightsteelblue;
+    z-index: 0;
+}
+
+.layers li {
+    z-index: 1;
+    position: relative;
+    line-height: 38px;
+    display: block;
+    height: 38px;
+    padding: 0 10px;
+}
+
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <h1>show map control</h1>
+    <div id="js-map" class="map"></div>
+    <div class="pane">
+        <h1>Layers</h1>
+        <p>Drag the layer imagery you wish to view into the box.</p>
+        <ul id="js-layers" class="layers"></ul>
+    </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+    var map = new ol.Map({
+        view: new ol.View({
+            center: [4158174, 4392988],
+            zoom: 4
+        }),
+        target: 'js-map',
+        
+    });
+
+    map.addLayer(new ol.layer.Tile({
+        source:new ol.source.OSM({
+            attributions:[
+                new ol.Attribution({
+                    html:'Tiles courtesy of ' +
+                    '<a href="http://hot.openstreetmap.org">' +
+                    'Humanitarian OpenStreetMap Team</a>'
+                }),
+                ol.source.OSM.ATTRIBUTION
+            ],
+            url:'http://{a-c}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
+        }),
+        title:'Humanitarian OSM'
+    }));
+
+    map.addLayer(new ol.layer.Tile({
+        source: new ol.source.OSM({
+            attributions: [
+                new ol.Attribution({
+                    html: 'Tiles courtesy of ' +
+                    '<a href="http://www.mapquest.com/">MapQuest</a>' +
+                    '<img src="https://developer.mapquest.com/content/osm/mq_logo.png">'
+                }),
+                ol.source.OSM.ATTRIBUTION
+            ],
+            url: 'http://otile{1-3}.mqcdn.com/tiles/1.0.0/osm/{z}/{x}/{y}.png'
+        }),
+        title: 'MapQuest OSM',
+        visible: false
+    }));
+
+    map.addLayer(new ol.layer.Tile({
+        source: new ol.source.OSM({
+            attributions: [
+                new ol.Attribution({
+                    html: 'Tiles courtesy of ' +
+                    '<a href="http://www.thunderforest.com">Andy Allan</a>'
+                }),
+                ol.source.OSM.ATTRIBUTION
+            ],
+            url: 'http://{a-c}.tile.thunderforest.com/transport-dark/{z}/{x}/{y}.png'
+        }),
+        title: 'Transport Dark OSM',
+        visible: false
+    }));
+
+    var $layersList = $('#js-layers');
+
+    map.getLayers().forEach(function(element){
+        var $li = $('<li />');
+        $li.text(element.get('title'));
+        $layersList.append($li);
+    })
+
+    $layersList.sortable({
+        update:function() {
+            var topLayer = $layersList.find('li:first-child').text();
+
+            map.getLayers().forEach(function(element){
+                element.setVisible(element.get('title') === topLayer);
+            });
+        }
+    });
+
+</script>
+{% endblock %}
