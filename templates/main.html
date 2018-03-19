@@ -1,3 +1,253 @@
-<h1>Hello</h1>
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 //EN" "http://www.w3.org/TR/html4/strict.dtd">
 
-{{ item_d }}
+<html>
+
+    <head>
+
+        <title>My Practice HTML Page</title>
+
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+
+        {% load staticfiles %}
+        <link rel="stylesheet" type="text/css" href="{% static 'dma/css/bootstrap.min.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'dma/css/font-awesome.min.css' %}">
+        <!-- <link rel="stylesheet" href="{% static 'dma/css/myCSS.css' %}" type = "text/css"/> -->
+
+        <style type="text/css">
+            #c_log {
+                border: 1px solid black;
+                background: blue;
+            }
+
+            #c_rightheader {
+                border: 1px solid black;
+                background: green;
+            }
+
+            #c_content {
+                border: 1px solid black;
+                /*background: red;*/
+                height: 700px;
+            }
+
+            #c_sidebar {
+                border: 1px solid black;
+                background: gray;
+                height: 700px;
+            }
+
+            #c_footer {
+                border: 1px solid black;
+                background: black;
+            }
+
+            h1 {
+                text-align: center;
+            }
+
+            ul {
+                border: 1px solid blue;
+                margin-top: 30px;
+            }
+
+            li {
+                list-style-type: none;
+                border: 1px solid cyan;
+                line-height: 150%;
+            }
+
+            
+        </style>
+
+    </head>
+
+    <body>
+        <div id="c_log" class=" col-md-4">
+ 
+            <h1>LOGO</h1>
+
+
+        </div>
+         
+         
+        <div id="c_rightheader" class="col-md-8">
+         
+            <h1>Right Header</h1>
+             
+            
+       </div>
+
+       <div id="c_content" class=" col-md-10">
+ 
+            <h1>Main content</h1>
+            <div class="row" style="border: 1px solid green;height: 400px">
+                <div class="col-md-2" style="border: 1px solid blue;">
+                    <h1>main 1</h1>
+                    <div class="col-md-10" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    
+                </div>
+                <div class="col-md-2" style="border: 1px solid blue;">
+                    <h1>main 2</h1>
+                </div>
+                <div class="col-md-2" style="border: 1px solid blue;">
+                    <h1>main 3</h1>
+                </div>
+                <div class="col-md-2" style="border: 1px solid blue;">
+                    <h1>main 4</h1>
+                </div>
+                <div class="col-md-2" style="border: 1px solid blue;">
+                    <h1>main 5</h1>
+                </div>
+                <div class="col-md-2" style="border: 1px solid blue;">
+                    <h1>main 6</h1>
+                </div>
+            </div>
+            <div class="col-md-6" style="border: 1px solid blue;">
+                <h1>main 7</h1>
+                <div class="row">
+                    <div class="col-md-2" style="border: 1px solid blue;">
+                        <label>name:</label>
+                    </div>
+                    <div class="col-md-4" >
+                        <input type="text" name="">
+                    </div>
+                    <div class="col-md-2" style="border: 1px solid red;">
+                        <label>address:</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="">
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2" style="border: 1px solid blue;">
+                        <label>name asdfsadfeasfsd:</label>
+                    </div>
+                    <div class="col-md-4" >
+                        <input type="text" name="">
+                    </div>
+                    <div class="col-md-2" style="border: 1px solid red;">
+                        <label>sex:</label>
+                    </div>
+                    <div class="col-md-4">
+                        <input type="text" name="">
+                    </div>
+                </div>
+                    
+                
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+            </div>
+
+
+        </div>
+         
+         
+        <div id="c_sidebar" class="col-md-2">
+         
+            <h1>side bar </h1>
+            <form>
+            <div class="row">
+                <div class="col-md-8">
+                    <input type="text" name="ever" >
+                </div>
+                <div class="col-md-4">
+                    <input type="submit" name="search">
+                </div>
+            </div>
+            </form>
+
+            <div>
+                <ul>
+                    <li>item 1</li>
+                    <li>item 2</li>
+                    <li>item 3</li>
+                    <li>item 4</li>
+                </ul>
+            </div>
+            
+       </div>
+
+       <div id="c_footer" class="col-md-12">
+           <h1>Footer</h1>
+       </div>
+
+       <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+                    <div class="col-md-1" style="border: 1px solid blue;">
+                        <h1>1 </h1>
+                    </div>
+            
+    </body>
+
+</html>

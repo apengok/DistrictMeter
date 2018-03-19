@@ -18,13 +18,14 @@ from django.contrib import admin
 
 from dma.views import i18n_javascript,home,main,test,HomeView,JoinFormView,error_404,error_500
 from django.views.generic import TemplateView
+from water.views import WaterListview
 
 
 urlpatterns = [
     url(r'^admin/jsi18n', i18n_javascript),
     url(r'^admin/', admin.site.urls),
     # url(r'^$',home,name='home'),
-    url(r'^$',JoinFormView.as_view(),name='home'),
+    url(r'^$',WaterListview.as_view(),name='home'),
     url(r'^main/', main,name='main'),
     url(r'^test/(?P<var>\d+)/$', test,name='test'),
 
