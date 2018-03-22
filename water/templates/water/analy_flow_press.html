@@ -28,63 +28,68 @@
 
     <h1>日用水量分析</h1>
 
-    <form id="searchForm" class="navbar-form navbar-left" role="search" method='POST' data-station-url="{% url 'water:ajax_load_station' %}" action='.' data-url='{{ request.build_absolute_uri|safe }}'>
+    <form id="searchForm" class="form-inline" role="search" method='POST' data-station-url="{% url 'water:ajax_load_station' %}" action='.' data-url='{{ request.build_absolute_uri|safe }}'>
         {% csrf_token %}
         {{ form.non_field_errors }}
-        <div class="container">
 
+        <div class="form-group">
+            {{ form.organization.errors }}
+            <label for="{{ form.organization.id_for_label }}">组织:</label>
+            {{ form.organization }}
+        </div>
+        <div class="form-group">
+            {{ form.station.errors }}
+            <label for="{{ form.station.id_for_label }}">站点名称:</label>
+            {{ form.station }}
+        </div>
+        <div class="form-group">
+            {{ form.date.errors }}
+            <label for="{{ form.date.id_for_label }}">pr日期:</label>
+            {{ form.readdate }}
+        </div>
+        <div class="form-group">
+            {{ form.date.errors }}
+            <label for="{{ form.date.id_for_label }}">日期:</label>
+            {{ form.date }}
+        </div>
+        <div class="form-group pull-right">
+            <button type='submit' name="today">今天</button>
+            <button type='submit' name="prevday">前一天</button>
+            <button type='submit' name="query">查询</button>
+        </div>
+        
+    </form>
+    <br>
 
-            <div class="row">
-                <div class="col-md-2">
-                    {{ form.organization.errors }}
-                    <label for="{{ form.organization.id_for_label }}">组织:</label>
-                    {{ form.organization }}
-                </div>
-                <div class="col-md-4">
-                    {{ form.station.errors }}
-                    <label for="{{ form.station.id_for_label }}">站点名称:</label>
-                    {{ form.station }}
-                </div>
-                <div class="col-md-3">
-                    {{ form.date.errors }}
-                    <label for="{{ form.date.id_for_label }}">pr日期:</label>
-                    {{ form.readdate }}
-                </div>
-                <div class="col-md-3">
-                    {{ form.date.errors }}
-                    <label for="{{ form.date.id_for_label }}">日期:</label>
-                    {{ form.date }}
-                </div>
-                <div class="col-md-1">
-                    <button type='submit' name="today">今天</button>
-                </div>
-                <div class="col-md-1">
-                    <button type='submit' name="prevday">前一天</button>
-                </div>
-                <div class="col-md-1">
-                    <button type='submit' name="query">查询</button>
-                </div>
-                
+    <div class = "panel panel-primary col-md-12">
+        <div class = "panel-heading">
+          压力流量分析
+       </div>
+       <div class = "panel-body">
+            <div id="chart-day_water" class="col-md-12">
+                <h4 class="sub-header">压力流量分析</h4>
+                {{ output|safe }}
             </div>
 
-        </div>
-    </form>
+       </div>
+   </div>
 
-    <div class="container">
-        <div id="chart-day_water" class="col-md-12">
-            <h4 class="sub-header">压力流量分析</h4>
-            {{ output|safe }}
-        </div>
+   <div class="col-md-12" style="background-color: rgba(45, 182, 224, 0.09);">
+        <p>
+            
+            <div class="col-md-4"><h1>平均压力：0.825 MPa </h1></div>            
+            <div class="col-md-4"><h1>最高压力：0.925 MPa</h1></div>         
+            <div class="col-md-4"><h1>最低压力：0.683 MPa</h1></div>
+            
+            <div class="col-md-4"><h1>平均流量：320.28 m3/h</h1></div>         
+            <div class="col-md-4"><h1>对应瞬时流量：350.56 m3/h</h1></div>     
+            <div class="col-md-4"><h1>对应瞬时流量：275.01 m3/h</h1></div>
 
-        <div class="col-md-12">
-            <p>平均压力：0.825 MPa             最高压力：0.925 MPa         最低压力：0.683 MPa
-                <br>
-
-                平均流量：320.28 m3/h         对应瞬时流量：350.56 m3/h     对应瞬时流量：275.01 m3/h
-            </p>
-        </div>
+        </p>
     </div>
 
+
+    
 
 
 
