@@ -22,6 +22,10 @@ urlpatterns = [
     url(r'^cookbook/ch02-openstreetmap/$',TemplateView.as_view(template_name='gis/cookb/ch02_openstreetmap.html'),name='openstreetmap'),
     url(r'^cookbook/ch02-wms-layers/$',TemplateView.as_view(template_name='gis/cookb/ch02_wms_layers.html'),name='wms_layers'),
     url(r'^cookbook/ch02-zoom-effect/$',TemplateView.as_view(template_name='gis/cookb/ch02_zoom_effect.html'),name='zoom_effect'),
+    url(r'^cookbook/ch02-layer-opacity/$',TemplateView.as_view(template_name='gis/cookb/ch02_layer_opcity.html'),name='layer_opacity'),
+    url(r'^cookbook/ch02-layer-preloading/$',TemplateView.as_view(template_name='gis/cookb/ch02_layer_preloading.html'),name='layer_preloading'),
+    url(r'^cookbook/ch02-image-layer/$',TemplateView.as_view(template_name='gis/cookb/ch02_image_layer.html'),name='image_layer'),
+    url(r'^cookbook/ch02-tile-size/$',TemplateView.as_view(template_name='gis/cookb/ch02_tile_size.html'),name='tile_size'),
 
 
     url(r'^cookbook/map-layer', TemplateView.as_view(template_name='gis/cookb/map-layers.html')),

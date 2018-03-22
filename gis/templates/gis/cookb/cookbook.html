@@ -9,6 +9,8 @@
     <link rel="stylesheet" href="{% static 'gis/assets/css/bootstrap.min.css' %}" type = "text/css"/>
     <link rel="stylesheet" href="{% static 'gis/assets/css/index.css' %}" type = "text/css"/>
     <link rel="stylesheet" href="{% static 'gis/assets/css/ol.css' %}" type = "text/css"/>
+    <link rel="stylesheet" href="{% static 'gis/assets/css/jquery-ui.css' %}" type = "text/css"/>
+    
 
     <script src="{%  static 'gis/assets/js/ol-debug.js' %} "></script>
     <script src="{%  static 'gis/assets/js/jquery.js' %} "></script>
@@ -53,10 +55,10 @@
                         <li><a href="{% url 'gis:openstreetmap' %}">Using OpenStreetMap imagery</a></li>
                         <li><a href="{% url 'gis:wms_layers' %}">Adding WMS layers</a></li>
                         <li><a href="{% url 'gis:zoom_effect' %}">Changing the zoom effect</a></li>
-                        <li><a href="/ch02/ch02-layer-opacity">Changing layer opacity</a></li>
-                        <li><a href="/ch02/ch02-layer-preloading">Buffering the layer data to improve map navigation</a></li>
-                        <li><a href="/ch02/ch02-image-layer">Creating an image layer</a></li>
-                        <li><a href="/ch02/ch02-tile-size">Setting the tile size in WMS layers</a></li>
+                        <li><a href="{% url 'gis:layer_opacity' %}">Changing layer opacity</a></li>
+                        <li><a href="{% url 'gis:layer_preloading' %}">Buffering the layer data to improve map navigation</a></li>
+                        <li><a href="{% url 'gis:image_layer' %}">Creating an image layer</a></li>
+                        <li><a href="{% url 'gis:tile_size' %}">Setting the tile size in WMS layers</a></li>
                     </ol>
                 </li>
             </ul>

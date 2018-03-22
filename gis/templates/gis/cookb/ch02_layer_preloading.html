@@ -1,0 +1,101 @@
+{% extends 'gis/cookb/cookbook.html' %}
+
+{% block title %}Openlayer3 cookbook|ch02 layer opcity {% endblock %}
+
+
+{% block stylesheet %}
+<style type="text/css">
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 51%;
+    left: 0;
+    right: 0;
+    font-family: Arial, sans-serif;
+}
+
+.map-no-preload {
+    position: absolute;
+    top: 51%;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-family: Arial, sans-serif;
+}
+
+hr {
+    height: 2%;
+    border: 0;
+    background: #989898;
+    position: absolute;
+    top: 49%;
+    left: 0;
+    right: 0;
+    margin: 0;
+}
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <h1>show map control</h1>
+    <div id="js-map-preload" class="map"></div>
+    <div id="js-map-no-preload" class="map-no-preload"></div>
+
+
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+    var view = new ol.View({
+        zoom: 5,
+        center: [1252000, 7240000]
+    });
+
+    new ol.Map({
+        view: view,
+        target: 'js-map-preload',
+        layers: [
+            
+            new ol.layer.Tile({
+                source: new ol.source.OSM({
+                    attributions: [
+                        new ol.Attribution({
+                            html: 'Tiles courtesy of ' +
+                            '<a href="http://www.thunderforest.com">Andy Allan</a>'
+                        }),
+                        ol.source.OSM.ATTRIBUTION
+                    ],
+                    url: 'http://{a-c}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png'
+                }),
+                preload: Infinity
+            })
+        ]
+    });
+
+    new ol.Map({
+        view: view,
+        target: 'js-map-no-preload',
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM({
+                    attributions: [
+                        new ol.Attribution({
+                            html: 'Tiles courtesy of ' +
+                            '<a href="http://www.thunderforest.com">Andy Allan</a>'
+                        }),
+                        ol.source.OSM.ATTRIBUTION
+                    ],
+                    url: 'http://{a-c}.tile.thunderforest.com/landscape/{z}/{x}/{y}.png'
+                })
+            })
+        ]
+    });
+
+    
+
+</script>
+{% endblock %}

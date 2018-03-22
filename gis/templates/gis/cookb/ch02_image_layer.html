@@ -1,0 +1,118 @@
+{% extends 'gis/cookb/cookbook.html' %}
+
+{% block title %}Openlayer3 cookbook|ch02 layer opcity {% endblock %}
+
+
+{% block stylesheet %}
+<style type="text/css">
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 20%;
+    font-family: Arial, sans-serif;
+}
+
+.pane {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 20%;
+    background: ghostwhite;
+    border-left: 5px solid lightsteelblue;
+    box-sizing: border-box;
+    padding: 0 20px;
+    font-family: Arial, sans-serif;
+}
+
+p {
+    font-size: 12px;
+}
+
+.layers {
+    cursor: move;
+    list-style: none;
+    padding: 0;
+    position: relative;
+}
+
+.layers::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    height: 30px;
+    width: 100%;
+    border: 4px solid lightsteelblue;
+    z-index: 0;
+}
+
+.layers li {
+    z-index: 1;
+    position: relative;
+    line-height: 38px;
+    display: block;
+    height: 38px;
+    padding: 0 10px;
+}
+
+.ui-slider-handle {
+    outline: none;
+}
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <h1>show map control</h1>
+    <div id="js-map" class="map"></div>
+    
+
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+
+    var extent = [-93941, 6650480, 64589, 6766970];
+
+    var map = new ol.Map({
+        view: new ol.View({
+            zoom: 10,
+            center: ol.extent.getCenter(extent)
+        }),
+        target: 'js-map',
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.Stamen({
+                    layer: 'toner'
+                })
+            })
+        ]
+    });
+
+    map.addLayer(new ol.layer.Image({
+        source: new ol.source.ImageWMS({
+            url: 'http://ogc.bgs.ac.uk/cgi-bin/BGS_Bedrock_and_Superficial_Geology/wms',
+            params: {
+                LAYERS: 'BGS_EN_Bedrock_and_Superficial_Geology'
+            },
+            attributions: [
+                new ol.Attribution({
+                    html: 'Contains <a href="http://bgs.ac.uk">British Geological Survey</a> ' +
+                          'materials &copy; NERC 2015'
+                })
+            ]
+        }),
+        opacity: 0.7,
+        extent: extent
+    }));
+
+    
+
+</script>
+{% endblock %}
