@@ -1,100 +1,24 @@
+{% extends "water/dma_online.html" %}
 
-{% extends "water/water_home.html" %}
-
-{% load static %}
-
-{% block stylesheet %}
-    {{ block.super }}
-<script type="text/javascript" src="/admin/jsi18n/"></script>
-<script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
-<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
-<script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
-{{ form.media }}
-<link rel="stylesheet" type="text/css" href="{% static 'admin/css/base.css' %}"/>
-<link rel="stylesheet" type="text/css" href="{% static 'admin/css/widgets.css' %}"/>
-
-
-{% endblock %}
+{% load render_table from django_tables2 %}
 
 {% block content %}
     {% block breadcrumbs %}
         <ol class="breadcrumb">
             <li><a href="{% url 'water:home' %}">Home</a></li>
-            <li>数据分析</li>
-            <li><a href="{% url 'water:analy_usage' %}">日用水量分析</a></li>
+            <li>设备管理</li>
+            <li><a href="{% url 'water:rt_curve' %}">流量计管理</a></li>
             
         </ol>
     {% endblock %}
 
-    <h1>日用水量分析</h1>
+    <h1>流量计管理</h1>
 
-    <form id="searchForm" class="form-inline" role="search" method='POST' data-station-url="{% url 'water:ajax_load_station' %}" action='.' data-url='{{ request.build_absolute_uri|safe }}'>
-        {% csrf_token %}
-        {{ form.non_field_errors }}
-
-        <div class="form-group">
-            {{ form.organization.errors }}
-            <label for="{{ form.organization.id_for_label }}">组织:</label>
-            {{ form.organization }}
-        </div>
-        <div class="form-group">
-            {{ form.station.errors }}
-            <label for="{{ form.station.id_for_label }}">站点名称:</label>
-            {{ form.station }}
-        </div>
-        <div class="form-group">
-            {{ form.date.errors }}
-            <label for="{{ form.date.id_for_label }}">pr日期:</label>
-            {{ form.readdate }}
-        </div>
-        <div class="form-group">
-            {{ form.date.errors }}
-            <label for="{{ form.date.id_for_label }}">日期:</label>
-            {{ form.date }}
-        </div>
-        <div class="form-group pull-right">
-            <button type='submit' name="today">今天</button>
-            <button type='submit' name="prevday">前一天</button>
-            <button type='submit' name="query">查询</button>
-        </div>
-        
-    </form>
-
-    <div class = "panel panel-primary col-md-12">
-        <div class = "panel-heading">
-          日用水量分析
-       </div>
-       <div class = "panel-body">
-            <div id="chart-day_water" class="col-md-12">
-                <h4 class="sub-header">压力流量分析</h4>
-                {{ output|safe }}
-            </div>
-
-       </div>
-   </div>
-
-   <div class="col-md-12" style="background-color: rgba(45, 182, 224, 0.09);">
-        <p>
-            
-            <div class="col-md-4"><h1>当天用水量：AAAAA.Am3</h1></div>            
-            <div class="col-md-4"><h1>昨日用水量：BBBBB.Bm3</h1></div>         
-            <div class="col-md-4"><h1>去年同期用水量：CCCCC.Cm3</h1></div>
-            
-            <div class="col-md-4"><h1>最大时段用水量：370.3m3 (9-10)</h1></div>         
-            <div class="col-md-4"><h1>最小时段用水量：268.7m3 （4-5）</h1></div>     
-            <div class="col-md-4"><h1>平均时段用水量：310.9m3</h1></div>
-
-            <div class="col-md-3"><h1>当天日基准：DDDDD.Dm3</h1></div>
-            <div class="col-md-3"><h1>基准差值：12.1m3</h1></div>
-            <div class="col-md-3"><h1>环比增量：6.5m3</h1></div>
-            <div class="col-md-3"><h1>同比增量：15m3</h1></div>
-        </p>
-    </div>
 
     <br>
     <div class = "panel panel-primary col-md-12">
         <div class = "panel-heading">
-          站点数据采样明细
+          流量计管理
        </div>
        <div class = "panel-body">
             <form class="form-inline" role="form" method='POST' action='.' data-url='{{ request.build_absolute_uri|safe }}'>
@@ -206,40 +130,8 @@
     
    </div>
 
-{% endblock %}    
+   
+{% render_table table %}
+    
 
-
-{% block javascript %}
- super() 
-<script type="text/javascript">
-     $("#items_perpage").change(function () {
-      var url = $("#searchForm").attr("data-station-url");  // get the url of the `load_cities` view
-      var idx = $(this).val();
-      var myselect=document.getElementById("id_organization");
-      var organization = "Test"; //myselect.options[idx].text; // get the selected country ID from the HTML input
-
-      $.ajax({                       // initialize an AJAX request
-        url: url,                    // set the url of the request (= localhost:8000/hr/ajax/load-cities/)
-        data: {
-          'organization': organization       // add the country id to the GET parameters
-        },
-        success: function (data) {   // `data` is the return of the `load_cities` view function
-          $("#id_station").html(data);  // replace the contents of the city input with the data that came from the server
-        }
-      });
-
-    });
-
-     //select item number of perpage to show
-     $("#items_perpage").change(function () {
-      var url = "";  // get the url of the `load_cities` view
-      var item = $(this).val();
-      console.log(item);
-
-      $('tbody').html('<tr><td>11</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>')
-
-    });
-
-
-</script>
 {% endblock %}

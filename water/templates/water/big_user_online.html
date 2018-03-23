@@ -12,20 +12,24 @@
     {% endblock %}
     <h1>大用户监控</h1>
 
-    <form class="navbar-form navbar-left" role="search" method='POST' action='.' data-url='{{ request.build_absolute_uri|safe }}'>
+    <form class="form-inline" role="search" method='POST' action='.' data-url='{{ request.build_absolute_uri|safe }}'>
         {% csrf_token %}
         <div class="form-group">
-          {{form.as_p|safe}}
+          
+          <label for="{{ form.name.id_for_label }}">Name:</label>
+            {{ form.name }}
         </div>
-        <button type='submit'>搜索</button>
+        <div class="form-group">
+            <button type='submit'>搜索</button>
+        </div>
     </form>
 
-    <div class="col-md-12">
-      <!-- Default panel contents -->
-      <div class="panel-heading">计算时间段：2017-12-21 00:00:00 至 2017-12-21 06:00:00</div>
-      <div class="panel-body">
-        <!-- Table -->
-      <table class="table table-stripped table-bordered">
+    <div class = "panel panel-primary col-md-12">
+        <div class = "panel-heading">
+          计算时间段：2017-12-21 00:00:00 至 2017-12-21 06:00:00
+       </div>
+       <div class = "panel-body">
+            <table class="table table-stripped table-bordered">
         <tr>
             <th>大用户名称</th>
             <th>用户编号</th>
@@ -73,10 +77,11 @@
         
         
       </table>
-      </div>
 
-      
-    </div>
+       </div>
+   </div>
+
+    
 
     
 

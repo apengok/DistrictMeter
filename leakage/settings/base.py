@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'dma',
     'gis',
     'water',
+    'django_tables2',
 ]
 
 MIDDLEWARE = [

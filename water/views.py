@@ -9,6 +9,8 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from dma.fusioncharts import FusionCharts
 from .forms import SearchForm,AnalyWaterForm,DateRangeForm
 from .models import FlowShareDayTax,PressShareDayTax,Tblfminfo
+import django_tables2 as tables
+from django_tables2 import RequestConfig
 import random
 
 import logging
@@ -155,6 +157,7 @@ class AnalyUsageView(TemplateView):
         context['range_form'] = range_form
 
         contact_list = range(100)
+
         paginator = Paginator(contact_list, 10) # Show 25 contacts per page
 
         page = self.request.GET.get('page')
@@ -335,13 +338,46 @@ class AnalyFlowPressView(TemplateView):
                 column2d = FusionCharts("mscombi2d", "ext1" , "1100", "600", "chart-day_water", "json",datasource)
 
                 context['output'] = column2d.render()    #self.draw_chart("ext1","chart-day_water",1100,600,flow_list).render()
-
-
-
-
-                
-
-       
         
 
         return super(AnalyFlowPressView,self).render_to_response(context)        
+
+
+class ExtraMixin(tables.Table):
+    extra = tables.Column()
+
+class FlowMeterTable(ExtraMixin,tables.Table):
+    class Meta:
+        model = FlowShareDayTax
+        template_name = 'django_tables2/bootstrap.html'
+
+
+
+class FlowMeterView(TemplateView):
+    """docstring for FlowMeterView"""
+
+    
+    template_name = 'water/device_flowmeter.html'
+    
+    def get_context_data(self, *args, **kwargs):
+        
+        context = super(FlowMeterView, self).get_context_data(*args, **kwargs)
+
+        if self.request.method == 'POST':
+            form = AnalyWaterForm(self.request.POST or None)
+        else:
+            
+            form = AnalyWaterForm()
+            
+        context['form'] = form
+
+        table = FlowMeterTable(FlowShareDayTax.objects.all())
+        RequestConfig(self.request, paginate={'per_page': 30}).configure(table)
+        context['table'] = table
+
+        
+
+        
+                
+        return context     
+                        

@@ -66,6 +66,10 @@ class FlowShareDayTax(models.Model):
     def __unicode__(self):
         return self.simid
 
+    @property
+    def extra(self):
+        return 'Link a'
+
 
 class PressShareDayTax(models.Model):
     pid = models.AutoField(db_column='PID', primary_key=True)  # Field name made lowercase.

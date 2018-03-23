@@ -21,4 +21,7 @@ urlpatterns = [
     url(r'analy_usage/',views.AnalyUsageView.as_view(),name='analy_usage'),
     url(r'analy_flow_press/',views.AnalyFlowPressView.as_view(),name='analy_flow_press'),
     url(r'ajax/load_station',views.ajax_load_station,name='ajax_load_station'),
+
+    #设备管理 
+    url(r'flowmeter/',views.FlowMeterView.as_view(),name='flow_meter'),
 ]
