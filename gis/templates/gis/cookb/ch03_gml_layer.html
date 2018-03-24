@@ -1,0 +1,112 @@
+{% extends 'gis/cookb/cookbook.html' %}
+
+{% block title %}Openlayer3 cookbook|ch03 gml layer {% endblock %}
+
+
+{% block stylesheet %}
+<style type="text/css">
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 20%;
+    font-family: Arial, sans-serif;
+}
+
+.pane {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 20%;
+    background: ghostwhite;
+    border-left: 5px solid lightsteelblue;
+    box-sizing: border-box;
+    padding: 0 20px;
+    font-family: Arial, sans-serif;
+}
+
+p {
+    font-size: 12px;
+}
+
+.layers {
+    cursor: move;
+    list-style: none;
+    padding: 0;
+    position: relative;
+}
+
+.layers::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    height: 30px;
+    width: 100%;
+    border: 4px solid lightsteelblue;
+    z-index: 0;
+}
+
+.layers li {
+    z-index: 1;
+    position: relative;
+    line-height: 38px;
+    display: block;
+    height: 38px;
+    padding: 0 10px;
+}
+
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <h1>show map control</h1>
+    <div id="js-map" class="map"></div>
+    
+
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+    var map = new ol.Map({
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM({
+                    attributions:[
+                        new ol.Attribution({
+                            html:'Tiles courtesy of ' +
+                            '<a href="http://hot.openstreetmap.org">' +
+                            'Humanitarian OpenStreetMap Team</a>'
+                        }),
+                        
+                    ],
+                    url:'http://{a-c}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png'
+                })
+            }),
+            new ol.layer.Vector({
+                source:new ol.source.Vector({
+                    url:'/gis/bermuda-triangle.gml',
+                    format:new ol.format.GML2()
+                })
+            })
+        ],
+        view: new ol.View({
+            center: [-7494000,2240000],
+            zoom: 4
+        }),
+        target: 'js-map',
+        
+    });
+
+    
+
+    
+
+</script>
+{% endblock %}

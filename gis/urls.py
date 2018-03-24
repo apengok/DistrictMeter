@@ -7,6 +7,11 @@ from . import cookbook as cb
 app_name = 'gis'
 urlpatterns = [
     url(r'^$',views.index,name='index'),
+
+    # url(r'^(?P<page>.+\.html)$', views.StaticView.as_view()),
+    url(r'^(?P<page>.+\.gml)$', views.StaticView.as_view()),
+    url(r'^(?P<page>.+\.kml)$', views.StaticView.as_view()),
+
     url(r'^getGeom',views.getGeom,name='getGeom'),
     url(r'^country/', TemplateView.as_view(template_name='gis/country.html')),
     url(r'^data/geojson/countries.geojson',views.countries,name='countries'),
@@ -26,6 +31,10 @@ urlpatterns = [
     url(r'^cookbook/ch02-layer-preloading/$',TemplateView.as_view(template_name='gis/cookb/ch02_layer_preloading.html'),name='layer_preloading'),
     url(r'^cookbook/ch02-image-layer/$',TemplateView.as_view(template_name='gis/cookb/ch02_image_layer.html'),name='image_layer'),
     url(r'^cookbook/ch02-tile-size/$',TemplateView.as_view(template_name='gis/cookb/ch02_tile_size.html'),name='tile_size'),
+
+
+    url(r'^cookbook/ch03-gml-layer/$',TemplateView.as_view(template_name='gis/cookb/ch03_gml_layer.html'),name='gml_layer'),
+    url(r'^cookbook/ch03-kml-layer/$',TemplateView.as_view(template_name='gis/cookb/ch03_kml_layer.html'),name='kml_layer'),
 
 
     url(r'^cookbook/map-layer', TemplateView.as_view(template_name='gis/cookb/map-layers.html')),
