@@ -5,6 +5,10 @@ from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
 from django.contrib import messages
 from django.contrib.gis.geos import Polygon
+from django.views.generic import TemplateView
+from django.template import TemplateDoesNotExist
+from django.http import Http404
+
 import json
 from gis import models as gis_model
 import os
@@ -14,6 +18,15 @@ import os
 scada_classes_all = dict([(name, cls) for name, cls in gis_model.__dict__.items() if isinstance(cls, type)])
 
 
+class StaticView(TemplateView):
+    def get(self, request, page, *args, **kwargs):
+        self.template_name = page
+        print(page)
+        response = super(StaticView, self).get(request, *args, **kwargs)
+        try:
+            return response.render()
+        except TemplateDoesNotExist:
+            raise Http404()
 
 
 def return_feature_collection(cur):
