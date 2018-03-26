@@ -35,7 +35,9 @@ urlpatterns = [
 
     url(r'^cookbook/ch03-gml-layer/$',TemplateView.as_view(template_name='gis/cookb/ch03_gml_layer.html'),name='gml_layer'),
     url(r'^cookbook/ch03-kml-layer/$',TemplateView.as_view(template_name='gis/cookb/ch03_kml_layer.html'),name='kml_layer'),
+    url(r'^cookbook/ch03-creating-features/$',TemplateView.as_view(template_name='gis/cookb/ch03_creating_features.html'),name='creating_features'),
 
+    url(r'^cookbook/ch03-export-geojson/$',TemplateView.as_view(template_name='gis/cookb/ch03_export_geojson.html'),name='export_geojson'),
 
     url(r'^cookbook/map-layer', TemplateView.as_view(template_name='gis/cookb/map-layers.html')),
 ]
