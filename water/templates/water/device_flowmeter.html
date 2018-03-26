@@ -1,4 +1,4 @@
-{% extends "water/dma_online.html" %}
+{% extends "water/water_home.html" %}
 
 {% load render_table from django_tables2 %}
 
@@ -19,119 +19,65 @@
     <div class = "panel panel-primary col-md-12">
         <div class = "panel-heading">
           流量计管理
-       </div>
-       <div class = "panel-body">
-            <form class="form-inline" role="form" method='POST' action='.' data-url='{{ request.build_absolute_uri|safe }}'>
-                {% csrf_token %}
-                <div class="form-group">{{ range_form.as_p }}</div>
-                
-                <div class="form-group"><input type="submit" value="查询" /></div>
-                
-            </form>
-            <table id="detail_table" class="table table-stripped table-bordered">
-                <thead>
-                    <tr>
-                        <th>序号</th>
-                        <th>站点名称</th>
-                        <th>采样时间</th>
-                        <th>采样间隔M</th>
-                        <th>正向累计水量m3</th>
-                        <th>反向累计水量m3</th>
-                        <th>瞬时流量m3/h</th>
-                        <th>压力MPa</th>
-                        <th>基表电量%</th>
-                        <th>远传电量%</th>
-                        <th>信号强度%</th>
-                    </tr>
-                </thead>
-                <tbody>
-                {% for cont in contacts %}
-                    <tr>
-                        <td>{{ forloop.counter }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        
-                    </tr>
-                {% endfor %}
-                </tbody>
-            </table>
-
+        </div>
+        <div class = "panel-body">
             
-            <div id="demo_pagination" class="">
-                <div class="row">
-                    
-                    <div class="col-xs-6 col-sm-4 col-md-2 row-space">
-                        <div class="input-group" style="margin-top: 20px;">
-                            <div class="form-group">
-                            <label for="items_perpage">每页</label>
-                            <select id="items_perpage">
-                              <option value="10">10</option>
-                              <option value="20">20</option>
-                              <option value="30">30</option>
-                              
-                            </select>
-                            <label >条记录</label>
-                        </div>
-                        </div>
-                    </div>
-                    <div class="col-xs-12 col-sm-12 col-md-6">
-                        <div class="">
-                            {% if contacts.has_other_pages %}
-                              <ul class="pagination" style="padding-left: 100px;">
-                                
-
-                                {% if contacts.has_previous %}
-                                  <li><a href="?page={{ contacts.previous_page_number }}">&laquo;</a></li>
-                                {% else %}
-                                  <li class="disabled"><span>&laquo;</span></li>
-                                {% endif %}
-                                {% for i in contacts.paginator.page_range %}
-                                  {% if contacts.number == i %}
-                                    <li class="active"><span>{{ i }} <span class="sr-only">(current)</span></span></li>
-                                  {% else %}
-                                    <li><a href="?page={{ i }}">{{ i }}</a></li>
-                                  {% endif %}
-                                {% endfor %}
-                                {% if contacts.has_next %}
-                                  <li><a href="?page={{ contacts.next_page_number }}">&raquo;</a></li>
-                                {% else %}
-                                  <li class="disabled"><span>&raquo;</span></li>
-                                {% endif %}
-
-
-                              </ul>
-                            {% endif %}
-                        </div>
-                    </div>
-                    <div class="col-xs-6 col-sm-4 col-md-2">
-                        <div class="input-group" style="margin-top: 20px;">
-                            <span class="input-group-addon" title="Go to page"><i class="glyphicon glyphicon-arrow-right"></i></span><input id="goto_page_demo_pag1" type="text" class="form-control small-input" title="Go to page">
-                        </div>
-                    </div>
-                    
-                    <div class="col-xs-12 col-sm-4 col-md-2 row-space">
-                        <div id="rows_info_demo_pag1" class="" style="margin-top: 20px;">
-                            1-10 of 1000 records
-
-                        </div>
-                    </div>
-                </div>
-            </div>
+            {% render_table table %}
 
         </div>
     
    </div>
 
+
+   <!-- Modal -->
+    <div class = "modal fade" id = "myModal" tabindex = "-1" role = "dialog" 
+       aria-labelledby = "myModalLabel" aria-hidden = "true">
+       
+       <div class = "modal-dialog">
+          <div class = "modal-content">
+             
+             <div class = "modal-header">
+                <button type = "button" class = "close" data-dismiss = "modal" aria-hidden = "true">
+                   ×
+                </button>
+                
+                <h4 class = "modal-title" id = "myModalLabel">
+                   This Modal title
+                </h4>
+             </div>
+             
+             <div class = "modal-body">
+                Click on close button to check Event functionality.
+             </div>
+             
+             <div class = "modal-footer">
+                <button type = "button" class = "btn btn-default" data-dismiss = "modal">
+                   Close
+                </button>
+                
+                <button type = "button" class = "btn btn-primary">
+                   Submit changes
+                </button>
+             </div>
+             
+          </div><!-- /.modal-content -->
+       </div><!-- /.modal-dialog -->
+       
+    </div><!-- /.modal -->
+
    
-{% render_table table %}
+
     
 
+{% endblock %}
+
+
+
+{% block javascript %}
+    <script type="text/javascript">
+        
+        $("#tb_flowmeter").on('click', '.btnDelete', function () {
+            $(this).closest('tr').remove();
+        });
+    </script>
 {% endblock %}

@@ -11,6 +11,10 @@ from .forms import SearchForm,AnalyWaterForm,DateRangeForm
 from .models import FlowShareDayTax,PressShareDayTax,Tblfminfo
 import django_tables2 as tables
 from django_tables2 import RequestConfig
+from django.db import connection
+from django.utils.html import format_html
+from django.utils.safestring import mark_safe
+
 import random
 
 import logging
@@ -346,12 +350,31 @@ class AnalyFlowPressView(TemplateView):
 class ExtraMixin(tables.Table):
     extra = tables.Column()
 
-class FlowMeterTable(ExtraMixin,tables.Table):
+class FlowMeterTable(tables.Table):
+    selected = tables.CheckBoxColumn(accessor="pid")
+    btn_del  = tables.Column(accessor="pid")  #empty_values=()
     class Meta:
         model = FlowShareDayTax
         template_name = 'django_tables2/bootstrap.html'
+        attrs = {
+            'id':'tb_flowmeter',
+            'class':'table',
+        }
 
 
+    def render_selected(self,record):    
+        # return format_html('<input class="nameCheckBox" name="name[]" type="checkbox" checked/>')
+        if record.pid:
+            return mark_safe('<input class="nameCheckBox" name="name[]" type="checkbox" checked/>')
+        else:   
+            return mark_safe('<input class="nameCheckBox" name="name[]" type="checkbox"/>')
+
+    def render_btn_del(self,value):
+        return format_html('<button type = "button" value="{}" class = "btnAlter" data-toggle = "modal" data-target = "#myModal">Alter</button><button type = "button" class = "btnDelete">Delete</button>',value)
+
+
+def blocker(*args):
+    raise Exception('No database access allowed here.')
 
 class FlowMeterView(TemplateView):
     """docstring for FlowMeterView"""
@@ -362,6 +385,10 @@ class FlowMeterView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         
         context = super(FlowMeterView, self).get_context_data(*args, **kwargs)
+
+        #may use in django2.0
+        # with connection.execute_wrapper(blocker):
+        #     return render(self.request,'main.html',context)
 
         if self.request.method == 'POST':
             form = AnalyWaterForm(self.request.POST or None)

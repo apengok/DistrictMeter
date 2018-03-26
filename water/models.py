@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 
+from django.utils.html import format_html
+
 # Create your models here.
 class District(models.Model):
     pid = models.IntegerField(db_column='Id',primary_key=True)  # Field name made lowercase.
@@ -66,9 +68,12 @@ class FlowShareDayTax(models.Model):
     def __unicode__(self):
         return self.simid
 
-    @property
-    def extra(self):
-        return 'Link a'
+    # @property
+    # def extra(self):
+    #     label_str = '''
+    #         <button type = "button" class = "btn btn-primary"><a href="?pid=%s">Alter</a></button>
+    #     ''' % (str(self.pid))
+    #     return format_html(label_str)
 
 
 class PressShareDayTax(models.Model):
