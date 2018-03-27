@@ -25,7 +25,7 @@ urlpatterns = [
     url(r'^admin/jsi18n', i18n_javascript),
     url(r'^admin/', admin.site.urls),
     # url(r'^$',home,name='home'),
-    url(r'^$',WaterListview.as_view(),name='home'),
+    url(r'^$',TemplateView.as_view(template_name='virvo/home.html'),name='home'),
     url(r'^main/', main,name='main'),
     url(r'^test/(?P<var>\d+)/$', test,name='test'),
 
@@ -38,6 +38,9 @@ urlpatterns = [
 
      #water
     url(r'^water/', include('water.urls', namespace='water')),
+
+    #virvo
+    url(r'^virvo/', include('virvo.urls', namespace='virvo')),
 
 
 ]

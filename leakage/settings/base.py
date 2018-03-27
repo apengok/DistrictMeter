@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'dma',
     'gis',
     'water',
+    'virvo',
     'django_tables2',
 ]
 
@@ -82,6 +83,10 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
+    'virvo': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'virvo_dev.db'),
+    },
     # 'ems': {
         # 'ENGINE': 'django.db.backends.mysql',#postgresql_psycopg2  or django.contrib.gis.db.backends.postgis or django.db.backends.postgresql_psycopg2
         # 'NAME': 'gis',
@@ -108,7 +113,7 @@ DATABASES = {
     },
 }
 
-DATABASE_ROUTERS = ['gis.routers.GisRouter','water.routers.WaterRouter', ]
+DATABASE_ROUTERS = ['gis.routers.GisRouter','water.routers.WaterRouter','virvo.routers.VirvoRouter', ]
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
