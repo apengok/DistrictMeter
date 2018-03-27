@@ -11,6 +11,7 @@ urlpatterns = [
     # url(r'^(?P<page>.+\.html)$', views.StaticView.as_view()),
     url(r'^(?P<page>.+\.gml)$', views.StaticView.as_view()),
     url(r'^(?P<page>.+\.kml)$', views.StaticView.as_view()),
+    url(r'^(?P<page>.+\.png)$', views.StaticView.as_view()),
 
     url(r'^getGeom',views.getGeom,name='getGeom'),
     url(r'^country/', TemplateView.as_view(template_name='gis/country.html')),
@@ -36,8 +37,11 @@ urlpatterns = [
     url(r'^cookbook/ch03-gml-layer/$',TemplateView.as_view(template_name='gis/cookb/ch03_gml_layer.html'),name='gml_layer'),
     url(r'^cookbook/ch03-kml-layer/$',TemplateView.as_view(template_name='gis/cookb/ch03_kml_layer.html'),name='kml_layer'),
     url(r'^cookbook/ch03-creating-features/$',TemplateView.as_view(template_name='gis/cookb/ch03_creating_features.html'),name='creating_features'),
-
     url(r'^cookbook/ch03-export-geojson/$',TemplateView.as_view(template_name='gis/cookb/ch03_export_geojson.html'),name='export_geojson'),
+    url(r'^cookbook/ch03-wkt-format/$',TemplateView.as_view(template_name='gis/cookb/ch03_wkt_format.html'),name='wkt_format'),
+    url(r'^cookbook/ch03-markers/$',TemplateView.as_view(template_name='gis/cookb/ch03_markers.html'),name='markers'),
+    url(r'^cookbook/ch03-removing-cloning-feature-overlays/$',TemplateView.as_view(template_name='gis/cookb/ch03_rcf_overlay.html'),name='rcf_overlay'),
+
 
     url(r'^cookbook/map-layer', TemplateView.as_view(template_name='gis/cookb/map-layers.html')),
 ]

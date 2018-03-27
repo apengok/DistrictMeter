@@ -1,0 +1,132 @@
+{% extends 'gis/cookb/cookbook.html' %}
+
+{% block title %}Openlayer3 cookbook|ch03 gml layer {% endblock %}
+
+
+{% block stylesheet %}
+<style type="text/css">
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-family: Arial, sans-serif;
+}
+
+.ol-attribution > ul {
+    font-size: 1.6rem;
+}
+
+.overlay {
+    display: none;
+    position: absolute;
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.25);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    width: 180px;
+    top: -76px;
+    left: -90px;
+}
+
+.overlay:after {
+    top: 100%;
+    border: 10px solid transparent;
+    content: "";
+    height: 0;
+    width: 0;
+    position: absolute;
+    border-top-color: rgba(255,255,255,0.9);
+}
+
+.overlay button + button {
+    float: right;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <h1>show map control</h1>
+    <div id="js-map" class="map"></div>
+    <div id="js-overlay" class="overlay">
+        <button type="button" id="js-clone" class="btn btn-success">Clone</button>
+        <button type="button" id="js-remove" class="btn btn-danger">Remove</button>
+    </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+<script type="text/javascript">
+
+    var vectorLayer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            features: [
+                new ol.Feature(new ol.geom.Circle([2780119, 8437147], 900)),
+                new ol.Feature(new ol.geom.Circle([2774826, 8433459], 850)),
+                new ol.Feature(new ol.geom.Circle([2772686, 8438217], 999))
+            ]
+        })
+    });
+
+    var map = new ol.Map({
+        view: new ol.View({
+            zoom: 13,
+            center: [2775906, 8433717]
+        }),
+        target: 'js-map',
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM(),
+                opacity: 0.4
+            }),
+            vectorLayer
+        ]
+    });
+
+    var overlay = new ol.Overlay({
+        element:document.getElementById('js-overlay')
+    });
+
+    map.addOverlay(overlay);
+    document.getElementById('js-overlay').style.display = 'block';
+
+    var selectedFeature;
+
+    var select = new ol.interaction.Select({
+        condition:ol.events.condition.click,
+        layers:[vectorLayer]
+    });
+    map.addInteraction(select);
+
+    select.on('select',function(event) {
+        selectedFeature = event.selected[0];
+        (selectedFeature) ? overlay.setPosition(selectedFeature.getGeometry().getCenter()) : overlay.setPosition(undefined);
+    });
+
+    document.getElementById('js-clone').addEventListener('click',function() {
+        var circle = selectedFeature.clone();
+        var circleGeometry = circle.getGeometry();
+        var circleCenter = circleGeometry.getCenter();
+
+        circleGeometry.setCenter([
+            circleCenter[0] + circleGeometry.getRadius() * 2,circleCenter[1]
+        ]);
+        vectorLayer.getSource().addFeature(circle);
+        overlay.setPosition(undefined);
+        select.getFeatures().clear();
+    });
+
+    document.getElementById('js-remove').addEventListener('click',function() {
+        vectorLayer.getSource().removeFeature(selectedFeature);
+        overlay.setPosition(undefined);
+        select.getFeatures().clear();
+    });
+    
+
+</script>
+{% endblock %}
