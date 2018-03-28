@@ -1,0 +1,133 @@
+{% load staticfiles %}
+
+        <SCRIPT LANGUAGE="JavaScript">
+var oTable;
+var districtid = 0;
+var communityid = 0;
+var buildingno = "";
+
+$(function(){
+    loadTree();
+});
+function slotSelectChanged()
+{
+  var zTree = $.fn.zTree.getZTreeObj("tree");
+  
+  var nodes = zTree.getSelectedNodes();
+  if(nodes.length)
+  {
+    var n = nodes[0];
+    if(n.type == "local")
+    {
+      districtid = 0;
+      communityid = 0;
+      buildingno = "";
+    }
+    else if(n.type == "district")
+    {
+      districtid = n.id;
+      communityid = 0;
+      buildingno = "";
+    }
+    else if(n.type == "community")
+    {
+      districtid = n.pid;
+      communityid = n.id;
+      buildingno = "";
+      
+      searchForMeterDa();
+    }
+    else
+    {
+      districtid = n.getParentNode().pid;
+      communityid = n.pid;
+      buildingno = n.name;
+      
+      searchForMeterDa();
+    }
+  }
+  else
+  {
+    districtid = 0;
+    communityid = 0;
+    buildingno = "";
+  }
+}
+
+function loadTree()
+{
+   var _this = this;
+   // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+   var setting = {
+        async: {
+        enable: true,
+      },
+        callback:{
+      onClick:function(){_this.slotSelectChanged();}
+    },
+    check: {
+      enable: false
+    },
+    data: {
+      simpleData: {
+        enable: true
+      }
+    },
+        view: {
+      showLine: false,
+      showIcon: true,
+      selectedMulti:false,
+      expandSpeed: "fast"
+    }
+    };
+        
+    $.ajax({
+        type:"POST",
+        url:"/virvo/gettree/" , 
+        dataType: "json",
+    data:{'csrfmiddlewaretoken': '{{ csrf_token }}'},
+        success:function(res){
+            var json = res['trees']   
+            console.log(json);    
+            $.fn.zTree.init($("#treeDemo"), setting, json);
+            var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+            
+        }
+    });
+}    
+        
+  </SCRIPT>
+
+<!-- 组织列表面板 (动态面板) -->
+        <div id="u833" class="ax_default" data-label="组织列表面板">
+          <div id="u833_state0" class="panel_state" data-label="State1" style="">
+            <div id="u833_state0_content" class="panel_state_content">
+
+              <!-- Unnamed (组合) -->
+              <div id="u834" class="ax_default" data-left="0" data-top="0" data-width="280" data-height="657">
+
+                <!-- Unnamed (矩形) -->
+                <!-- <div id="u835" class="ax_default box_1">
+                  <div id="u835_div" class=""></div> -->
+                  <!-- Unnamed () -->
+                  <!-- <div id="u836" class="text" style="display:none; visibility: hidden">
+                    <p><span></span></p>
+                  </div>
+                </div> -->
+
+                <!-- Unnamed (文本框) -->
+                <div id="u837" class="ax_default _输入框">
+                  <input id="u837_input" type="text" value="请输入组织名称"/>
+                </div>
+
+                <!-- Unnamed (树状菜单) -->
+                <div style="margin-top: 80px;">
+                  <ul id="treeDemo" class="ztree"></ul>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+
+

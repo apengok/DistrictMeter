@@ -11,5 +11,7 @@ urlpatterns = [
     
     url(r'^$', TemplateView.as_view(template_name='virvo/stations.html'),name='virvo_home'),
 
+    url(r'gettree/',views.gettree,name='gettree'),
+
     
 ]
