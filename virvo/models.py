@@ -2,12 +2,13 @@
 from __future__ import unicode_literals
 
 from django.db import models
-
+from django.urls import reverse
+from mptt.models import MPTTModel, TreeForeignKey
 # Create your models here.
 
-class Organization(models.Model):
+class Organization(MPTTModel):
     name = models.CharField(max_length=50, unique=True)
-    parent = models.ForeignKey('self', null=True, blank=True,on_delete=models.CASCADE, related_name='children', db_index=True)
+    parent = TreeForeignKey('self', null=True, blank=True,on_delete=models.CASCADE, related_name='children', db_index=True)
     slug = models.SlugField()
     
     # def get_absolute_url(self):
@@ -16,6 +17,9 @@ class Organization(models.Model):
     def get_absolute_url(self): #get_absolute_url
         return "/organ/{}".format(self.slug)
         # return reverse('virvo:detail', kwargs={'slug': self.slug})
+
+    class MPTTMeta:
+        order_insertion_by = ['name']
 
     class Meta:
         
@@ -26,6 +30,8 @@ class Organization(models.Model):
     def __unicode__(self):
         return self.name
 
+    def __str__(self):
+        return self.name
 
 
 class Stations(models.Model):
@@ -47,5 +53,8 @@ class Stations(models.Model):
         db_table = 'stations'
 
     def __unicode__(self):
+        return self.station_name
+
+    def __str__(self):
         return self.station_name
     

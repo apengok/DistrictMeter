@@ -10,37 +10,46 @@ import json
 import random
 from datetime import datetime
 
+from mptt.utils import get_cached_trees
+from mptt.templatetags.mptt_tags import cache_tree_children
+
 # from .fusioncharts import FusionCharts
 
 # Create your views here.
 
+
+def recursive_node_to_dict(node):
+    result = {
+        'id': node.pk,
+        'name': node.name,
+    }
+    
+    children = [recursive_node_to_dict(c) for c in node.get_children()]
+    try:
+        sats = node.station.all()
+        for s in sats:
+            children.append({'name':s.station_name})
+        # children.append({'name':})
+    except:
+        pass
+
+    if children:
+        result['children'] = children
+    
+    return result
+
 def gettree(request):
     organs = Organization.objects.all()
-    root = organs[0]
-    print root.name
-
-    sub_dis = []
-    tmp = {}
-    tmp['name'] = root.name
-    tmp['open'] = 'true'
-    tmp['children']=[]
-    for o in root.children.all():
-        print o.name,o.id,o.parent.id
-        tmp1={}
-        tmp1['name']=o.name
-        tmp1['url'] = "/virvo/station/"+str(o.id)
-        tmp1['target'] = "_self"
-        tmp1['children'] = []
-        for d in o.children.all():
-            tmp2={}
-            tmp2['name'] = d.name
-            tmp1['children'].append(tmp2)
-
-        tmp['children'].append(tmp1)
-        
-        
-    sub_dis.append(tmp)
-        
-    trees={'name':root.name, 'open':'true', 'children':sub_dis}
     
-    return JsonResponse({'trees':sub_dis})
+    top_nodes = get_cached_trees(organs)
+
+    dicts = []
+    for n in top_nodes:
+        dicts.append(recursive_node_to_dict(n))
+
+    
+    # print json.dumps(dicts, indent=4)
+
+    
+    
+    return JsonResponse({'trees':dicts})
