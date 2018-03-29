@@ -15,4 +15,5 @@ urlpatterns = [
 
     url(r'station/', views.StationsView.as_view(),name='station_manager'),
     
+    url(r'mapmonitor/', TemplateView.as_view(template_name='virvo/map_monitor.html'),name='map_monitor'),
 ]

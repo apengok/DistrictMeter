@@ -1,0 +1,318 @@
+{% load staticfiles %}<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %}Home{% endblock %}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link href="{% static 'virvo/resources/css/axure_rp_page.css' %}" type="text/css" rel="stylesheet"/>
+    <link href="{% static 'virvo/data/styles.css' %}" type="text/css" rel="stylesheet"/>
+    <link href="{% static 'virvo/files/站点管理/styles.css' %}" type="text/css" rel="stylesheet"/>
+    <link rel="stylesheet" href="{% static 'gis/assets/css/ol.css' %}" type = "text/css"/>
+    
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'dma/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dma/css/font-awesome.min.css' %}">
+    
+    <script src="{%  static 'gis/assets/js/ol-debug.js' %} "></script>
+    <link rel="stylesheet" href="{% static 'gis/assets/css/jquery-ui.css' %}" type = "text/css"/>
+    <script src="{%  static 'gis/assets/js/jquery.js' %} "></script>
+    <script src="{%  static 'gis/assets/js/jquery-ui.js' %} "></script>
+    <script src="{% static 'dma/js/bootstrap.min.js' %}"></script>
+
+    <!-- zTree -->
+    <link rel="stylesheet" href="{% static 'zTree/css/demo.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'zTree/css/zTreeStyle/zTreeStyle.css' %}" type="text/css">
+  
+    <script type="text/javascript" src="{% static 'zTree/js/jquery.ztree.core.js' %}"></script>
+
+<style type="text/css">
+    #u3652 {
+  border:1px solid black;
+  position:absolute;
+  left:14px;
+  top:299px;
+  width:280px;
+  height:684px;
+  overflow:hidden;
+}
+
+#u3628_img {
+  border:1px solid blue;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:1576px;
+  height:776px;
+}
+#u3628 {
+  border:1px solid red;
+  position:absolute;
+  left:309px;
+  top:80px;
+  width:1576px;
+  height:776px;
+}
+
+#u3633_div {
+  border-width:0px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:299px;
+  height:30px;
+  background:inherit;
+  background-color:rgba(0, 153, 204, 1);
+  border:none;
+  border-radius:0px;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+  box-shadow:none;
+}
+#u3633 {
+  border-width:0px;
+  position:absolute;
+  left:0px;
+  top:104px;
+  width:299px;
+  height:30px;
+}
+#u3634 {
+  border-width:0px;
+  position:absolute;
+  left:2px;
+  top:7px;
+  width:295px;
+  visibility:hidden;
+  word-wrap:break-word;
+}
+#u3635 {
+  border-width:0px;
+  position:absolute;
+  left:14px;
+  top:106px;
+  width:132px;
+  height:25px;
+}
+#u3635_input {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:132px;
+  height:25px;
+  background-color:transparent;
+  font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';
+  font-weight:700;
+  font-style:normal;
+  font-size:14px;
+  text-decoration:none;
+  color:#FFFFFF;
+  text-align:left;
+  border-color:transparent;
+  outline-style:none;
+}
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-family: Arial, sans-serif;
+}
+
+.ol-attribution > ul {
+    font-size: 1.6rem;
+}
+
+.overlay {
+    display: none;
+    position: absolute;
+    background: rgba(255,255,255,0.9);
+    box-shadow: 0 0 10px 0 rgba(0,0,0,0.25);
+    padding: 15px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    width: 180px;
+    top: -76px;
+    left: -90px;
+}
+
+.overlay:after {
+    top: 100%;
+    border: 10px solid transparent;
+    content: "";
+    height: 0;
+    width: 0;
+    position: absolute;
+    border-top-color: rgba(255,255,255,0.9);
+}
+
+.overlay button + button {
+    float: right;
+}
+
+</style>
+    
+  </head>
+    <body>
+        <div id="base" class="">
+            {% include "virvo/header.html"  %}
+
+            {% block leftside %}
+
+            <div id="u3633" class="ax_default __logo">
+              <div id="u3633_div" class=""></div>
+              <!-- Unnamed () -->
+              <div id="u3634" class="text" style="display:none; visibility: hidden">
+                <p><span></span></p>
+              </div>
+            </div>
+
+            <div id="u3635" class="ax_default _输入框">
+              <input id="u3635_input" type="text" value="全部站点（1251）">
+            </div>
+
+            <div id="u3652">
+                <ul id="treeDemo" class="ztree"></ul>
+            </div>
+            <div style="position: absolute;border: 1px solid black;left:14px;top:145px;width: 280px;height: 160px;">
+                <div class="col-md-6" style="border: 1px solid black;">
+                    <span>在线</span>
+                </div>
+                
+            </div>
+
+
+            {% endblock %}
+
+            {% block mapimage %}
+
+            <div id="u3628">
+                <div id="u3628_img">
+                    <div id="js-map" class="map"></div>
+                    <div id="js-overlay" class="overlay">
+                        <button type="button" id="js-clone" class="btn btn-success">Clone</button>
+                        <button type="button" id="js-remove" class="btn btn-danger">Remove</button>
+                    </div>
+                </div>
+            </div>
+
+            {% endblock %}
+
+        </div>
+
+        <SCRIPT LANGUAGE="JavaScript">
+
+    $(function(){
+        loadTree();
+    });
+
+
+    function loadTree()
+    {
+       var _this = this;
+       // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
+       var setting = {
+          view: {
+            fontCss: getFont,
+            nameIsHTML: true
+          },
+
+          data: {
+            simpleData: {
+              enable: true
+            }
+          }
+        };
+
+        function getFont(treeId, node) {
+          return node.font ? node.font : {};
+        }
+            
+        $.ajax({
+            type:"POST",
+            url:"/virvo/gettree/" , 
+            dataType: "json",
+            data:{'csrfmiddlewaretoken': '{{ csrf_token }}'},
+            
+            success:function(res){
+                var json = res['trees']   
+                console.log(json);    
+                $.fn.zTree.init($("#treeDemo"), setting, json);
+                var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+                
+            }
+        });
+    }    
+
+
+
+    // map
+    var vectorLayer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            features: [
+                new ol.Feature(new ol.geom.Circle([2780119, 8437147], 900)),
+                new ol.Feature(new ol.geom.Circle([2774826, 8433459], 850)),
+                new ol.Feature(new ol.geom.Circle([2772686, 8438217], 999))
+            ]
+        })
+    });
+
+    var map = new ol.Map({
+        view: new ol.View({
+            zoom: 13,
+            center: [2775906, 8433717]  //22.6942072709,114.3524087439
+        }),
+        target: 'js-map',
+        layers: [
+            new ol.layer.Tile({
+                source: new ol.source.OSM(),
+                opacity: 0.4
+            }),
+            vectorLayer
+        ]
+    });
+
+    var overlay = new ol.Overlay({
+        element:document.getElementById('js-overlay')
+    });
+
+    map.addOverlay(overlay);
+    document.getElementById('js-overlay').style.display = 'block';
+
+    var selectedFeature;
+
+    var select = new ol.interaction.Select({
+        condition:ol.events.condition.click,
+        layers:[vectorLayer]
+    });
+    map.addInteraction(select);
+
+    select.on('select',function(event) {
+        selectedFeature = event.selected[0];
+        (selectedFeature) ? overlay.setPosition(selectedFeature.getGeometry().getCenter()) : overlay.setPosition(undefined);
+    });
+
+    document.getElementById('js-clone').addEventListener('click',function() {
+        var circle = selectedFeature.clone();
+        var circleGeometry = circle.getGeometry();
+        var circleCenter = circleGeometry.getCenter();
+
+        circleGeometry.setCenter([
+            circleCenter[0] + circleGeometry.getRadius() * 2,circleCenter[1]
+        ]);
+        vectorLayer.getSource().addFeature(circle);
+        overlay.setPosition(undefined);
+        select.getFeatures().clear();
+    });
+
+    document.getElementById('js-remove').addEventListener('click',function() {
+        vectorLayer.getSource().removeFeature(selectedFeature);
+        overlay.setPosition(undefined);
+        select.getFeatures().clear();
+    });
+        
+</SCRIPT>
+    </body>
+</html>
