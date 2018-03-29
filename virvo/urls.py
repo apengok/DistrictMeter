@@ -13,5 +13,6 @@ urlpatterns = [
 
     url(r'gettree/',views.gettree,name='gettree'),
 
+    url(r'station/', views.StationsView.as_view(),name='station_manager'),
     
 ]

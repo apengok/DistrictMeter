@@ -1,0 +1,92 @@
+{% extends 'virvo/base.html' %}
+
+{% load render_table from django_tables2 %}
+
+
+{% block content %}
+
+      <div id="u912" class="ax_default _输入框">
+        <input id="u912_input" type="text" value="站点管理"/>
+      </div>
+
+      <!-- Unnamed (矩形) -->
+      <div id="u913" class="ax_default box_1">
+        <div id="u913_div" class=""></div>
+        <!-- Unnamed () -->
+        <div id="u914" class="text">
+          <p><span>用水性质</span></p>
+        </div>
+      </div>
+
+      <div id="u1031" class="ax_default" data-label="站点管理">
+          <div id="u1031_state0" class="panel_state" data-label="站点" style="">
+            <div id="u1031_state0_content" class="panel_state_content">
+
+              <!-- Unnamed (矩形) -->
+              <div id="u1032" class="ax_default box_1">
+                <div id="u1032_div" class=""></div>
+                <!-- Unnamed () -->
+                <div id="u1033" class="text" style="display:none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (矩形) -->
+              <div id="u1034" class="ax_default box_1">
+                <div id="u1034_div" class=""></div>
+                <!-- Unnamed () -->
+                <div id="u1035" class="text" style="display:none; visibility: hidden">
+                  <p><span></span></p>
+                </div>
+              </div>
+
+              <!-- Unnamed (表格) -->
+              <div id="u1036" class="ax_default">
+
+                <div class="list-group" role="tab" id="heading">
+                    <div>
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true" aria-controls="collapse1" class="list-group-item active main-color-bg">
+                        <span class="fa fa-caret-down" title="Toggle dropdown menu"></span> manager
+                      </a>
+                    </div>
+                    
+                        <div id="collapse1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading">
+                          <div>
+                            {% render_table table %}
+                          </div>
+                      </div>
+                    
+                </div>
+
+                
+
+            <!-- Unnamed (表格) -->
+            <!-- <div id="u920" class="ax_default"> -->
+                
+            <!-- </div> -->
+        </div>
+    </div>
+</div>
+</div>
+
+        
+      {% endblock content %}
+
+
+
+
+
+
+
+   {% block javascript %}
+    <script type="text/javascript">
+        
+        $("#tb_stations").on('click', '.btnDelete', function () {
+            $(this).closest('tr').remove();
+        });
+
+        $("#tb_stations").on('click', '.btnAlter', function () {
+            $(this).closest('tr').remove();
+        });
+    </script>
+{% endblock %}

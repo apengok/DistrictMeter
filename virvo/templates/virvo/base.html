@@ -5,17 +5,18 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <link href="{% static 'virvo/resources/css/jquery-ui-themes.css' %}" type="text/css" rel="stylesheet"/>
     <link href="{% static 'virvo/resources/css/axure_rp_page.css' %}" type="text/css" rel="stylesheet"/>
     <link href="{% static 'virvo/data/styles.css' %}" type="text/css" rel="stylesheet"/>
     <link href="{% static 'virvo/files/站点管理/styles.css' %}" type="text/css" rel="stylesheet"/>
-    <script src="{% static 'virvo/resources/scripts/jquery-1.7.1.min.js' %}"></script>
-    <script src="{% static 'virvo/resources/scripts/jquery-ui-1.8.10.custom.min.js' %}"></script>
-    <script src="{% static 'virvo/resources/scripts/prototypePre.js' %}"></script>
-    <script src="{% static 'virvo/data/document.js' %}"></script>
-    <script src="{% static 'virvo/resources/scripts/prototypePost.js' %}"></script>
-    <script src="{% static 'virvo/files/站点管理/data.js' %}"></script>
-
+    
+    
+<link rel="stylesheet" type="text/css" href="{% static 'dma/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dma/css/font-awesome.min.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'gis/assets/css/jquery-ui.css' %}" type = "text/css"/>
+    <script src="{%  static 'gis/assets/js/jquery.js' %} "></script>
+    <script src="{%  static 'gis/assets/js/jquery-ui.js' %} "></script>
+    <script src="{% static 'dma/js/bootstrap.min.js' %}"></script>
 
     <!-- zTree -->
     <link rel="stylesheet" href="{% static 'zTree/css/demo.css' %}" type="text/css">
@@ -23,12 +24,8 @@
   
     <script type="text/javascript" src="{% static 'zTree/js/jquery.ztree.core.js' %}"></script>
 
+
     
-    <script type="text/javascript">
-      $axure.utils.getTransparentGifPath = function() { return "{% static 'virvo/resources/images/transparent.gif' %}"; };
-      $axure.utils.getOtherPath = function() { return "{% static 'virvo/resources/Other.html' %}"; };
-      $axure.utils.getReloadPath = function() { return "{% static 'virvo/resources/reload.html' %}"; };
-    </script>
   </head>
   <body>
     <div id="base" class="">
@@ -39,10 +36,7 @@
 
       <div id="u771" class="ax_default box_3">
         <div id="u771_div" class="">
-          {% block content %}
 
-            
-          {% endblock content %}
         </div>
         <!-- Unnamed () -->
         <div id="u772" class="text" style="display:none; visibility: hidden">
@@ -119,6 +113,19 @@
 
 
       {% endblock organtree %}
+
+
+      {% block content %}
+
+      
+
+        
+      {% endblock content %}
+
+{% block javascript %}
+
+{% endblock javascript %}
+
 
 
     </div>  <!-- id-base -->
