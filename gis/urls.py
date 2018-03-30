@@ -8,7 +8,7 @@ app_name = 'gis'
 urlpatterns = [
     url(r'^$',views.index,name='index'),
 
-    # url(r'^(?P<page>.+\.html)$', views.StaticView.as_view()),
+    url(r'^(?P<page>.+\.html)$', views.StaticView.as_view()),
     url(r'^(?P<page>.+\.gml)$', views.StaticView.as_view()),
     url(r'^(?P<page>.+\.kml)$', views.StaticView.as_view()),
     url(r'^(?P<page>.+\.png)$', views.StaticView.as_view()),

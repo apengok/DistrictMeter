@@ -1,0 +1,609 @@
+{% load staticfiles %}<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %}Test layout{% endblock %}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link href="{% static 'virvo/data/styles.css' %}" type="text/css" rel="stylesheet"/>
+    
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'dma/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dma/css/font-awesome.min.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'gis/assets/css/jquery-ui.css' %}" type = "text/css"/>
+    <script src="{%  static 'gis/assets/js/jquery.js' %} "></script>
+    <script src="{%  static 'gis/assets/js/jquery-ui.js' %} "></script>
+    <script src="{% static 'dma/js/bootstrap.min.js' %}"></script>
+
+    <!-- zTree -->
+    <link rel="stylesheet" href="{% static 'zTree/css/demo.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'zTree/css/zTreeStyle/zTreeStyle.css' %}" type="text/css">
+  
+    <script type="text/javascript" src="{% static 'zTree/js/jquery.ztree.core.js' %}"></script>
+
+<style type="text/css">
+
+
+/*u722_div*/
+#logo_div { 
+  border:1px solid red;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:240px;
+  height:80px;
+  background:inherit;
+  background-color:rgba(40, 40, 46, 1);
+  border:none;
+  border-radius:0px;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+  box-shadow:none;
+  font-family:'Berlin Sans FB Demi Bold', 'Berlin Sans FB Normal', 'Berlin Sans FB';
+  font-weight:600;
+  font-style:normal;
+  font-size:60px;
+  color:#FFFFFF;
+}
+
+/*u723*/
+#log_text {
+  border-width:0px;
+  /*position:absolute;*/
+  left:2px;
+  top:7px;
+  width:236px;
+  word-wrap:break-word;
+}
+
+
+
+#u718 {
+  border-width:0px;
+  position:absolute;
+  left:2px;
+  top:10px;
+  width:32px;
+  visibility:hidden;
+  word-wrap:break-word;
+}
+
+
+#u729 {
+  border-width:0px;
+  position:absolute;
+  left:2px;
+  top:10px;
+  width:1px;
+  visibility:hidden;
+  word-wrap:break-word;
+}
+    
+#brand_text {
+  border-width:0px;
+  position:absolute;
+  
+  left:329px;
+  top:25px;
+  width:423px;
+  height:42px;
+}
+#brand_input {
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:423px;
+  height:42px;
+  font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';
+  font-weight:700;
+  font-style:normal;
+  font-size:36px;
+  text-decoration:none;
+  color:#666666;
+  text-align:left;
+  border-color:transparent;
+  outline-style:none;
+}
+
+
+#brand_div {
+  border:1px solid black;
+  position:absolute;
+  left:258px;
+  top:28px;
+  width:1660px;
+  height:920px;
+  background:inherit;
+  
+  border:none;
+  border-radius:0px;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+  box-shadow:none;
+}
+#ubrand_img {
+  border-width:0px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:36px;
+  height:36px;
+}
+
+#brand_line_img {
+  border-width:0px;
+  position:absolute;
+  left:-1px;
+  top:-1px;
+  width:5px;
+  height:39px;
+}
+#brand_line {
+  border-width:0px;
+  position:absolute;
+  left:308px;
+  top:28px;
+  width:2px;
+  height:36px;
+  font-family:'Arial Negreta', 'Arial Normal', 'Arial';
+  font-weight:700;
+  font-style:normal;
+}
+
+
+
+#u777_div {
+  border-width:0px;
+  position:absolute;
+  left:1471px;
+  top:26px;
+  width:30px;
+  height:30px;
+  background:inherit;
+  background-color:rgba(255, 255, 255, 1);
+  border:none;
+  border-radius:0px;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+  box-shadow:none;
+  font-family:'FontAwesome';
+  font-weight:400;
+  font-style:normal;
+  font-size:28px;
+  color:#999999;
+  text-align:center;
+}
+
+#u778 {
+  border-width:0px;
+  position:absolute;
+  left:2px;
+  top:1px;
+  width:26px;
+  word-wrap:break-word;
+}
+
+#u825_img {
+  border-width:0px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:175px;
+  height:52px;
+}
+#user_div {
+  border-width:0px;
+  position:absolute;
+  border:1px solid black;
+  left:1508px;
+  top:15px;
+  width:175px;
+  height:52px;
+}
+#user_text {
+  border:1px solid red;
+  position:absolute;
+  left:2px;
+  top:18px;
+  width:171px;
+  visibility:show;
+  word-wrap:break-word;
+}
+
+#u820_img {
+  border-width:0px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:196px;
+  height:69px;
+}
+#calender_div {
+  border-width:0px;
+  position:absolute;
+  border:1px solid blue;
+  left:1692px;
+  top:6px;
+  width:196px;
+  height:69px;
+}
+#u821 {
+  border-width:0px;
+  position:absolute;
+  left:2px;
+  top:26px;
+  width:192px;
+  visibility:hidden;
+  word-wrap:break-word;
+}
+
+#navmenu_div {
+  border:1px solid green;
+  position:absolute;
+  left:0px;
+  top:80px;
+  width:240px;
+  height:920px;
+  background:inherit;
+  background-color:rgba(50, 50, 58, 1);
+  border:none;
+  border-radius:0px;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+  box-shadow:none;
+}
+
+#navmenu_div.mouseOver {
+  border-width:0px;
+  position:absolute;
+  left:0px;
+  top:0px;
+  width:240px;
+  height:920px;
+  background:inherit;
+  background-color:rgba(50, 50, 58, 1);
+  border:none;
+  border-radius:0px;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+  box-shadow:none;
+}
+
+
+
+
+#navitem_div {
+  border-bottom: 1px solid grey;
+  width:240px;
+  height:60px;
+  background:inherit;
+  background-color:rgba(255, 255, 255, 0);
+  /*border:1px solid red;*/
+  border-radius:0px;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+  box-shadow:none;
+  font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';
+  font-weight:700;
+  font-style:normal;
+  font-size:16px;
+  color:#CCCCCC;
+}
+
+#navitem_div:hover {
+  /*border-width:0px;
+  position:absolute;
+  left:0px;
+  top:0px;*/
+  width:240px;
+  height:60px;
+  background:inherit;
+  background-color:rgba(0, 153, 204, 1);
+  border:none;
+  border-radius:0px;
+  -moz-box-shadow:none;
+  -webkit-box-shadow:none;
+  box-shadow:none;
+  font-family:'微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑';
+  font-weight:700;
+  font-style:normal;
+  font-size:16px;
+  color:#CCCCCC;
+}
+
+#content_div {
+  border:1px solid red;
+  position:absolute;
+  background-color:rgba(241, 242, 247, 1);
+  left:240px;
+  top:80px;
+  /*width:1660px;*/
+  height:920px;
+}
+
+</style>
+
+    
+  </head>
+  <body>
+    <!-- header -->
+    <div class="container">
+      <nav class="navbar  navbar-fixed-top" style="height: 80px;">
+          
+            <div id="logo_div" class="ax_default __logo">
+        <div id="log_text">
+            <p><span>VIRVO</span></p>
+        </div>
+    </div>
+        
+        <!-- brand zone -->
+    <div id="brand_div">
+        <img id="brand_img" class="img " src="/static/virvo/images/表具管理/u2.png">
+    </div>
+
+    <div id="brand_line" class="ax_default line">
+        <img id="brand_line_img" class="img " src="/static/virvo/images/表具管理/u13.png">
+    </div>
+
+    <div id="brand_text" class="ax_default _输入框">
+        <input id="brand_input" type="text" value="智慧水务一体化平台">
+    </div>
+
+    <!-- user account -->
+    <div id="u777_div" class="ax_default">
+      <!-- Unnamed () -->
+      <div id="u778" class="text" style="top: -2px; transform-origin: 13px 17px 0px;">
+        <p><span></span></p>
+          </div>
+    </div>
+
+    <div id="user_div" class="ax_default image">
+        
+        <!-- Unnamed () -->
+        <div id="user_text" class="text" >
+          <p><span>18025317929</span></p>
+        </div>
+      </div>
+
+    <div id="calender_div" class="ax_default image">
+          <img id="u820_img" class="img " src="/static/virvo/images/表具管理/u105.png">
+          <!-- Unnamed () -->
+          <div id="u821" class="text" style="display:none; visibility: hidden">
+            <p><span></span></p>
+          </div>
+    </div>
+             
+      </nav>
+    </div> 
+
+    
+
+    <!-- nav menu -->
+    <div id="navmenu_div" class="ax_default box_3">
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>首页</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+
+          
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>数据监控</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>数据分析</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>报警中心</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>基础管理</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>设备管理</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>企业管理</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>基准分析</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>报表统计</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>系统管理</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+        
+    </div>
+    
+
+    
+
+
+
+
+    <!-- main content -->
+    <div id="content_div"></div>
+    
+  </body>
+</html>
