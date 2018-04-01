@@ -69,6 +69,11 @@ def gettree(request):
     
     return JsonResponse({'trees':dicts})
 
+def getchartd(request):
+    data = [random.randint(2,13), 20, 6, 10, 20, 30]
+
+    return JsonResponse({'data':data})
+
 
 class StationsTable(tables.Table):
     selected = tables.CheckBoxColumn(accessor="id")
@@ -119,4 +124,31 @@ class StationsView(TemplateView):
 
         
                 
-        return context         
+        return context     
+
+class MNFView(TemplateView):
+    """docstring for StationsView"""
+
+    
+    template_name = 'virvo/mnf.html'
+    
+    def get_context_data(self, *args, **kwargs):
+        
+        context = super(MNFView, self).get_context_data(*args, **kwargs)
+
+        
+        # if self.request.method == 'POST':
+        #     form = AnalyWaterForm(self.request.POST or None)
+        # else:
+            
+        #     form = AnalyWaterForm()
+            
+        # context['form'] = form
+
+        # table = StationsTable(Stations.objects.all())
+        # RequestConfig(self.request, paginate={'per_page': 10}).configure(table)
+        # context['table'] = table
+
+        
+                
+        return context                 

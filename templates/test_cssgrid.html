@@ -1,0 +1,297 @@
+  {% load staticfiles %}<!DOCTYPE html>
+<html>
+  <head>
+    <title>{% block title %}Test layout{% endblock %}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <link href="{% static 'virvo/data/styles.css' %}" type="text/css" rel="stylesheet"/>
+    
+    
+    <link rel="stylesheet" type="text/css" href="{% static 'dma/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'dma/css/font-awesome.min.css' %}">
+    
+    <link rel="stylesheet" href="{% static 'gis/assets/css/jquery-ui.css' %}" type = "text/css"/>
+    <script src="{%  static 'gis/assets/js/jquery.js' %} "></script>
+    <script src="{%  static 'gis/assets/js/jquery-ui.js' %} "></script>
+    <script src="{% static 'dma/js/bootstrap.min.js' %}"></script>
+
+    <!-- zTree -->
+    <link rel="stylesheet" href="{% static 'zTree/css/demo.css' %}" type="text/css">
+    <link rel="stylesheet" href="{% static 'zTree/css/zTreeStyle/zTreeStyle.css' %}" type="text/css">
+  
+    <script type="text/javascript" src="{% static 'zTree/js/jquery.ztree.core.js' %}"></script>
+
+    <style type="text/css">
+        
+        
+        
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+      <div class=" logo"><p><span>VIRVO</span></p></div>
+      <div class="box header">
+        <div class="box center">
+          <img   src="/static/virvo/images/表具管理/u2.png">
+        </div>
+        
+        <div class="box center" >
+          <label class="brand_input">智慧水务一体化平台</label>
+        </div>
+        
+        
+        
+        <div class="box user center">
+          <p><span>18025317929</span></p>
+        </div>
+        <div class=" box date_1">
+            <div class="w"> week </div>
+            <div class="d"> day</div>
+            <div class="m"> month </div>
+          
+        
+        </div>
+        <div class="box time_1">
+          time
+        </div>
+      </div>
+
+
+      <div class="box sidebar">
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>首页</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+
+          
+        </div>
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>数据监控</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>数据分析</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>报警中心</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>基础管理</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>设备管理</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>企业管理</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>基准分析</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>报表统计</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+        
+
+        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+          
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+            <div class="col-md-8" style="top: 20px;">
+              
+              <p><span>系统管理</span></p>
+              
+            </div>
+            <div class="col-md-2" style="top: 20px;">
+              
+              <p><span></span></p>
+              
+            </div>
+        </div>
+
+      </div>
+      <div class="box content">
+        <!-- breadcrumbs -->
+        <div class="breads center">
+          <div class="bred_text "><span>首页 / 站点管理</span></div>
+        </div>
+          <!-- page title -->
+        <div class="page_title center">
+          <div class="pg_text"><span>站点管理</span></div>
+        </div>
+        
+        <!-- main contents -->
+        <div class="main_content">
+          <div class="box treel">
+            
+          </div>
+          
+          <div class="box b">main </div>
+          
+        </div>
+        
+      </div>
+      
+    </div>
+</body>
+</html>
