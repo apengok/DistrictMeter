@@ -11,6 +11,7 @@ urlpatterns = [
     
     url(r'^$', TemplateView.as_view(template_name='virvo/home.html'),name='virvo_home'),
 
+    url(r'editform/$', TemplateView.as_view(template_name='virvo/edit_form.html'),name='editform'),
     url(r'gettree/',views.gettree,name='gettree'),
     url(r'gettreenode/',views.gettreenode,name='gettreenode'),
     url(r'getchartd/',views.getchartd,name='getchartd'),

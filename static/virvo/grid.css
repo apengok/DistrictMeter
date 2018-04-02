@@ -301,3 +301,18 @@ body {
     font-size:14px;
     color:white;
 }
+
+
+.formedit {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+
+  background: black;
+}
+
+.form_img {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  height: 200px;
+  background: green;
+}
