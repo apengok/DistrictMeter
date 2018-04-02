@@ -5,13 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
     <meta name="apple-mobile-web-app-capable" content="yes"/>
-    <link href="{% static 'virvo/grid.css' %}" type="text/css" rel="stylesheet"/>
+    
     
     
     <link rel="stylesheet" type="text/css" href="{% static 'dma/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'dma/css/font-awesome.min.css' %}">
     
     <link rel="stylesheet" href="{% static 'gis/assets/css/jquery-ui.css' %}" type = "text/css"/>
+
+    <link href="{% static 'virvo/grid.css' %}" type="text/css" rel="stylesheet"/>
+
     <script src="{%  static 'gis/assets/js/jquery.js' %} "></script>
     <script src="{%  static 'gis/assets/js/jquery-ui.js' %} "></script>
     <script src="{% static 'dma/js/bootstrap.min.js' %}"></script>
@@ -39,10 +42,10 @@
       <!-- nav menu -->
       {% include 'virvo/_nav.html' %}
 
-      <div class="box content">
+      <div class=" content">
         <!-- breadcrumbs -->
         <div class="breads center">
-          <div class="bred_text "><span>{% block breadcrumbs %}首页 / 站点管理{% endblock %}</span></div>
+          <div class="bred_text ">{% block breadcrumbs %}<a href="#"><span class="fa fa-home">首页</span></a> / 站点管理{% endblock %}</div>
         </div>
           <!-- page title -->
         <div class="page_title center">
@@ -51,15 +54,20 @@
         
         <!-- main contents -->
         <div class="main_content">
-          <div class="box treel">
+
+          {% block organizationtree %}
+          <div class=" treel">
             {% include 'virvo/ogantree.html' %}
           </div>
-          
-          <div class="box context">
-              {% block content %}
+          {% endblock %}
 
-              {% endblock %}
+          {% block content %}
+          <div class=" context">
+              
+
+              
           </div>
+          {% endblock %}
           
         </div>
         
@@ -73,6 +81,38 @@
         loadTree();
     });
 
+    function slotSelectChanged()
+    {
+      var zTree = $.fn.zTree.getZTreeObj("treeDemo");
+      
+      var nodes = zTree.getSelectedNodes();
+      if (nodes.length) {
+        var n = nodes[0]
+        console.log(n.name)
+
+        $.ajax({
+            type:"POST",
+            url:"/virvo/gettreenode/" , 
+            dataType: "html",
+            data:{'csrfmiddlewaretoken': '{{ csrf_token }}',
+                  'node':n.name,
+                  },
+            
+            success:function(res){
+                 
+                $("#collapse1").html(res)
+                
+            },
+            error:function(res){
+              console.log("error?")
+              console.log(res);
+            }
+        });
+
+      }
+      
+    }
+
 
     function loadTree()
     {
@@ -83,7 +123,9 @@
             fontCss: getFont,
             nameIsHTML: true
           },
-
+          callback:{
+            onClick:function(){_this.slotSelectChanged();}
+          },
           data: {
             simpleData: {
               enable: true

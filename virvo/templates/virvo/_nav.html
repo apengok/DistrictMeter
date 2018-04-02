@@ -1,4 +1,4 @@
-<div class="box sidebar">
+<div class=" sidebar">
         
 
         <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
@@ -10,7 +10,7 @@
             </div>
             <div class="col-md-8" style="top: 20px;">
               
-              <p><span>首页</span></p>
+              <p><a href="{% url 'virvo:virvo_home' %}"><span>首页</span></a></p>
               
             </div>
             <div class="col-md-2" style="top: 20px;">
@@ -85,7 +85,7 @@
 
         
 
-        <div id="navitem_div" class="ax_default _一级标题" style="cursor: pointer;">
+        <div id="navitem_div" >
           
             <div class="col-md-2" style="top: 20px;">
               
@@ -97,9 +97,15 @@
               <p><span>基础管理</span></p>
               
             </div>
-            <div class="col-md-2" style="top: 20px;">
+            <div class=" dropdown col-md-2" style="top: 20px;">
               
               <span class="fa fa-angle-right"></span>
+
+              <!-- dropdown menu -->
+              <ul class="dropdown-menu">
+                  <li><a href="/virvo/station/">站点管理</a></li>
+                  
+              </ul>
               
             </div>
         </div>

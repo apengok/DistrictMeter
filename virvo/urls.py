@@ -9,9 +9,10 @@ from . import views
 app_name = 'virvo'
 urlpatterns = [
     
-    url(r'^$', TemplateView.as_view(template_name='virvo/stations.html'),name='virvo_home'),
+    url(r'^$', TemplateView.as_view(template_name='virvo/home.html'),name='virvo_home'),
 
     url(r'gettree/',views.gettree,name='gettree'),
+    url(r'gettreenode/',views.gettreenode,name='gettreenode'),
     url(r'getchartd/',views.getchartd,name='getchartd'),
 
     url(r'station/', views.StationsView.as_view(),name='station_manager'),
