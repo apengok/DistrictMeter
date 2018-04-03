@@ -10,10 +10,18 @@
     
     <link rel="stylesheet" type="text/css" href="{% static 'dma/css/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'dma/css/font-awesome.min.css' %}">
-    
+    <link rel="stylesheet" href="{% static 'gis/assets/css/ol.css' %}" type = "text/css"/>
     <link rel="stylesheet" href="{% static 'gis/assets/css/jquery-ui.css' %}" type = "text/css"/>
 
+     <!-- virvo provider -->
+    <link href="{% static 'virvo/data/styles.css' %}" type="text/css" rel="stylesheet"/>
+    <link href="{% static 'virvo/state_content.css' %}" type="text/css" rel="stylesheet"/>
+
     <link href="{% static 'virvo/grid.css' %}" type="text/css" rel="stylesheet"/>
+
+    <!-- openlayer -->
+    
+    <script src="{%  static 'gis/assets/js/ol-debug.js' %} "></script>
 
     <script src="{%  static 'gis/assets/js/jquery.js' %} "></script>
     <script src="{%  static 'gis/assets/js/jquery-ui.js' %} "></script>
