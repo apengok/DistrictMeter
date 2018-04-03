@@ -71,8 +71,11 @@ def gettree(request):
 
 def gettreenode(request):
     node = request.POST['node']
+    
     orgs = Organization.objects.filter(name=node)
-    table = StationsTable(Stations.objects.filter(belongto=orgs))
+    
+    table = StationsTable(Stations.objects.filter(belongto=orgs[0]))
+    
     RequestConfig(request, paginate={'per_page': 10}).configure(table)
     
     vals = {'table':table}

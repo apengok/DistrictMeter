@@ -36,6 +36,10 @@
     <!-- echart -->
     <script src="{% static 'virvo/echarts.min.js' %}"></script>
 
+    <!-- jQuery Modal -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
+ -->
     {% block stylesheet %}
     <style type="text/css">
     </style>
@@ -110,6 +114,9 @@
                  
                 $("#collapse1").html(res)
                 
+                $('#myModal').on('shown.bs.modal', function () {
+              load_station_map();
+           })
             },
             error:function(res){
               console.log("error?")

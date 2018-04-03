@@ -392,3 +392,11 @@ body {
 .overlay button + button {
     float: right;
 }
+
+
+.panel_edit.modal {
+  width: 300;
+
+  background: red;
+  z-index: 100;
+}
