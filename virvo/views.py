@@ -21,6 +21,9 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .tables import StationsTable
 from django_tables2 import RequestConfig
 
+from django.urls import reverse_lazy
+from .forms import StationsForm
+
 # from dma.fusioncharts import FusionCharts
 
 
@@ -72,9 +75,11 @@ def gettree(request):
 def gettreenode(request):
     node = request.POST['node']
     
-    orgs = Organization.objects.filter(name=node)
+    orgs = Organization.objects.filter(name=node).first()
     
-    table = StationsTable(Stations.objects.filter(belongto=orgs[0]))
+    table = StationsTable(Stations.objects.filter(belongto=orgs))
+    
+    # table = StationsTable(orgs.station_set.all())
     
     RequestConfig(request, paginate={'per_page': 10}).configure(table)
     
@@ -116,6 +121,27 @@ class StationsView(TemplateView):
         
                 
         return context     
+
+class StationsListView(ListView):
+
+    def get_queryset(self):
+        return Stations.objects.all()
+
+
+class StationsUpdateView(UpdateView):
+    template_name = 'virvo/edit_form.html'
+    form_class = StationsForm        
+    success_url = reverse_lazy('virvo:station_manager')
+
+    def get_queryset(self):
+        return Stations.objects.all()
+
+    def get_form_kwargs(self):
+        print self.kwargs
+        kwargs = super(StationsUpdateView, self).get_form_kwargs()
+        # kwargs['user'] = self.request.user
+        return kwargs
+
 
 class MNFView(TemplateView):
     """docstring for StationsView"""

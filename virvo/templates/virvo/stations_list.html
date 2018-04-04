@@ -1,0 +1,169 @@
+{% extends 'virvo/_base.html' %}
+
+
+
+
+{% block content %}
+<div class=" context">
+      
+
+      
+
+      <!-- <div  class="ax_default" data-label="站点管理">
+          <div id="u1031_state0" class="panel_state" data-label="站点" style="">
+            <div id="u1031_state0_content" class="panel_state_content"> -->
+
+              
+
+              <!-- Unnamed (表格) -->
+              <div  class="ax_default">
+
+                <div class="list-group" role="tab" id="heading">
+                    <div>
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true" aria-controls="collapse1" class="list-group-item active main-color-bg">
+                        <span class="fa fa-caret-down" title="Toggle dropdown menu"></span> 站点管理
+                      </a>
+                    </div>
+                    
+                        <div id="collapse1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading">
+                          <div>
+                            <table id="tb_stations" class="table table-bordered">
+                              <thead>
+                                <tr>
+                                  <th class="id orderable"><a href="?sort=id">ID</a></th>
+                                  <th>选择</th>
+                                  <th></th>
+                                  <th class="orderable station_name"><a href="?sort=station_name">站点名称</a></th>
+                                  <th class="meter_property orderable"><a href="?sort=meter_property">用水性质</a></th>
+                                  <th class="meter_type orderable"><a href="?sort=meter_type">表具类型</a></th>
+                                  <th class="meter_code orderable"><a href="?sort=meter_code">表具编号</a></th>
+                                  <th class="orderable simno"><a href="?sort=simno">SIM卡号</a></th>
+                                  <th class="caliber orderable"><a href="?sort=caliber">口径</a></th>
+                                  <th class="belongto orderable"><a href="?sort=belongto">所属组织</a></th>
+                                  <th class="big_user orderable"><a href="?sort=big_user">大用户</a></th>
+                                  <th class="focus orderable"><a href="?sort=focus">重点关注</a></th>
+                                  <th class="installed orderable"><a href="?sort=installed">安装日期</a></th>
+                                  
+                                  
+                                </tr>
+                
+                              </thead>
+                             {% for obj in object_list %}
+                                <tr>
+                                  <td>{{ obj.id }} </td>
+                                  <td><input type="checkbox"/> </td>
+                                  <td class="btn_del"><button type = "button" value="1" class = "btnAlter" data-toggle = "modal" data-target = "#myModal">Alter</button><button type = "button" class = "btnDelete">Delete</button></td>
+                        
+                                  <td><a href="{% url 'virvo:station_edit' obj.id %}">{{ obj.station_name }} </a></td>
+                                  <td>{{ obj.meter_property }} </td>
+                                  <td>{{ obj.meter_type }} </td>
+                                  <td>{{ obj.meter_code }} </td>
+                                  <td>{{ obj.simno }} </td>
+                                  <td>{{ obj.caliber }} </td>
+                                  <td>{{ obj.belongto }} </td>
+                                  <td>{{ obj.big_user }} </td>
+                                  <td>{{ obj.focus }} </td>
+                                  <td>{{ obj.installed }} </td>
+                                  
+                                  
+                                </tr>
+                                
+                             {% endfor %}
+                           </table>
+                          </div>
+                      </div>
+                    
+                </div>
+
+                <!-- Modal -->
+                <div class="modal " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ">
+                  <div class="modal-dialog" style="width: 1100px;">
+                  <div class="modal-content">
+                    <!-- <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal">
+                       <span aria-hidden="true">&times;   </span><span class="sr-only">Close</span></button>
+                      <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    </div> -->
+                    <div class="modal-body">
+                      
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-primary pull-left" >重点关注</button>
+                      <button type="button" class="btn btn-primary">提交</button>
+                      <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                      
+                    </div>
+                   </div>
+                  </div>
+                </div>
+                <!-- /.modal -->
+
+   
+        </div>
+   <!--  </div>
+  </div>
+  </div>   -->
+
+</div>  
+{% endblock content %}
+
+
+
+
+
+
+
+   {% block javascript %}
+   {{ block.super }}
+    <script type="text/javascript">
+        $("#tb_stations").on('click', '.btnDelete', function () {
+            $(this).closest('tr').remove();
+        });
+
+
+        $(".btnAlter[data-target='#myModal']").click(function() {
+
+          console.log("i am here?:)")
+
+          $.ajax({
+              type:"POST",
+              url:"{% url 'virvo:station_edit' 1 %}" , 
+              dataType: "html",
+              data:{'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'pk':2,
+                    },
+              
+              success:function(res){
+                   console.log(res)
+                  //$("#collapse1").html(res)
+                  $('.modal-body').html(res);
+                  
+                 //  $('#myModal').on('shown.bs.modal', function () {
+                 //    load_station_map();
+                 // })
+              },
+              error:function(res){
+                console.log("error?")
+                console.log(res);
+              }
+          });
+          // $(function(){
+          //     load_station_map();
+          // });
+          //Use map.destroy() to destroy a map entirely.
+
+         //  $('#myModal').on('shown.bs.modal', function () {
+         //    load_station_map();
+         // })
+
+          // map.updateSize();
+          
+          // map.render();
+         
+          console.log("load map");
+           // $('.modal-body').html(modalBody);
+           
+        });
+        
+    </script>
+{% endblock %}
