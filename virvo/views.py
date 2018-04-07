@@ -199,6 +199,7 @@ class StationsUpdateView(AjaxTemplateMixin,UpdateView):
         lon = form.cleaned_data['longitude']
         alti = form.cleaned_data['altitude']
         gpos = form.cleaned_data['geopos']
+        print("form_valid")
         print (lon,alti,gpos)
         return super(StationsUpdateView,self).form_valid(form)
 

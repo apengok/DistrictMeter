@@ -76,7 +76,7 @@
   </div>
 
   <div id="form-modal" class="modal fade">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="width: 1200px;">
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
@@ -115,13 +115,16 @@
   
         $(form).submit(function (e) {
           console.log('submit?');
+          console.log($(this).attr('method'));
+          console.log($(this).attr('action'));
+          console.log($(this).serialize());
             e.preventDefault();
             $.ajax({
                 type: $(this).attr('method'),
                 url: $(this).attr('action'),
                 data: $(this).serialize(),
                 success: function (xhr, ajaxOptions, thrownError) {
-                  
+                  console.log("formAjaxSubmit success");
                     if ( $(xhr).find('.has-error').length > 0 ) {
                         $(modal).find('.modal-body').html(xhr);
                         formAjaxSubmit(form, modal);

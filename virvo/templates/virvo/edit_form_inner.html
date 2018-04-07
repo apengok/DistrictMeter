@@ -1,14 +1,14 @@
-
+<form  method='POST' class = "form-horizontal" action='{{ request.build_absolute_uri|safe }}' role = "form">{% csrf_token %}
 
 <div class=" formedit">
     <div class="form_header"><div class="pull-left">新增站点</div></div>
-<form  method='POST' class = "form-horizontal" action='{{ request.build_absolute_uri|safe }}' role = "form">{% csrf_token %}
+
     <div style="margin-top: 5px;">
         <div class = "panel panel-primary ">
           
            <div class = "panel-body">
                 
-                    <!-- <form> -->
+                    <div><!-- <form> -->
                    <div class = "form-group">
                       <label for = "{{ form.station_name.id_for_label }}" class = "col-sm-4 control-label">站点名称</label>
                         
@@ -20,46 +20,35 @@
                    </div>
                    
                    <div class = "form-group">
-                      <label for = "staion_desc" class = "col-sm-4 control-label">站点描述</label>
+                      <label for = "{{ form.staion_desc.id_for_label }}" class = "col-sm-4 control-label">站点描述</label>
                         
                       <div class = "col-sm-8">
-                         <input type = "text" class = "form-control" id = "staion_desc" value="staion_desc" placeholder = "staion_description">
+                         <input type = "text" class = "form-control" id = "id_staion_desc" value="{{ form.staion_desc.value }}" placeholder = "staion_description">
                       </div>
                    </div>
 
                    <div class = "form-group">
                       <label for = "{{ form.belongto.id_for_label }}" class="col-sm-4 control-label">所属组织</label>
                       <div class="col-sm-8">
-                          <select class = "form-control " id="id_belongto" value="{{ form.belongto.value }}">
-                             <option>10</option>
-                             <option>20</option>
-                             <option>30</option>
-                             <option>40</option>
-                             <option>50</option>
-                          </select>
+                          {{ form.belongto }}
                       </div>
                    </div>
 
                    <div class = "form-group">
                       <label for = "{{ form.meter_property.id_for_label }}" class="col-sm-4 control-label">用水性质</label>
                       <div class="col-sm-8">
-                          <select class = "form-control " id="id_meter_property" value="{{ form.meter_property.value }}">
-                             <option>10</option>
-                             <option>20</option>
-                             <option>30</option>
-                             <option>40</option>
-                             <option>50</option>
-                          </select>
+                          {{ form.meter_property }}
                       </div>
                    </div>
 
                    <div class = "form-group">
 
                       <div class = "col-sm-offset-2 col-sm-8">
-                         <div class = "radio">
+                        {{ form.meter_type }}
+                         <!-- <div class = "radio">
                             <label class="checkbox-inline"><input type = "radio" name = "optionsRadios" id = "optionsRadios3" value = "option3" checked> 水表</label>
                             <label class="checkbox-inline"><input type = "radio" name = "optionsRadios" id = "optionsRadios4" value = "option4" checked> 流量计</label>
-                         </div>
+                         </div> -->
                       </div>
                    </div>
 
@@ -111,7 +100,7 @@
                    </div>
                    
                    
-                    
+                    </div>
                 <!-- </form> -->
             </div>
            <!-- <div class = "panel-footer">Panel footer</div> -->
@@ -172,6 +161,6 @@
       <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
       
     </div>
-    </form>
+    
 </div>
-
+</form>
