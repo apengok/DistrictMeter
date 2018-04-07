@@ -24,6 +24,17 @@ from django_tables2 import RequestConfig
 from django.urls import reverse_lazy
 from .forms import StationsForm
 
+import json
+
+from django.http import HttpResponse
+from django.shortcuts import render
+from django.views.generic import FormView, TemplateView
+# from django.core.urlresolvers import reverse_lazy
+from django.contrib.messages.views import SuccessMessageMixin
+
+from .forms import TestForm
+
+
 # from dma.fusioncharts import FusionCharts
 
 
@@ -122,26 +133,6 @@ class StationsView(TemplateView):
                 
         return context     
 
-class StationsListView(ListView):
-
-    def get_queryset(self):
-        return Stations.objects.all()
-
-
-class StationsUpdateView(UpdateView):
-    template_name = 'virvo/edit_form.html'
-    form_class = StationsForm        
-    success_url = reverse_lazy('virvo:station_manager')
-
-    def get_queryset(self):
-        return Stations.objects.all()
-
-    def get_form_kwargs(self):
-        print self.kwargs
-        kwargs = super(StationsUpdateView, self).get_form_kwargs()
-        # kwargs['user'] = self.request.user
-        return kwargs
-
 
 class MNFView(TemplateView):
     """docstring for StationsView"""
@@ -169,3 +160,60 @@ class MNFView(TemplateView):
         
                 
         return context                 
+
+
+class AjaxTemplateMixin(object):
+    
+    def dispatch(self, request, *args, **kwargs):
+        if not hasattr(self, 'ajax_template_name'):
+            split = self.template_name.split('.html')
+            split[-1] = '_inner'
+            split.append('.html')
+            self.ajax_template_name = ''.join(split)
+        if request.is_ajax():
+            self.template_name = self.ajax_template_name
+        return super(AjaxTemplateMixin, self).dispatch(request, *args, **kwargs)
+
+
+class TestFormView(SuccessMessageMixin, AjaxTemplateMixin, FormView):
+    template_name = 'virvo/test_form.html'
+    form_class = TestForm
+    success_url = reverse_lazy('home')
+    success_message = "Way to go!"        
+
+
+
+class StationsListView(ListView):
+
+    def get_queryset(self):
+        return Stations.objects.all()
+
+
+class StationsUpdateView(AjaxTemplateMixin,UpdateView):
+    template_name = 'virvo/edit_form.html'
+    form_class = StationsForm        
+    success_url = reverse_lazy('virvo:station_list')
+
+
+    def form_valid(self,form):
+        lon = form.cleaned_data['longitude']
+        alti = form.cleaned_data['altitude']
+        gpos = form.cleaned_data['geopos']
+        print (lon,alti,gpos)
+        return super(StationsUpdateView,self).form_valid(form)
+
+    def get_queryset(self):
+        return Stations.objects.all()
+
+    def get_form_kwargs(self):
+        print (self.kwargs)
+        kwargs = super(StationsUpdateView, self).get_form_kwargs()
+        # kwargs['user'] = self.request.user
+        return kwargs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(StationsUpdateView, self).get_context_data(*args, **kwargs)
+        context['title'] = 'Update Item'
+        return context
+
+

@@ -9,7 +9,7 @@ from . import views
 app_name = 'virvo'
 urlpatterns = [
     
-    url(r'^$', TemplateView.as_view(template_name='virvo/home.html'),name='virvo_home'),
+    url(r'^$', TemplateView.as_view(template_name='virvo/test_home.html'),name='virvo_home'),
 
     url(r'editform/$', TemplateView.as_view(template_name='virvo/edit_form.html'),name='editform'),
     url(r'gettree/$',views.gettree,name='gettree'),
@@ -23,4 +23,6 @@ urlpatterns = [
     
     url(r'mnf/$', views.MNFView.as_view(),name='mnf'),
     url(r'mapmonitor/$', TemplateView.as_view(template_name='virvo/map_monitor.html'),name='map_monitor'),
+
+    url(r'^test-form/$', views.TestFormView.as_view(), name="test-form"),
 ]
