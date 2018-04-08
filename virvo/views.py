@@ -22,7 +22,7 @@ from .tables import StationsTable
 from django_tables2 import RequestConfig
 
 from django.urls import reverse_lazy
-from .forms import StationsForm
+from .forms import StationsForm,DMABaseinfoForm
 
 import json
 
@@ -189,13 +189,26 @@ class StationsListView(ListView):
         return Stations.objects.all()
 
 
-class StationsUpdateView(AjaxTemplateMixin,UpdateView):
+# class StationsUpdateView(AjaxTemplateMixin,UpdateView):
+class StationsUpdateView(UpdateView):    
     template_name = 'virvo/edit_form.html'
     form_class = StationsForm        
     success_url = reverse_lazy('virvo:station_list')
 
 
+    def post(self, request, **kwargs):
+        request.POST = request.POST.copy()
+        # request.POST['some_key'] = 'some_value'
+        print kwargs
+        print request.POST
+        ret =  super(StationsUpdateView, self).post(request, **kwargs)
+        print ret
+        return ret
+
     def form_valid(self,form):
+        obj = form.save(commit=False)
+        print 'form_valid here'
+        print obj
         lon = form.cleaned_data['longitude']
         alti = form.cleaned_data['altitude']
         gpos = form.cleaned_data['geopos']
@@ -207,9 +220,10 @@ class StationsUpdateView(AjaxTemplateMixin,UpdateView):
         return Stations.objects.all()
 
     def get_form_kwargs(self):
-        print (self.kwargs)
+        # print (self.kwargs)
         kwargs = super(StationsUpdateView, self).get_form_kwargs()
         # kwargs['user'] = self.request.user
+        # print (kwargs)
         return kwargs
 
     def get_context_data(self, *args, **kwargs):
@@ -218,3 +232,23 @@ class StationsUpdateView(AjaxTemplateMixin,UpdateView):
         return context
 
 
+class DMAListView(ListView):
+    template_name = 'virvo/dma_manager.html'
+
+    def get_queryset(self):
+        return Stations.objects.all()
+
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(DMAListView, self).get_context_data(*args, **kwargs)
+        context['title'] = 'DMA 管理'
+
+        if self.request.method == 'POST':
+            form = DMABaseinfoForm(self.request.POST or None)
+        else:
+            
+            form = DMABaseinfoForm()
+            
+        context['form'] = form
+
+        return context

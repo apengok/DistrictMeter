@@ -17,6 +17,7 @@ urlpatterns = [
     url(r'getchartd/$',views.getchartd,name='getchartd'),
 
     url(r'station/$', views.StationsView.as_view(),name='station_manager'),
+    url(r'dma/$', views.DMAListView.as_view(),name='dma_manager'),
     
     url(r'list/$', views.StationsListView.as_view(),name='station_list'),
     url(r'list/(?P<pk>\d+)/edit/$', views.StationsUpdateView.as_view(),name='station_edit'),

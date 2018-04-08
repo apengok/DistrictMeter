@@ -44,7 +44,13 @@
                    <div class = "form-group">
 
                       <div class = "col-sm-offset-2 col-sm-8">
-                        {{ form.meter_type }}
+                        <div class = "radio">
+                          {% for mt in form.meter_type %}
+                            <label class="checkbox-inline"><input type = "radio"  id = "{{ mt.id_for_label }}" value = "{{ mt.choice_label }}" {% if form.instance.meter_type == mt.choice_label %} checked {% endif %} > {{ mt.choice_label }}</label>
+                          {% endfor %}
+                            
+                         </div>
+                        
                          <!-- <div class = "radio">
                             <label class="checkbox-inline"><input type = "radio" name = "optionsRadios" id = "optionsRadios3" value = "option3" checked> 水表</label>
                             <label class="checkbox-inline"><input type = "radio" name = "optionsRadios" id = "optionsRadios4" value = "option4" checked> 流量计</label>
@@ -108,15 +114,7 @@
     </div>
 
     <div class="form_map">
-        <div style="border: 1px solid grey;">
-          
-            <div id="js-map" class="map"></div>
-            <div id="js-overlay" class="overlay">
-                <button type="button" id="js-clone" class="btn btn-success">Clone</button>
-                <button type="button" id="js-remove" class="btn btn-danger">Remove</button>
-            </div>
-          
-        </div>
+        
         
         <div>
           <div style="margin-top: 30px;">

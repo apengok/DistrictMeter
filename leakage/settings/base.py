@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'water',
     'virvo',
     'django_tables2',
-    'crispy_forms',
+    # 'crispy_forms',
 ]
 
 MIDDLEWARE = [

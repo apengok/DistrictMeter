@@ -14,7 +14,26 @@
   <div class="list-group" role="tab" id="heading">
       <div>
         <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true" aria-controls="collapse1" class="list-group-item active main-color-bg">
-          <span class="fa fa-caret-down" title="Toggle dropdown menu"></span> 站点管理
+          <span class="fa fa-caret-down" title="Toggle dropdown menu"></span> 基本配置
+        </a>
+      </div>
+      
+          <div id="collapse1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading">
+            <div>
+                <form  method='POST' class = "form-horizontal" action='{{ request.build_absolute_uri|safe }}' role = "form">
+                  {% csrf_token %}
+                  {{ form.as_table }}
+                  <button type="submit" class="btn btn-primary">提交</button>
+                </form>
+            </div>
+        </div>
+      
+  </div>
+
+  <div class="list-group" role="tab" id="heading">
+      <div>
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" aria-expanded="true" aria-controls="collapse1" class="list-group-item active main-color-bg">
+          <span class="fa fa-caret-down" title="Toggle dropdown menu"></span> 站点配置
         </a>
       </div>
       
@@ -24,17 +43,15 @@
                 <thead>
                   <tr>
                     <th class="id orderable"><a href="?sort=id">ID</a></th>
-                    <th>选择</th>
-                    <th></th>
+                    
                     <th class="orderable station_name"><a href="?sort=station_name">站点名称</a></th>
-                    <th class="meter_property orderable"><a href="?sort=meter_property">用水性质</a></th>
+                    <th class="meter_property orderable"><a href="?sort=meter_property">类型</a></th>
                     <th class="meter_type orderable"><a href="?sort=meter_type">表具类型</a></th>
                     <th class="meter_code orderable"><a href="?sort=meter_code">表具编号</a></th>
-                    <th class="orderable simno"><a href="?sort=simno">SIM卡号</a></th>
+                    
                     <th class="caliber orderable"><a href="?sort=caliber">口径</a></th>
                     <th class="belongto orderable"><a href="?sort=belongto">所属组织</a></th>
-                    <th class="big_user orderable"><a href="?sort=big_user">大用户</a></th>
-                    <th class="focus orderable"><a href="?sort=focus">重点关注</a></th>
+                    
                     <th class="installed orderable"><a href="?sort=installed">安装日期</a></th>
                     
                     
@@ -44,25 +61,14 @@
                {% for obj in object_list %}
                   <tr>
                     <td>{{ obj.id }} </td>
-                    <td><input type="checkbox"/> </td>
-                    <td class="btn_del">
-                      <div>
-                        <button class="btn alter-button" data-url="{% url 'virvo:station_edit' pk=obj.pk %}">修改</button>
-                        <button type = "button" class = "btnDelete">删除</button>
-                      </div>
-                    </td>
-
-                    
-          
                     <td>{{ obj.station_name }} </td>
                     <td>{{ obj.meter_property }} </td>
                     <td>{{ obj.meter_type }} </td>
                     <td>{{ obj.meter_code }} </td>
-                    <td>{{ obj.simno }} </td>
+                    
                     <td>{{ obj.caliber }} </td>
                     <td>{{ obj.belongto }} </td>
-                    <td>{{ obj.big_user }} </td>
-                    <td>{{ obj.focus }} </td>
+                    
                     <td>{{ obj.installed }} </td>
                     
                     
