@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.shortcuts import get_object_or_404,render
 from django.http import HttpResponse,JsonResponse,HttpResponseRedirect
 from django.contrib import messages
-from . models import Organization,Stations
+from . models import Organization,Stations,DMABaseinfo
 import json
 import random
 from datetime import datetime
@@ -199,21 +199,17 @@ class StationsUpdateView(UpdateView):
     def post(self, request, **kwargs):
         request.POST = request.POST.copy()
         # request.POST['some_key'] = 'some_value'
-        print kwargs
-        print request.POST
+        
         ret =  super(StationsUpdateView, self).post(request, **kwargs)
-        print ret
-        return ret
+        
 
     def form_valid(self,form):
         obj = form.save(commit=False)
-        print 'form_valid here'
-        print obj
+        
         lon = form.cleaned_data['longitude']
         alti = form.cleaned_data['altitude']
         gpos = form.cleaned_data['geopos']
-        print("form_valid")
-        print (lon,alti,gpos)
+        
         return super(StationsUpdateView,self).form_valid(form)
 
     def get_queryset(self):
@@ -231,24 +227,30 @@ class StationsUpdateView(UpdateView):
         context['title'] = 'Update Item'
         return context
 
+def create_dma(request):
+    print ('create_dma...')
 
-class DMAListView(ListView):
+    return render(request,'virvo/dma_manager.html',{})
+
+class DMAListView(UpdateView):
     template_name = 'virvo/dma_manager.html'
+    form_class = DMABaseinfoForm
+    success_url = '/virvo/'
 
     def get_queryset(self):
-        return Stations.objects.all()
+        return DMABaseinfo.objects.all()
 
+    def get_form_kwargs(self):
+        print (self.kwargs)
+        kwargs = super(DMAListView, self).get_form_kwargs()
+        # kwargs['user'] = self.request.user
+        print (kwargs)
+        return kwargs
 
     def get_context_data(self, *args, **kwargs):
         context = super(DMAListView, self).get_context_data(*args, **kwargs)
         context['title'] = 'DMA 管理'
 
-        if self.request.method == 'POST':
-            form = DMABaseinfoForm(self.request.POST or None)
-        else:
-            
-            form = DMABaseinfoForm()
-            
-        context['form'] = form
+        context['station_list'] = Stations.objects.all()
 
         return context

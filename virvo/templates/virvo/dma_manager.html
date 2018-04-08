@@ -22,7 +22,9 @@
             <div>
                 <form  method='POST' class = "form-horizontal" action='{{ request.build_absolute_uri|safe }}' role = "form">
                   {% csrf_token %}
+                  <table>
                   {{ form.as_table }}
+                  </table>
                   <button type="submit" class="btn btn-primary">提交</button>
                 </form>
             </div>
@@ -39,7 +41,7 @@
       
           <div id="collapse1" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="heading">
             <div>
-              <table id="tb_stations" class="table table-bordered">
+              <table id="tb_dma_stations" class="table table-bordered">
                 <thead>
                   <tr>
                     <th class="id orderable"><a href="?sort=id">ID</a></th>
@@ -58,7 +60,7 @@
                   </tr>
   
                 </thead>
-               {% for obj in object_list %}
+               {% for obj in station_list %}
                   <tr>
                     <td>{{ obj.id }} </td>
                     <td>{{ obj.station_name }} </td>
@@ -81,7 +83,11 @@
       
   </div>
 
-  <div id="form-modal" class="modal fade">
+  <div>
+    <button class="btn alter-button">new</button>
+  </div>
+
+  <div id="new-form-modal" class="modal fade">
             <div class="modal-dialog" style="width: 1200px;">
                 <div class="modal-content">
                     <!-- <div class="modal-header">
@@ -89,7 +95,16 @@
                         <h4 class="modal-title">Modal title</h4>
                     </div> -->
                     <div id="form-modal-body" class="modal-body">
-                        
+                        <form class="new-form">
+                          {% csrf_token %}
+                          <div><span class="new-form-error"></span></div>
+                          <input type="text" name="dmano" placeholder="dma no">
+                          <input type="text" name="dmaname" placeholder="dma name">
+                          <input type="text" name="creator" placeholder="dma creator">
+                          <input type="text" name="create_date" placeholder="create date">
+                          <input type="submit" value="Tijiao">
+                          
+                        </form>
                     </div>
                     <!-- <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -117,45 +132,34 @@
             $(this).closest('tr').remove();
         });
 
-      var formAjaxSubmit = function(form, modal) {
-  
-        $(form).submit(function (e) {
-          console.log('submit?');
-          console.log($(this).attr('method'));
-          console.log($(this).attr('action'));
-          console.log($(this).serialize());
-            e.preventDefault();
-            $.ajax({
-                type: $(this).attr('method'),
-                url: $(this).attr('action'),
-                data: $(this).serialize(),
-                success: function (xhr, ajaxOptions, thrownError) {
-                  console.log("formAjaxSubmit success");
-                    if ( $(xhr).find('.has-error').length > 0 ) {
-                        $(modal).find('.modal-body').html(xhr);
-                        formAjaxSubmit(form, modal);
-                    } else {
-                      console.log("formAjaxSubmit no error");
-                        $(modal).modal('toggle');
-                    }
-                },
-                error: function (xhr, ajaxOptions, thrownError) {
-                  console.log($(this).attr('action'));
-                  console.log("formAjaxSubmit error");
-                }
-            });
-        });
-    }
+      
             
     $('.alter-button').click(function() {
-        $endpoint = $(this).attr('data-url');
-        $('#form-modal-body').load($endpoint, function () {
-            $('#form-modal').modal('toggle');
-            
-            formAjaxSubmit('#form-modal-body form', '#form-modal');
-            
-        });
+        var $newformmodal = $("#new-form-modal");
+
+        $newformmodal.modal();
+        
+        
     });
+
+    $('.new-form').submit(function(e){
+      e.preventDefault();
+      var nendpoint = "{% url 'virvo:create_dma' %}";
+
+      $.ajax({
+        method:'POST',
+        data:$(this).serialize(),
+        url:nendpoint,
+        success:function(data){
+          // console.log(data);
+          $('.new-form-error').html('success save');
+        },
+        error:function (data) {
+          // console.log(data);
+          $('.new-form-error').html('error save');
+        }
+      })
+    })
         
     </script>
 {% endblock %}

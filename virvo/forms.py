@@ -51,21 +51,20 @@ class StationsForm(forms.ModelForm):
 
     def clean_staion_desc(self):
         staion_desc = self.cleaned_data.get('staion_desc')
-        print staion_desc
+        print (staion_desc)
         return staion_desc
 
     def clean_longitude(self):
         longitude = self.cleaned_data.get('longitude')
-        print longitude
+        
         return longitude
     
 
     def save(self,commit=True):
-        print 'save????'
+        
         instance = super(StationsForm, self).save(commit=False)
 
-        print instance
-
+        
         return instance
 
 
