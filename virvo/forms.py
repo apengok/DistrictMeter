@@ -12,6 +12,13 @@ from django.contrib.postgres.forms.ranges import DateRangeField, RangeWidget
 from . import models
 import datetime
 
+class CreateDMAForm(forms.Form):
+
+    dma_no      = forms.CharField(label='分区编号',max_length=20)
+    dma_name    = forms.CharField(label='分区名称',max_length=20)
+    creator     = forms.CharField(label='负责人',max_length=20)
+    create_date  = forms.DateField(label='建立日期')
+
 
 class StationsForm(forms.ModelForm):
 
@@ -70,7 +77,7 @@ class StationsForm(forms.ModelForm):
 
 class DMABaseinfoForm(forms.ModelForm):
 
-    orgs = forms.ModelChoiceField(queryset=models.Organization.objects.all())
+    orgs = forms.ModelChoiceField(label='所属组织',queryset=models.Organization.objects.all())
 
     class Meta:
         model = models.DMABaseinfo
@@ -91,9 +98,9 @@ class DMABaseinfoForm(forms.ModelForm):
         ]
 
     def __init__(self, *args, **kwargs):
-        
+        print kwargs
         super(DMABaseinfoForm, self).__init__(*args, **kwargs)
-        
+        self.fields['orgs'].initial = self.instance.dma.parent.pk or 0
 
 
 class TestForm(forms.ModelForm):

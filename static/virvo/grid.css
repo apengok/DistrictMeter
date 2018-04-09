@@ -400,3 +400,66 @@ body {
   background: red;
   z-index: 100;
 }
+
+/* 2 columns form css-grid layout */
+.col2Form {
+    display: grid;
+    grid-template-columns:  1fr 1fr;
+    grid-auto-flow: row dense;
+    grid-gap: .8em;
+    /*background: #eee;*/
+    padding: 1.2em;
+  }
+  .col2Form > p {
+    display:grid;
+    grid-template-columns:30% 1fr;
+  }
+  .col2Form > p > label  {
+    grid-column: 1;
+    grid-row: auto;
+    padding: 1em;
+  }
+  .col2Form > p > input,
+  .col2Form > p > button {
+    grid-column: 2;
+    grid-row: auto;
+    padding: 1em;
+    /*border: none;*/
+  }
+
+  .col2Form > button {
+   grid-column:2; 
+    
+  }
+
+
+  /* 3 columns form css-grid layout */
+.col3Form {
+    display: grid;
+    grid-template-columns:  1fr 1fr 1fr;
+    /*grid-auto-flow: row dense;*/
+    grid-gap: .8em;
+    /*background: #eee;*/
+    padding: 1.2em;
+  }
+  .col3Form > p {
+    display:grid;
+    grid-template-columns:30% 1fr;
+  }
+  .col3Form > p > label  {
+    grid-column: 1;
+    /*grid-row: auto;*/
+    padding: 1em;
+  }
+  .col3Form > p > input,
+  .col3Form > p > button {
+    grid-column: 2;
+    /*grid-row: auto;*/
+    /*padding: 1em;*/
+    /*border: none;*/
+  }
+
+  .col3Form > button {
+   grid-column:3; 
+    
+  }

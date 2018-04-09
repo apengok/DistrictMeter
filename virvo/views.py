@@ -22,7 +22,7 @@ from .tables import StationsTable
 from django_tables2 import RequestConfig
 
 from django.urls import reverse_lazy
-from .forms import StationsForm,DMABaseinfoForm
+from .forms import StationsForm,DMABaseinfoForm,CreateDMAForm,TestForm
 
 import json
 
@@ -32,7 +32,7 @@ from django.views.generic import FormView, TemplateView
 # from django.core.urlresolvers import reverse_lazy
 from django.contrib.messages.views import SuccessMessageMixin
 
-from .forms import TestForm
+
 
 
 # from dma.fusioncharts import FusionCharts
@@ -45,8 +45,11 @@ from .forms import TestForm
 
 def recursive_node_to_dict(node):
     result = {
+        'id':node.pk,
         'name': node.name,
         'open':'true',
+        'url':'/virvo/dma/{}'.format(node.pk),
+        'target':'_self',
         'icon':"/static/virvo/images/站点管理/u842_1.png",
     }
     
@@ -228,14 +231,28 @@ class StationsUpdateView(UpdateView):
         return context
 
 def create_dma(request):
-    print ('create_dma...')
+    
+    print(request.POST)
+    # if request.method == 'POST':
+        # dma_no = request.POST.get('dma_no')
+        # dma_name = request.POST.get('dma_name')
+        # creator = request.POST.get('creator')
+        # create_date = request.POST.get('create_date')
+    form = CreateDMAForm(request.POST or None)
+    if form.is_valid():
+        parent = Organization.objects.first()
+        orgs = Organization.objects.create(name=form.cleaned_data.get('dma_name'),parent=parent)
 
-    return render(request,'virvo/dma_manager.html',{})
+        obj = DMABaseinfo.objects.create(dma_no=form.cleaned_data.get('dma_no'),dma=orgs)
+        # return HttpResponseRedirect("/virvo/dma/1/")
+    if form.errors:
+        print(form.errors)
+    return render(request,'virvo/dma_manager.html',{'dma_form':form})
 
 class DMAListView(UpdateView):
     template_name = 'virvo/dma_manager.html'
     form_class = DMABaseinfoForm
-    success_url = '/virvo/'
+    # success_url = '/virvo/dma/1'
 
     def get_queryset(self):
         return DMABaseinfo.objects.all()
@@ -253,4 +270,18 @@ class DMAListView(UpdateView):
 
         context['station_list'] = Stations.objects.all()
 
+        create_dma_form = CreateDMAForm()
+        context['dma_form'] = create_dma_form
+
         return context
+
+    def form_valid(self,form):
+        orgs = form.cleaned_data.get('orgs')
+        print(orgs,type(orgs))
+        print (form.instance)
+        print(form.instance.dma)
+        # print(form.instance.dma.parent)
+        form.instance.dma.parent = orgs
+        form.instance.dma.save()
+
+        return super(DMAListView,self).form_valid(form)
