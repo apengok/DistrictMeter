@@ -12,7 +12,7 @@ from datetime import datetime
 from mptt.utils import get_cached_trees
 from mptt.templatetags.mptt_tags import cache_tree_children
 
-
+from django.template.loader import render_to_string
 from django.shortcuts import render,HttpResponse
 from django.views import View
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView,FormView
@@ -22,7 +22,7 @@ from .tables import StationsTable
 from django_tables2 import RequestConfig
 
 from django.urls import reverse_lazy
-from .forms import StationsForm,DMABaseinfoForm,CreateDMAForm,TestForm,CreateStationForm
+from .forms import DMABaseinfoForm,CreateDMAForm,TestForm,StationsCreateManagerForm,StationsForm
 
 import json
 
@@ -48,7 +48,7 @@ def recursive_node_to_dict(node,url_cat):
         'id':node.pk,
         'name': node.name,
         'open':'true',
-        'url':'/virvo/{}/{}'.format(url_cat,node.pk),
+        'url':'/virvo/dma/{}/{}'.format(node.pk,url_cat),
         'target':'_self',
         'icon':"/static/virvo/images/站点管理/u842_1.png",
     }
@@ -93,7 +93,7 @@ def get_dmatree(request):
 
     dicts = []
     for n in top_nodes:
-        dicts.append(recursive_node_to_dict(n,'dma'))
+        dicts.append(recursive_node_to_dict(n,''))
 
     
     # print json.dumps(dicts, indent=4)
@@ -273,30 +273,34 @@ class DMAListView(UpdateView):
 
 
 
-class StationsView(TemplateView):
+class StationsView(ListView):
     """docstring for StationsView"""
 
-    
+    model = Stations
     template_name = 'virvo/stations_list.html'
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk') or 1
+        orgs = Organization.objects.get(pk=pk)
+        print(pk,orgs)
+        return Stations.objects.all() #Stations.objects.filter(belongto=orgs)
     
     def get_context_data(self, *args, **kwargs):
-        
+        # print(self.kwargs)
+        # print(args)
+        # print(self.request)
         context = super(StationsView, self).get_context_data(*args, **kwargs)
 
-        form = CreateStationForm(self.request.POST or None)
+        form = StationsForm(self.request.POST or None)
             
         context['form'] = form
-
-        table = StationsTable(Stations.objects.all())
-        RequestConfig(self.request, paginate={'per_page': 10}).configure(table)
-        context['table'] = table
-
+        context['station_list'] = self.get_queryset()
         
                 
         return context     
 
     def post(self,request,*args,**kwargs) :
-        context = self.get_context_data()
+        context = self.get_context_data(*args, **kwargs)
         print('sadjfkkjasdfasd8fas6df6')
         form = context['form']
         if form.is_valid():
@@ -320,9 +324,27 @@ def create_station(request):
         print(form.errors)
     return render(request,'virvo/station_list.html',{'form':form})
     
+class StationFormUpdateView(UpdateView):
+    model = Stations
+    form_class = StationsForm
+    template_name = 'virvo/edit_form.html'
+
+    def dispatch(self, *args, **kwargs):
+        print('dispatch..')
+        print(kwargs)
+        self.pk = kwargs['pk']
+        return super(StationFormUpdateView, self).dispatch(*args, **kwargs)
+
+    def form_valid(self, form):
+        form.save()
+        item = Item.objects.get(id=self.pk)
+        return HttpResponse(render_to_string('virvo/item_edit_form_success.html', {'item': item}))
+
+    def get_queryset(self):
+        return Stations.objects.all()  
 
 class StationsListView(UpdateView):
-    template_name = 'virvo/stations_list.html'
+    template_name = 'virvo/edit_form_inner.html'
     form_class = StationsForm
 
     def get_queryset(self):
@@ -339,7 +361,7 @@ class StationsListView(UpdateView):
         context = super(StationsListView, self).get_context_data(*args, **kwargs)
         context['title'] = 'DMA 管理'
 
-        context['station_list'] = Stations.objects.all()
+        # context['station_list'] = Stations.objects.all()
 
         
 
@@ -354,3 +376,69 @@ class StationsListView(UpdateView):
         # form.instance.dma.save()
 
         return super(StationsListView,self).form_valid(form)
+
+
+
+
+# 
+
+
+"""
+Stations creation, manager
+"""
+class StationsCreateMangerView(CreateView):
+    model = Stations
+    template_name = 'virvo/stations_create_manager.html'
+    form_class = StationsCreateManagerForm
+    success_url = reverse_lazy('stations_list_manager');
+
+    # @method_decorator(permission_required('virvo.change_stations'))
+    def dispatch(self, *args, **kwargs):
+        return super(StationsCreateMangerView, self).dispatch(*args, **kwargs)
+
+
+"""
+Stationss list, manager
+"""
+class StationsListMangerView(ListView):
+    model = Stations
+    template_name = 'virvo/stations_list_manager.html'
+
+    # @method_decorator(permission_required('virvo.change_stations'))
+    def dispatch(self, *args, **kwargs):
+        return super(StationsListMangerView, self).dispatch(*args, **kwargs)
+
+    def get_queryset(self):
+        # user = self.request.user
+        # manager_group = Group.objects.get(name=settings.BANCOAUSILI_MANAGER_GROUP)
+        # if manager_group in user.groups.all():
+        #     manager = Manager.objects.get(user=user)
+        #     return Stations.objects.filter(centre__in=manager.centres.all())
+        # else:
+        #     return Stations.objects.all()
+        return Stations.objects.all()
+
+"""
+Stations edit, manager
+"""
+class StationsUpdateManagerView(UpdateView):
+    model = Stations
+    form_class = StationsForm
+    template_name = 'virvo/stations_edit_manager.html'
+
+    # @method_decorator(permission_required('virvo.change_stations'))
+    def dispatch(self, *args, **kwargs):
+        self.stations_id = kwargs['pk']
+        return super(StationsUpdateManagerView, self).dispatch(*args, **kwargs)
+
+    def form_valid(self, form):
+        """
+        If the form is valid, redirect to the supplied URL.
+        """
+        form.save()
+        stations = Stations.objects.get(id=self.stations_id)
+        return HttpResponse(render_to_string('virvo/stations_edit_manager_success.html', {'stations': stations}))
+
+    def get_context_data(self, **kwargs):
+        context = super(StationsUpdateManagerView, self).get_context_data(**kwargs)
+        return context

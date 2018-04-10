@@ -1,4 +1,4 @@
-<form id="station-form" method='POST' class = "form-horizontal"  role = "form">{% csrf_token %}
+<form id="station-form" method='POST' action='{{ request.build_absolute_uri|safe }}' class = "form-horizontal"  role = "form">{% csrf_token %}
 
 <div class=" formedit">
     <div class="form_header"><div class="pull-left">新增站点</div></div>

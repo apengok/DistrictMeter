@@ -73,7 +73,7 @@ class DMABaseinfo(models.Model):
 
 class Stations(models.Model):
     station_name    = models.CharField('站点名称',max_length=50, unique=True)
-    station_type    = models.CharField('类型',max_length=50, unique=True)
+    station_type    = models.CharField('类型',max_length=50, null=True, blank=True)
     meter_property  = models.CharField('用水性质',max_length=50,  null=True, blank=True)
     meter_type      = models.CharField('表具类型',max_length=50,  null=True, blank=True)
     meter_code      = models.CharField('表具编号',max_length=50,  null=True, blank=True)

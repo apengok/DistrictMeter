@@ -1,0 +1,30 @@
+{% extends 'virvo/_base.html' %}
+
+{% block content %}
+<section>
+    <h1>Carica cespite</h1>
+    <form name="create_asset" method='post' class="form" role="form" action=''>
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+            <div class="form-group">
+                {% if field.errors %}
+                    <ul class="form-errors">
+                    {% for error in field.errors %}
+                        <li><span class="fa fa-exclamation-triangle"></span> <strong>{{ error|escape }}</strong></li>
+                    {% endfor %}
+                    </ul>
+                {% endif %}
+               
+                {{ field.label_tag }} {{ field }} 
+                
+                {% if field.help_text %}<div class="form-helptext">{{ field.help_text }}</div>{% endif %}
+            </div>
+        {% endfor %}
+        <input type="submit" class="btn btn-primary" value="salva" style="margin-bottom: 5px;" />
+    </form>
+    <script>
+        jQuery('form[name=create_asset] .calendar').datepicker({ dateFormat: "yy-mm-dd" });
+    </script>
+</section>
+{% endblock %}

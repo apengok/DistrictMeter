@@ -1,0 +1,73 @@
+{% extends 'virvo/_base.html' %}
+
+
+{% block javascript %}
+{{ block.super }}
+    <script src="http://malsup.github.com/jquery.form.js"></script>
+
+{% endblock %}
+
+{% block content %}
+<section>
+    <h1>Cespiti</h1>
+    <!-- Modal -->
+    <!-- <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    </div> --><!-- /.modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="form-group">
+            <label for="recipient-name" class="control-label">Recipient:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="form-group">
+            <label for="message-text" class="control-label">Message:</label>
+            <textarea class="form-control" id="message-text"></textarea>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Send message</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+    <table cellspacing='0' class="table table-bordered table-hover">
+        <tr>
+            <th>Centro</th>
+            <th>Ausilio</th>
+            <th>Cespite</th>
+            <th>Status</th>
+            <th>Azioni</th>
+        </tr>
+        {% for stations in object_list %}
+        <tr>
+            <td>{{ stations.station_name }}</td>
+            <td>{{ stations.station_type }}</td>
+            <td>{{ stations.meter_code }}</td>
+            <td>{{ stations.simno }}</td>
+            <td>
+                <a href="{% url 'virvo:stations_edit_manager' stations.id %}" data-toggle="modal" data-target="#modal" class="fa fa-pencil" title="modifica cespite" data-tooltip></a>
+                
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+    <script>
+        console.log('stations_list_manger...')
+        $('body').on('hidden.bs.modal', '.modal', function () {
+            console.log('hidden??...')
+            $(this).removeData('bs.modal');
+        });
+    </script>
+</section>
+{% endblock %}

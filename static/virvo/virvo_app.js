@@ -152,7 +152,7 @@ function load_stationTree()
             
             success:function(res){
                 var json = res['trees']   
-                console.log(json);    
+                // console.log(json);    
                 $.fn.zTree.init($("#station_tree"), setting, json);
                 var zTree = $.fn.zTree.getZTreeObj("station_tree");
                 

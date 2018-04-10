@@ -13,7 +13,7 @@
 {% block content %}
 <div class=" context">
 
-
+ 
 
 <!-- Unnamed (表格) -->
 <div  class="ax_default">
@@ -60,8 +60,9 @@
                     <td><input type="checkbox"/> </td>
                     <td class="btn_del">
                       <div>
-                        <button class="btn alter-button" >修改</button>
+                        <button class="btn alter-button" data-form="{% url 'virvo:station_manager' obj.pk %}" >修改</button>
                         <button type = "button" class = "btnDelete">删除</button>
+                        <a class="fa fa-pencil" data-toggle="modal" href="{% url 'virvo:station_manager' obj.pk %}" data-target="#modal" title="edit item" data-tooltip>dfe</a> 
                       </div>
                     </td>
 
@@ -88,24 +89,11 @@
       
   </div>
 
-  <div id="staion-form-modal" class="modal fade">
-            <div class="modal-dialog" style="width: 1200px;">
-                <div class="modal-content">
-                    <!-- <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                        <h4 class="modal-title">Modal title</h4>
-                    </div> -->
-                    <div id="form-modal-body" class="modal-body">
-                        {% include 'virvo/edit_form.html' with form=form %}
-                    </div>
-                    <!-- <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div> -->
-                </div><!-- /.modal-content -->
-            </div><!-- /.modal-dialog -->
-        </div><!-- /.modal --> 
 
 
+<!-- Modal -->
+    <div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    </div><!-- /.modal -->
    
 
 </div>  
@@ -130,10 +118,16 @@
             $(this).closest('tr').remove();
         });
 
-      $('.alter-button').click(function() {
+      $('.alter-button').click(function(e) {
+        e.preventDefault();
           var $newformmodal = $("#staion-form-modal");
 
-          $newformmodal.modal();
+          var url = $(this).attr('data-form');
+          console.log(url);
+          $newformmodal.load(url, function() { // load the url into the modal
+            $(this).modal('show'); // display the modal on url load
+        });
+          // $newformmodal.modal();
           
           
       });
@@ -146,7 +140,24 @@
           
       });
 
-      
+      $('#station-form').submit(function(e){
+        e.preventDefault();
+        var nendpoint = $('.alter-but1ton').attr('data-form');
+  console.log($(this).serialize());
+        $.ajax({
+          method:'POST',
+          data:$(this).serialize(),
+          url:nendpoint,
+          success:function(data){
+            // console.log(data);
+            $('.new-form-error').html('success save');
+          },
+          error:function (data) {
+            // console.log(data);
+            $('.new-form-error').html('error save');
+          }
+        })
+      })
 
       
         
