@@ -92,6 +92,10 @@ class Stations(models.Model):
         unique_together = ('meter_code', 'simno')
         db_table = 'stations'
 
+    def get_absolute_url(self): #get_absolute_url
+        # return "/organ/{}".format(self.pk)
+        return reverse('virvo:station_manager', kwargs={'pk': self.pk})
+
     def __unicode__(self):
         return self.station_name
 

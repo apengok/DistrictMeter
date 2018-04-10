@@ -36,6 +36,9 @@
     <!-- echart -->
     <script src="{% static 'virvo/echarts.min.js' %}"></script>
 
+
+    <script src="{% static 'virvo/virvo_app.js' %}"></script>
+
     <!-- jQuery Modal -->
     <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-modal/0.9.1/jquery.modal.min.css" />
@@ -69,7 +72,7 @@
 
           {% block organizationtree %}
           <div class=" treel">
-            {% include 'virvo/ogantree.html' %}
+            
           </div>
           {% endblock %}
 
@@ -89,107 +92,45 @@
     {% block javascript %}
     <SCRIPT LANGUAGE="JavaScript">
 
-    $(function(){
-        loadTree();
-    });
+    // $(function(){
+    //     load_dmaTree();
+    // });
 
-    function slotSelectChanged()
-    {
-      var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-      
-      var nodes = zTree.getSelectedNodes();
-      if (nodes.length) {
-        var n = nodes[0]
-        console.log(n.name)
+    
 
-        $.ajax({
-            type:"GET",
-            // url:"/virvo/gettreenode/" , 
-            url:"/virvo/dma/" + n.id,
-            dataType: "html",
-            
-            
-            success:function(res){
-                 
-                // $("#collapse1").html(res)
-                
-                $('#myModal').on('shown.bs.modal', function () {
-                    load_station_map();
-                 })
-            },
-            error:function(res){
-              console.log("error?")
-              console.log(res);
+
+ // using jQuery This is directly from the Django docs. Put this code before any jQuery that uses AJAX as a catch-all for cross site request forgery protection (CSRF).
+function getCookie(name) {
+    var cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        var cookies = document.cookie.split(';');
+        for (var i = 0; i < cookies.length; i++) {
+            var cookie = jQuery.trim(cookies[i]);
+            // Does this cookie string begin with the name we want?
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
             }
-        });
-
-      }
-      
+        }
     }
+    return cookieValue;
+}
 
+var csrftoken = getCookie('csrftoken');
 
-    function loadTree()
-    {
-       var _this = this;
-       // zTree 的参数配置，深入使用请参考 API 文档（setting 配置详解）
-       var setting = {
-          view: {
-            fontCss: getFont,
-            nameIsHTML: true,
-            addDiyDom: addDiyDom
-          },
-          // callback:{
-          //   onClick:function(){_this.slotSelectChanged();}
-          // },
-          data: {
-            simpleData: {
-              enable: true
-            }
-          }
-        };
-
-        function getFont(treeId, node) {
-          return node.font ? node.font : {};
+function csrfSafeMethod(method) {
+    // these HTTP methods do not require CSRF protection
+    return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+}
+$.ajaxSetup({
+    beforeSend: function(xhr, settings) {
+        if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+            xhr.setRequestHeader("X-CSRFToken", csrftoken);
         }
+    }
+});
 
-        var IDMark_A = "_a";
-
-        function addDiyDom(treeId, treeNode) {
-          if (treeNode.parentNode && treeNode.tid!=1) return;
-
-          if (treeNode.name != '威尔沃') return;
-          var aObj = $("#" + treeNode.tId + IDMark_A);
-
-          console.log(treeId);
-          console.log(treeNode.id);
-          console.log(treeNode.name);
-          //if (treeNode.id == 1) {
-            var editStr = '<img id="diyBtn_add" class="img " src="/static/virvo/images/add.png" tabindex="0" onfocus="this.blur()"; style="outline: none;">';
-            
-            aObj.after(editStr);
-            console.log(aObj);
-            var btn = $("#diyBtn_add");
-            if (btn) btn.bind("click", function(){
-              $("#new-form-modal").modal();
-            });
-          //}
-        }
-            
-        $.ajax({
-            type:"POST",
-            url:"/virvo/gettree/" , 
-            dataType: "json",
-            data:{'csrfmiddlewaretoken': '{{ csrf_token }}'},
-            
-            success:function(res){
-                var json = res['trees']   
-                console.log(json);    
-                $.fn.zTree.init($("#treeDemo"), setting, json);
-                var zTree = $.fn.zTree.getZTreeObj("treeDemo");
-                
-            }
-        });
-    }    
+    
         
 </SCRIPT>
     {% endblock %}

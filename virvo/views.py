@@ -22,7 +22,7 @@ from .tables import StationsTable
 from django_tables2 import RequestConfig
 
 from django.urls import reverse_lazy
-from .forms import StationsForm,DMABaseinfoForm,CreateDMAForm,TestForm
+from .forms import StationsForm,DMABaseinfoForm,CreateDMAForm,TestForm,CreateStationForm
 
 import json
 
@@ -43,17 +43,17 @@ from django.contrib.messages.views import SuccessMessageMixin
 # Create your views here.
 
 
-def recursive_node_to_dict(node):
+def recursive_node_to_dict(node,url_cat):
     result = {
         'id':node.pk,
         'name': node.name,
         'open':'true',
-        'url':'/virvo/dma/{}'.format(node.pk),
+        'url':'/virvo/{}/{}'.format(url_cat,node.pk),
         'target':'_self',
         'icon':"/static/virvo/images/站点管理/u842_1.png",
     }
     
-    children = [recursive_node_to_dict(c) for c in node.get_children()]
+    children = [recursive_node_to_dict(c,url_cat) for c in node.get_children()]
     
     # get each node's station if exist
     # try:
@@ -69,14 +69,14 @@ def recursive_node_to_dict(node):
     
     return result
 
-def gettree(request):
+def get_stationtree(request):
     organs = Organization.objects.all()
     
     top_nodes = get_cached_trees(organs)
 
     dicts = []
     for n in top_nodes:
-        dicts.append(recursive_node_to_dict(n))
+        dicts.append(recursive_node_to_dict(n,'station'))
 
     
     # print json.dumps(dicts, indent=4)
@@ -85,6 +85,22 @@ def gettree(request):
     
     return JsonResponse({'trees':dicts})
 
+
+def get_dmatree(request):
+    organs = Organization.objects.all()
+    
+    top_nodes = get_cached_trees(organs)
+
+    dicts = []
+    for n in top_nodes:
+        dicts.append(recursive_node_to_dict(n,'dma'))
+
+    
+    # print json.dumps(dicts, indent=4)
+
+    
+    
+    return JsonResponse({'trees':dicts})
 
 def gettreenode(request):
     node = request.POST['node']
@@ -107,34 +123,6 @@ def getchartd(request):
     return JsonResponse({'data':data})
 
 
-
-
-class StationsView(TemplateView):
-    """docstring for StationsView"""
-
-    
-    template_name = 'virvo/station_manager.html'
-    
-    def get_context_data(self, *args, **kwargs):
-        
-        context = super(StationsView, self).get_context_data(*args, **kwargs)
-
-        
-        # if self.request.method == 'POST':
-        #     form = AnalyWaterForm(self.request.POST or None)
-        # else:
-            
-        #     form = AnalyWaterForm()
-            
-        # context['form'] = form
-
-        table = StationsTable(Stations.objects.all())
-        RequestConfig(self.request, paginate={'per_page': 10}).configure(table)
-        context['table'] = table
-
-        
-                
-        return context     
 
 
 class MNFView(TemplateView):
@@ -186,10 +174,7 @@ class TestFormView(SuccessMessageMixin, AjaxTemplateMixin, FormView):
 
 
 
-class StationsListView(ListView):
 
-    def get_queryset(self):
-        return Stations.objects.all()
 
 
 # class StationsUpdateView(AjaxTemplateMixin,UpdateView):
@@ -285,3 +270,87 @@ class DMAListView(UpdateView):
         form.instance.dma.save()
 
         return super(DMAListView,self).form_valid(form)
+
+
+
+class StationsView(TemplateView):
+    """docstring for StationsView"""
+
+    
+    template_name = 'virvo/stations_list.html'
+    
+    def get_context_data(self, *args, **kwargs):
+        
+        context = super(StationsView, self).get_context_data(*args, **kwargs)
+
+        form = CreateStationForm(self.request.POST or None)
+            
+        context['form'] = form
+
+        table = StationsTable(Stations.objects.all())
+        RequestConfig(self.request, paginate={'per_page': 10}).configure(table)
+        context['table'] = table
+
+        
+                
+        return context     
+
+    def post(self,request,*args,**kwargs) :
+        context = self.get_context_data()
+        print('sadjfkkjasdfasd8fas6df6')
+        form = context['form']
+        if form.is_valid():
+            print(self.request.POST)
+            form.save()
+            
+        if form.errors:
+            print(form.errors)
+
+        return super(StationsView,self).render_to_response(context)
+
+
+
+def create_station(request):
+    print('create_station...')
+    form = CreateStationForm(request.POST or None)
+    if form.is_valid():
+        form.save()
+        # return HttpResponseRedirect("/virvo/dma/1/")
+    if form.errors:
+        print(form.errors)
+    return render(request,'virvo/station_list.html',{'form':form})
+    
+
+class StationsListView(UpdateView):
+    template_name = 'virvo/stations_list.html'
+    form_class = StationsForm
+
+    def get_queryset(self):
+        return Stations.objects.all()        
+
+    def get_form_kwargs(self):
+        print (self.kwargs)
+        kwargs = super(StationsListView, self).get_form_kwargs()
+        # kwargs['user'] = self.request.user
+        print (kwargs)
+        return kwargs
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(StationsListView, self).get_context_data(*args, **kwargs)
+        context['title'] = 'DMA 管理'
+
+        context['station_list'] = Stations.objects.all()
+
+        
+
+        return context
+
+    def form_valid(self,form):
+        orgs = form.cleaned_data.get('orgs')
+        print(orgs,type(orgs))
+        print (form.instance)
+        
+        # form.instance.dma.parent = orgs
+        # form.instance.dma.save()
+
+        return super(StationsListView,self).form_valid(form)

@@ -444,14 +444,21 @@ body {
   }
   .col3Form > p {
     display:grid;
-    grid-template-columns:30% 1fr;
+    grid-template-columns:1fr 1fr;
   }
   .col3Form > p > label  {
     grid-column: 1;
     /*grid-row: auto;*/
     padding: 1em;
+    text-align: right;
   }
-  .col3Form > p > input,
+  .col3Form > p > input{
+    grid-column: 2;
+    /*grid-row: auto;*/
+    /*padding: 1em;*/
+    /*border: none;*/
+  }
+
   .col3Form > p > button {
     grid-column: 2;
     /*grid-row: auto;*/

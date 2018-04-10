@@ -1,6 +1,11 @@
 {% extends 'virvo/_base.html' %}
 
 
+{% block organizationtree %}
+<div class=" treel">
+  {% include 'virvo/dmatree.html' %}
+</div>
+{% endblock %}
 
 
 {% block content %}
@@ -29,11 +34,11 @@
                 </p>
                 <p>
                   <label for="{{ form.pipe_texture.id_for_label }}">{{ form.pipe_texture.label }} </label>
-                  <input type="text"  id="id_pipe_texture" name="pipe_texture" value="{{ form.pipe_texture.value|default:"" }}">
+                  <input type="text"  id="id_pipe_texture" name="pipe_texture" value="{{ form.pipe_texture.value|default:'' }}">
                 </p>
                 <p>
                   <label for="{{ form.ifc.id_for_label }}">{{ form.ifc.label }} </label>
-                  <input type="text" name="ifc"  id="id_ifc" value="{{ form.ifc.value|default:"" }}">
+                  <input type="text" name="ifc"  id="id_ifc" value="{{ form.ifc.value|default:'' }}">
                 </p>
 
                 <p>
@@ -43,44 +48,44 @@
                 </p>
                 <p>
                   <label for="{{ form.pipe_length.id_for_label }}">{{ form.pipe_length.label }} </label>
-                  <input type="text"  id="id_pipe_length" name="pipe_length" value="{{ form.pipe_length.value|default:"" }}">
+                  <input type="text"  id="id_pipe_length" name="pipe_length" value="{{ form.pipe_length.value|default:'' }}">
                 </p>
                 <p>
                   <label for="{{ form.aznp.id_for_label }}">{{ form.aznp.label }} </label>
-                  <input type="text" name="aznp"  id="id_aznp" value="{{ form.aznp.value|default:"" }}">
+                  <input type="text" name="aznp"  id="id_aznp" value="{{ form.aznp.value|default:'' }}">
                 </p>
                 <p>
                   <label for="{{ form.pepoles_num.id_for_label }}">{{ form.pepoles_num.label }} </label>
-                  <input type="text"  id="id_pepoles_num" name="pepoles_num" value="{{ form.pepoles_num.value|default:"" }}">
+                  <input type="text"  id="id_pepoles_num" name="pepoles_num" value="{{ form.pepoles_num.value|default:'' }}">
                 </p>
                 
                 <p>
                   <label for="{{ form.pipe_links.id_for_label }}">{{ form.pipe_links.label }} </label>
-                  <input type="text"  id="id_pipe_links" name="pipe_links" value="{{ form.pipe_links.value|default:"" }}">
+                  <input type="text"  id="id_pipe_links" name="pipe_links" value="{{ form.pipe_links.value|default:'' }}">
                 </p>
                 <p>
                   <label for="{{ form.night_use.id_for_label }}">{{ form.night_use.label }} </label>
-                  <input type="text" name="night_use"  id="id_night_use" value="{{ form.night_use.value|default:"" }}">
+                  <input type="text" name="night_use"  id="id_night_use" value="{{ form.night_use.value|default:'' }}">
                 </p>
                 <p>
                   <label for="{{ form.acreage.id_for_label }}">{{ form.acreage.label }} </label>
-                  <input type="text"  id="id_acreage" name="acreage" value="{{ form.acreage.value|default:"" }}">
+                  <input type="text"  id="id_acreage" name="acreage" value="{{ form.acreage.value|default:'' }}">
                 </p>
                 <p>
                   <label for="{{ form.pipe_years.id_for_label }}">{{ form.pipe_years.label }} </label>
-                  <input type="text"  id="id_pipe_years" name="pipe_years" value="{{ form.pipe_years.value|default:"" }}">
+                  <input type="text"  id="id_pipe_years" name="pipe_years" value="{{ form.pipe_years.value|default:'' }}">
                 </p>
                 <p>
                   <label for="{{ form.cxc_value.id_for_label }}">{{ form.cxc_value.label }} </label>
-                  <input type="text" name="cxc_value"  id="id_cxc_value" value="{{ form.cxc_value.value|default:"" }}">
+                  <input type="text" name="cxc_value"  id="id_cxc_value" value="{{ form.cxc_value.value|default:'' }}">
                 </p>
                 <p>
                   <label for="{{ form.user_num.id_for_label }}">{{ form.user_num.label }} </label>
-                  <input type="text"  id="id_user_num" name="user_num" value="{{ form.user_num.value|default:"" }}">
+                  <input type="text"  id="id_user_num" name="user_num" value="{{ form.user_num.value|default:'' }}">
                 </p>
                 <p>
                   <label for="{{ form.pipe_private.id_for_label }}">{{ form.pipe_private.label }} </label>
-                  <input type="text"  id="id_pipe_private" name="pipe_private" value="{{ form.pipe_private.value|default:"" }}">
+                  <input type="text"  id="id_pipe_private" name="pipe_private" value="{{ form.pipe_private.value|default:'' }}">
                 </p>
                 
                 <button type="submit">Submit</button>
@@ -197,6 +202,13 @@
    {% block javascript %}
    {{ block.super }}
     <script type="text/javascript">
+
+
+    $(function(){
+      load_dmaTree();
+    });
+
+
         $("#tb_stations").on('click', '.btnDelete', function () {
             $(this).closest('tr').remove();
         });
