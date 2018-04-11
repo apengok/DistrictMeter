@@ -174,69 +174,30 @@ class TestFormView(SuccessMessageMixin, AjaxTemplateMixin, FormView):
 
 
 
-
-
-
-# class StationsUpdateView(AjaxTemplateMixin,UpdateView):
-class StationsUpdateView(UpdateView):    
-    template_name = 'virvo/edit_form.html'
-    form_class = StationsForm        
-    success_url = reverse_lazy('virvo:station_list')
-
-
-    def post(self, request, **kwargs):
-        request.POST = request.POST.copy()
-        # request.POST['some_key'] = 'some_value'
-        
-        ret =  super(StationsUpdateView, self).post(request, **kwargs)
-        
-
-    def form_valid(self,form):
-        obj = form.save(commit=False)
-        
-        lon = form.cleaned_data['longitude']
-        alti = form.cleaned_data['altitude']
-        gpos = form.cleaned_data['geopos']
-        
-        return super(StationsUpdateView,self).form_valid(form)
-
-    def get_queryset(self):
-        return Stations.objects.all()
-
-    def get_form_kwargs(self):
-        # print (self.kwargs)
-        kwargs = super(StationsUpdateView, self).get_form_kwargs()
-        # kwargs['user'] = self.request.user
-        # print (kwargs)
-        return kwargs
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(StationsUpdateView, self).get_context_data(*args, **kwargs)
-        context['title'] = 'Update Item'
-        return context
-
 def create_dma(request):
     
     print(request.POST)
-    # if request.method == 'POST':
+    if request.method == 'POST':
         # dma_no = request.POST.get('dma_no')
         # dma_name = request.POST.get('dma_name')
         # creator = request.POST.get('creator')
-        # create_date = request.POST.get('create_date')
-    form = CreateDMAForm(request.POST or None)
-    if form.is_valid():
+        create_date = request.POST.get('create_date')
+        print(create_date)
+    dma_form = CreateDMAForm(request.POST or None)
+    if dma_form.is_valid():
         parent = Organization.objects.first()
-        orgs = Organization.objects.create(name=form.cleaned_data.get('dma_name'),parent=parent)
+        orgs = Organization.objects.create(name=dma_form.cleaned_data.get('dma_name'),parent=parent)
 
-        obj = DMABaseinfo.objects.create(dma_no=form.cleaned_data.get('dma_no'),dma=orgs)
+        obj = DMABaseinfo.objects.create(dma_no=dma_form.cleaned_data.get('dma_no'),dma=orgs)
         # return HttpResponseRedirect("/virvo/dma/1/")
-    if form.errors:
-        print(form.errors)
-    return render(request,'virvo/dma_manager.html',{'dma_form':form})
+    if dma_form.errors:
+        print(dma_form.errors)
+    return render(request,'virvo/dma_manager.html',{'dma_form':dma_form})
 
 class DMAListView(UpdateView):
     template_name = 'virvo/dma_manager.html'
     form_class = DMABaseinfoForm
+    model = DMABaseinfo
     # success_url = '/virvo/dma/1'
 
     def get_queryset(self):
@@ -252,8 +213,9 @@ class DMAListView(UpdateView):
     def get_context_data(self, *args, **kwargs):
         context = super(DMAListView, self).get_context_data(*args, **kwargs)
         context['title'] = 'DMA 管理'
-
-        context['station_list'] = Stations.objects.all()
+        pk = self.kwargs.get('pk')
+        orgs = Organization.objects.get(pk=pk)
+        context['station_list'] = Stations.objects.filter(belongto=orgs)
 
         create_dma_form = CreateDMAForm()
         context['dma_form'] = create_dma_form
@@ -273,114 +235,6 @@ class DMAListView(UpdateView):
 
 
 
-class StationsView(ListView):
-    """docstring for StationsView"""
-
-    model = Stations
-    template_name = 'virvo/stations_list.html'
-
-    def get_queryset(self):
-        pk = self.kwargs.get('pk') or 1
-        orgs = Organization.objects.get(pk=pk)
-        print(pk,orgs)
-        return Stations.objects.all() #Stations.objects.filter(belongto=orgs)
-    
-    def get_context_data(self, *args, **kwargs):
-        # print(self.kwargs)
-        # print(args)
-        # print(self.request)
-        context = super(StationsView, self).get_context_data(*args, **kwargs)
-
-        form = StationsForm(self.request.POST or None)
-            
-        context['form'] = form
-        context['station_list'] = self.get_queryset()
-        
-                
-        return context     
-
-    def post(self,request,*args,**kwargs) :
-        context = self.get_context_data(*args, **kwargs)
-        print('sadjfkkjasdfasd8fas6df6')
-        form = context['form']
-        if form.is_valid():
-            print(self.request.POST)
-            form.save()
-            
-        if form.errors:
-            print(form.errors)
-
-        return super(StationsView,self).render_to_response(context)
-
-
-
-def create_station(request):
-    print('create_station...')
-    form = CreateStationForm(request.POST or None)
-    if form.is_valid():
-        form.save()
-        # return HttpResponseRedirect("/virvo/dma/1/")
-    if form.errors:
-        print(form.errors)
-    return render(request,'virvo/station_list.html',{'form':form})
-    
-class StationFormUpdateView(UpdateView):
-    model = Stations
-    form_class = StationsForm
-    template_name = 'virvo/edit_form.html'
-
-    def dispatch(self, *args, **kwargs):
-        print('dispatch..')
-        print(kwargs)
-        self.pk = kwargs['pk']
-        return super(StationFormUpdateView, self).dispatch(*args, **kwargs)
-
-    def form_valid(self, form):
-        form.save()
-        item = Item.objects.get(id=self.pk)
-        return HttpResponse(render_to_string('virvo/item_edit_form_success.html', {'item': item}))
-
-    def get_queryset(self):
-        return Stations.objects.all()  
-
-class StationsListView(UpdateView):
-    template_name = 'virvo/edit_form_inner.html'
-    form_class = StationsForm
-
-    def get_queryset(self):
-        return Stations.objects.all()        
-
-    def get_form_kwargs(self):
-        print (self.kwargs)
-        kwargs = super(StationsListView, self).get_form_kwargs()
-        # kwargs['user'] = self.request.user
-        print (kwargs)
-        return kwargs
-
-    def get_context_data(self, *args, **kwargs):
-        context = super(StationsListView, self).get_context_data(*args, **kwargs)
-        context['title'] = 'DMA 管理'
-
-        # context['station_list'] = Stations.objects.all()
-
-        
-
-        return context
-
-    def form_valid(self,form):
-        orgs = form.cleaned_data.get('orgs')
-        print(orgs,type(orgs))
-        print (form.instance)
-        
-        # form.instance.dma.parent = orgs
-        # form.instance.dma.save()
-
-        return super(StationsListView,self).form_valid(form)
-
-
-
-
-# 
 
 
 """
@@ -390,7 +244,7 @@ class StationsCreateMangerView(CreateView):
     model = Stations
     template_name = 'virvo/stations_create_manager.html'
     form_class = StationsCreateManagerForm
-    success_url = reverse_lazy('stations_list_manager');
+    # success_url = reverse_lazy('stations_list_manager');
 
     # @method_decorator(permission_required('virvo.change_stations'))
     def dispatch(self, *args, **kwargs):
@@ -416,7 +270,16 @@ class StationsListMangerView(ListView):
         #     return Stations.objects.filter(centre__in=manager.centres.all())
         # else:
         #     return Stations.objects.all()
-        return Stations.objects.all()
+        dma_id = self.kwargs.get('dma_id') or 1
+        orgs = Organization.objects.get(pk=dma_id)
+        # print(pk,orgs)
+        return Stations.objects.filter(belongto=orgs)
+
+    def get_context_data(self,**kwargs):
+        context = super(StationsListMangerView,self).get_context_data(**kwargs)
+
+        return context
+
 
 """
 Stations edit, manager
@@ -441,4 +304,5 @@ class StationsUpdateManagerView(UpdateView):
 
     def get_context_data(self, **kwargs):
         context = super(StationsUpdateManagerView, self).get_context_data(**kwargs)
+        context['page_title'] = '修改站点'
         return context

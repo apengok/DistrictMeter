@@ -148,6 +148,8 @@ USE_L10N = False
 
 USE_TZ = False
 
+DATE_INPUT_FORMATS = ['%d-%m-%Y']
+
 #add geospatial something
 GEOS_LIBRARY_PATH = '/usr/local/lib/libgeos_c.so'
 GDAL_LIBRARY_PATH = '/usr/local/lib/libgdal.so'

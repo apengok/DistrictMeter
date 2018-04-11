@@ -42,10 +42,11 @@ body {
 .date_1 {
     grid-column-start: 7;
     grid-column-end: 8;
-
+    background-color: rgba(0, 153, 204, 1);
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr 1fr;
+    margin:5px;
 }
 
 .w {
@@ -72,6 +73,7 @@ body {
 .time_1 {
   grid-column-start: 8;
   grid-column-end: 9;
+  margin:5px;
 }
 
 .sidebar {
@@ -351,7 +353,7 @@ body {
   margin-left: 5px;
 }
 
-.map {
+.emd_map {
     /*position: absolute;
     top: 0;
     bottom: 0;

@@ -21,9 +21,9 @@ urlpatterns = [
     url(r'createdma/$',views.create_dma,name='create_dma'),
     url(r'dma/(?P<pk>\d+)/$', views.DMAListView.as_view(),name='dma_manager'),
 
-    url(r'dma/(?P<pk>\d+)/station/?$', views.StationsView.as_view(),name='station_home'),
-    url(r'station/(?P<pk>\d+)/?$', views.StationFormUpdateView.as_view(),name='station_manager'),
-    url(r'createstation/$',views.create_station,name='create_station'),
+    # url(r'dma/(?P<pk>\d+)/station/?$', views.StationsView.as_view(),name='station_home'),
+    # url(r'station/(?P<pk>\d+)/?$', views.StationFormUpdateView.as_view(),name='station_manager'),
+    # url(r'createstation/$',views.create_station,name='create_station'),
     
     # url(r'list/(?P<pk>\d+)/edit/$', views.StationsUpdateView.as_view(),name='station_edit'),
     
@@ -33,8 +33,8 @@ urlpatterns = [
     url(r'^test-form/$', views.TestFormView.as_view(), name="test-form"),
 
     # 
-    url(r'^ausili/cespiti/modifica/(?P<pk>[0-9]+)/?$', views.StationsUpdateManagerView.as_view(), name='stations_edit_manager'),
-    url(r'^ausili/cespiti/carica/?$', views.StationsCreateMangerView.as_view(), name='stations_create_manager'),
-    url(r'^ausili/cespiti/lista/?$', views.StationsListMangerView.as_view(), name='stations_list_manager'),
-
+    url(r'^station/create/?$', views.StationsCreateMangerView.as_view(), name='stations_create_manager'),
+    url(r'^dma/(?P<dma_id>\d+)/station/?$', views.StationsListMangerView.as_view(), name='stations_list_manager'),
+    url(r'^station/update/(?P<pk>[0-9]+)/?$', views.StationsUpdateManagerView.as_view(), name='stations_edit_manager'),
+    
 ]

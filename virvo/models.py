@@ -49,6 +49,9 @@ class DMABaseinfo(models.Model):
     night_use     = models.CharField('正常夜间用水量',max_length=50,null=True, blank=True)
     cxc_value     = models.CharField('产销差目标值',max_length=50, null=True, blank=True)
 
+    creator     = models.CharField('负责人',max_length=50, null=True, blank=True) 
+    create_date  = models.DateField('建立日期',max_length=50, null=True, blank=True) 
+
     dma = models.OneToOneField(
         Organization,
         on_delete=models.CASCADE,
@@ -81,11 +84,14 @@ class Stations(models.Model):
     caliber         = models.CharField('口径',max_length=50,  null=True, blank=True)
     big_user        = models.BooleanField('大用户',max_length=50, blank=True)
     focus           = models.BooleanField('重点关注',max_length=50, blank=True)
-    installed       = models.DateField('安装日期',auto_now=True)
+    installed       = models.DateField('安装日期',blank=True)
 
     belongto        = models.ForeignKey(Organization,verbose_name='所属组织',related_name='station',on_delete=models.CASCADE) #class_instance.model_set.all()
 
-    
+    station_desc    = models.CharField('站点描述',max_length=50, null=True, blank=True)
+    longitude       = models.CharField('经度',max_length=50, null=True, blank=True)
+    latitude        = models.CharField('纬度',max_length=50, null=True, blank=True)
+    geopos          = models.CharField('位置信息',max_length=50, null=True, blank=True)
 
     class Meta:
         
@@ -94,7 +100,7 @@ class Stations(models.Model):
 
     def get_absolute_url(self): #get_absolute_url
         # return "/organ/{}".format(self.pk)
-        return reverse('virvo:station_manager', kwargs={'pk': self.pk})
+        return reverse('virvo:stations_list_manager', kwargs={'dma_id': self.belongto.id})
 
     def __unicode__(self):
         return self.station_name

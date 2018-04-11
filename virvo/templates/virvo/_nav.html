@@ -34,9 +34,15 @@
               <p><span>数据监控</span></p>
               
             </div>
-            <div class="col-md-2" style="top: 20px;">
+            <div class=" dropdown col-md-2" style="top: 20px;">
               
               <span class="fa fa-angle-right"></span>
+
+              <!-- dropdown menu -->
+              <ul class="dropdown-menu">
+                  <li><a href="{% url 'virvo:map_monitor'  %}">地图监控</a></li>
+                  
+              </ul>
               
             </div>
         </div>
@@ -104,7 +110,7 @@
               <!-- dropdown menu -->
               <ul class="dropdown-menu">
                   <li><a href="{% url 'virvo:dma_manager' pk=1 %}">dma管理</a></li>
-                  <li><a href="{% url 'virvo:station_manager' pk=1 %}">站点管理</a></li>
+                  <li><a href="{% url 'virvo:stations_list_manager' dma_id=1 %}">站点管理</a></li>
               </ul>
               
             </div>
