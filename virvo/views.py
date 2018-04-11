@@ -122,7 +122,10 @@ def getchartd(request):
 
     return JsonResponse({'data':data})
 
-
+class rt_curveView(TemplateView):
+    """docstring for rt_curveView"""
+    template_name = 'virvo/rt_curve.html'
+        
 
 
 class MNFView(TemplateView):

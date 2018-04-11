@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'mnf/$', views.MNFView.as_view(),name='mnf'),
     url(r'mapmonitor/$', TemplateView.as_view(template_name='virvo/map_monitor.html'),name='map_monitor'),
 
-    url(r'^test-form/$', views.TestFormView.as_view(), name="test-form"),
+    url(r'^rt_curve/$', views.rt_curveView.as_view(), name="rt_curve"),
 
     # 
     url(r'^station/create/?$', views.StationsCreateMangerView.as_view(), name='stations_create_manager'),

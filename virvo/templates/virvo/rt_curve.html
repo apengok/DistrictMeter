@@ -1,0 +1,59 @@
+{% extends 'virvo/_base2.html' %}
+
+{% load staticfiles %}
+
+{% block page_title %}
+
+{% endblock %}
+
+
+{% block content %}
+  <div class="curve_content">
+      <div class="curve_item">
+        <div id="main" style="width: 300px;height:220px;"></div>
+        <div >沙田水厂淡水</div>
+        <div>DN200</div>
+      </div>
+      <div class="curve_item">2</div>
+      <div class="curve_item">3</div>
+      <div class="curve_item">4</div>
+      <div class="curve_item">1</div>
+      <div class="curve_item">2</div>
+      <div class="curve_item">3</div>
+      <div class="curve_item">4</div>
+
+  </div>
+  <div id="myposition"></div>
+{% endblock %}
+
+
+{% block javascript %}
+ {{ block.super }}
+    <SCRIPT LANGUAGE="JavaScript">
+       // 基于准备好的dom，初始化echarts实例
+        var myChart = echarts.init(document.getElementById('main'));
+console.log(myChart);
+        // 指定图表的配置项和数据
+        var option = {
+            // title: {
+            //     text: 'ECharts 入门示例'
+            // },
+            tooltip: {},
+            // legend: {
+            //     data:['销量']
+            // },
+            xAxis: {
+                data: ["0:00",,,,,,,"8:00","16:00","24:00"]
+            },
+            yAxis: {},
+            series: [{
+                name: '销量',
+                type: 'line',
+                data: [215, 320, 360, 1000, 1089, 1420, 320, 360, 1000, 1089, 1420]
+            }]
+        };
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+    </SCRIPT>
+{% endblock %}      

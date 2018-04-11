@@ -13,8 +13,8 @@ var appLayer = function (options) {
    return layer;
 }
 
-var latitude = 118.40;
-var longitude = 29.86;
+var latitude = 114.3524087439;//22.6942072709,114.3524087439
+var longitude = 22.6942072709;
 
 var center = [latitude,longitude];
 

@@ -1,15 +1,32 @@
 {% extends 'virvo/_base2.html' %}
 
+{% load staticfiles %}
+
+{% block page_title %}
+
+{% endblock %}
 
 
 {% block content %}
   <div >
       <div id="js-map" class="map"></div>
       <div id="js-overlay" class="overlay">
-          <button type="button" id="js-clone" class="btn btn-success">Clone</button>
-          <button type="button" id="js-remove" class="btn btn-danger">Remove</button>
+          <div>站点名称:东门小学</div>
+          <div>所属组织:龙岗分公司</div>
+          <div>关联表具:170524</div>
+          <div>表具类型:电池水表</div>
+          <div>表均口径:DN200</div>
+          <div>状态:在线</div>
+          <hr>
+          <div>采集时间:2018-04-11</div>
+          <div>瞬时流量:12.54 m3/h</div>
+          <div>累积流量:546521 m3</div>
+          <div>管网压力:0.054MPa</div>
+          <div>信号强度:25</div>
       </div>
+
   </div>
+  <div id="myposition"></div>
 {% endblock %}
 
 
@@ -18,31 +35,127 @@
     <SCRIPT LANGUAGE="JavaScript">
 
     // map
-    var vectorLayer = new ol.layer.Vector({
-        source: new ol.source.Vector({
-            features: [
-                new ol.Feature(new ol.geom.Circle([2780119, 8437147], 900)),
-                new ol.Feature(new ol.geom.Circle([2774826, 8433459], 850)),
-                new ol.Feature(new ol.geom.Circle([2772686, 8438217], 999))
-            ]
-        })
+    var appLayer = function (options) {
+    var layer = new ol.layer.Tile({
+       extent: ol.proj.transformExtent(options.mapExtent, options.fromProject, options.toProject),
+       source: new ol.source.XYZ({
+            urls: options.urls,
+            tilePixelRatio: options.tilePixelRatio,
+            minZoom: options.mapMinZoom,
+            maxZoom: options.mapMaxZoom
+            })
+       });
+       return layer;
+    }
+
+    var normal_background = new appLayer({
+        urls: ['http://t0.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}',
+                'http://t1.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}',
+                'http://t2.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}',
+                'http://t3.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}',
+                'http://t4.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}',
+                'http://t5.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}',
+                'http://t6.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}',
+                'http://t7.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}'],
+        mapExtent: [-2.0037508342787E7, -2.0037508342787E7, 2.0037508342787E7, 2.0037508342787E7],
+        tilePixelRatio: 1,
+        fromProject: "EPSG:102100",
+        toProject: "EPSG:3857"
+    })
+
+    var normal_data = new appLayer({
+        urls: ['http://t0.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}',
+                'http://t1.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}',
+                'http://t2.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}',
+                'http://t3.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}',
+                'http://t4.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}',
+                'http://t5.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}',
+                'http://t6.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}',
+                'http://t7.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}'],
+        mapExtent: [-2.0037508342787E7, -2.0037508342787E7, 2.0037508342787E7, 2.0037508342787E7],
+        tilePixelRatio: 1,
+        fromProject: "EPSG:102100",
+        toProject: "EPSG:3857"
+    })
+
+    var latitude = 114.3524087439;//22.6942072709,114.3524087439
+    var longitude = 22.6942072709;
+
+    var center = [latitude,longitude];
+
+    var attribution = new ol.control.Attribution({
+        className : 'none'
+    });
+
+    var arrNormal = new ol.Collection();
+    arrNormal.push(normal_background);
+    arrNormal.push(normal_data);
+
+    var normal_group = new ol.layer.Group({
+        //mapType: ol.control.MapType.NORMAL_MAP,
+        layers : arrNormal
     });
 
     var map = new ol.Map({
         view: new ol.View({
-            zoom: 13,
-            center: [2775906, 8433717]  //22.6942072709,114.3524087439
+            center:  new ol.proj.transform(center,"EPSG:4326","EPSG:3857"),
+            maxZoom : 23,
+            minZoom : 13,
+            zoom: 13
         }),
-        target: 'js-map',
-        layers: [
-            new ol.layer.Tile({
-                source: new ol.source.OSM(),
-                opacity: 0.4
-            }),
-            vectorLayer
-        ]
+        controls: ol.control.defaults({ attribution: false }).extend([attribution]),
+        target:"js-map"
     });
 
+    map.addLayer(normal_group);
+
+    var mousePosition = new ol.control.MousePosition({
+        coordinateFormat: ol.coordinate.createStringXY(5),
+        projection: 'EPSG:4326',
+        target: document.getElementById('myposition'),
+        undefinedHTML: '&nbsp;'
+        });
+
+    map.addControl(mousePosition);
+
+    // add icon marker
+    var createIconStyle = function(country) {
+        return new ol.style.Style({
+            image: new ol.style.Icon({
+                anchor: [0.5, 46],
+                anchorXUnits: 'fraction',
+                anchorYUnits: 'pixels',
+                opacity: 0.75,
+                src: "{% static 'virvo/images/' %}" + country + '.png'
+            })
+        })
+    };
+
+    var algeria = new ol.Feature({
+        geometry:new ol.geom.Point(ol.proj.transform([114.32416, 22.69306],"EPSG:4326","EPSG:3857")),
+        name:'algeria',
+        population: 4000,
+        rainfall: 500
+    });
+    var libya = new ol.Feature(new ol.geom.Point(ol.proj.transform([114.37316, 22.69107],"EPSG:4326","EPSG:3857")));
+    var niger = new ol.Feature(new ol.geom.Point(ol.proj.transform([114.39709, 22.67306],"EPSG:4326","EPSG:3857")));
+
+    algeria.setStyle(createIconStyle('u3019'));
+    libya.setStyle(createIconStyle('u3054'));
+    niger.setStyle(createIconStyle('u3044'));
+
+    var vectorLayer = new ol.layer.Vector({
+        source: new ol.source.Vector({
+            features: [algeria, libya, niger]
+        })
+    });
+
+    map.addLayer(vectorLayer);
+
+    var element = document.getElementById('js-overlay');
+    
+
+    // overlay
     var overlay = new ol.Overlay({
         element:document.getElementById('js-overlay')
     });
@@ -58,29 +171,15 @@
     });
     map.addInteraction(select);
 
+    // display popup on click
+    
     select.on('select',function(event) {
         selectedFeature = event.selected[0];
-        (selectedFeature) ? overlay.setPosition(selectedFeature.getGeometry().getCenter()) : overlay.setPosition(undefined);
+        console.log(selectedFeature);
+        (selectedFeature) ? overlay.setPosition(selectedFeature.getGeometry().getCoordinates()) : overlay.setPosition(undefined);
+        
     });
 
-    document.getElementById('js-clone').addEventListener('click',function() {
-        var circle = selectedFeature.clone();
-        var circleGeometry = circle.getGeometry();
-        var circleCenter = circleGeometry.getCenter();
-
-        circleGeometry.setCenter([
-            circleCenter[0] + circleGeometry.getRadius() * 2,circleCenter[1]
-        ]);
-        vectorLayer.getSource().addFeature(circle);
-        overlay.setPosition(undefined);
-        select.getFeatures().clear();
-    });
-
-    document.getElementById('js-remove').addEventListener('click',function() {
-        vectorLayer.getSource().removeFeature(selectedFeature);
-        overlay.setPosition(undefined);
-        select.getFeatures().clear();
-    });
         
 </SCRIPT>
 {% endblock %}
