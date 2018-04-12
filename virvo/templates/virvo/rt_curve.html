@@ -57,15 +57,15 @@
             }]
         };
 
-var a = {{ jsd|safe }};
-      console.log(a);
-      var curitems = $('.curve_item');
-      console.log(curitems);
-      for (var i = curitems.length - 1; i >= 0; i--) {
-        element=curitems[i];
-        console.log(element.firstElementChild);
-        myChart = echarts.init(element.firstElementChild);
-        option.series[0].data = a.data;
+      var a = {{ jsd|safe }};
+      json = eval(a);
+      
+      for (var i = json.length - 1; i >= 0; i--) {
+        var name = json[i].name;
+        var data = json[i].data;
+        
+        myChart = echarts.init(document.getElementById(name));
+        option.series[0].data = data;
         myChart.setOption(option, true);
         
       }

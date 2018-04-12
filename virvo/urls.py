@@ -15,7 +15,7 @@ urlpatterns = [
     url(r'getstationtree/$',views.get_stationtree,name='getstationtree'),
     url(r'getdmatree/$',views.get_dmatree,name='getdmatree'),
 
-    url(r'gettreenode/$',views.gettreenode,name='gettreenode'),
+    url(r'gettree/$',views.gettree,name='gettree'),
     url(r'getchartd/$',views.getchartd,name='getchartd'),
 
     url(r'createdma/$',views.create_dma,name='create_dma'),
@@ -30,7 +30,7 @@ urlpatterns = [
     url(r'mnf/$', views.MNFView.as_view(),name='mnf'),
     url(r'mapmonitor/$', TemplateView.as_view(template_name='virvo/map_monitor.html'),name='map_monitor'),
 
-    url(r'^rt_curve/$', views.rt_curveView.as_view(), name="rt_curve"),
+    url(r'^dma/(?P<dma_id>\d+)/rt_curve/$', views.rt_curveView.as_view(), name="rt_curve"),
 
     # 
     url(r'^station/create/?$', views.StationsCreateMangerView.as_view(), name='stations_create_manager'),

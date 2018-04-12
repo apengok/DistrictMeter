@@ -32,19 +32,16 @@ function load_dmaTree()
           if (treeNode.name != '威尔沃') return;
           var aObj = $("#" + treeNode.tId + IDMark_A);
 
-          console.log(treeId);
-          console.log(treeNode.id);
-          console.log(treeNode.name);
-          //if (treeNode.id == 1) {
-            var editStr = '<img id="diyBtn_add" class="img " src="/static/virvo/images/add.png" tabindex="0" onfocus="this.blur()"; style="outline: none;">';
-            
-            aObj.after(editStr);
-            console.log(aObj);
-            var btn = $("#diyBtn_add");
-            if (btn) btn.bind("click", function(){
-              $("#new-form-modal").modal();
-            });
-          //}
+          
+          var editStr = '<img id="diyBtn_add" class="img " src="/static/virvo/images/add.png" tabindex="0" onfocus="this.blur()"; style="outline: none;">';
+          
+          aObj.after(editStr);
+          console.log(aObj);
+          var btn = $("#diyBtn_add");
+          if (btn) btn.bind("click", function(){
+            $("#new-form-modal").modal();
+          });
+        
         }
             
         $.ajax({

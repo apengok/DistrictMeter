@@ -102,6 +102,25 @@ def get_dmatree(request):
     
     return JsonResponse({'trees':dicts})
 
+def gettree(request):
+    print(request.GET)
+    page_name = request.GET.get('page_name') or ''
+    print(page_name)
+    organs = Organization.objects.all()
+    
+    top_nodes = get_cached_trees(organs)
+
+    dicts = []
+    for n in top_nodes:
+        dicts.append(recursive_node_to_dict(n,page_name))
+
+    
+    # print json.dumps(dicts, indent=4)
+
+    
+    
+    return JsonResponse({'trees':dicts})
+
 def gettreenode(request):
     node = request.POST['node']
     
@@ -129,8 +148,8 @@ class rt_curveView(TemplateView):
     def get_context_data(self, *args, **kwargs):
         context = super(rt_curveView, self).get_context_data(*args, **kwargs)
         context['page_title'] = '实时曲线'
-        pk = self.kwargs.get('pk') or 1
-        orgs = Organization.objects.get(pk=pk)
+        dma_id = self.kwargs.get('dma_id') or 1
+        orgs = Organization.objects.get(pk=dma_id)
         stations_list = Stations.objects.filter(belongto=orgs)
         context['station_list'] = stations_list
 
@@ -146,14 +165,19 @@ class rt_curveView(TemplateView):
                 'caliber':s.caliber
             }
             return result
+
+        jsd=[]
         for s in stations_list:
             rt_dataset.append(curse_data(s) )
+            jsd.append({'data':[random.randint(2,13), random.randint(2,13), random.randint(2,13), random.randint(2,13), random.randint(2,13), random.randint(2,13)],
+                'name':'chart_{}'.format(s.station_name)})
         
         context['rt_dataset'] = rt_dataset
-        print(rt_dataset)
+        dum=json.dumps(jsd)
+        # print(type(dum),dum)
 
         data = [random.randint(2,13), 20, 6, 10, 20, 30]
-        context['jsd'] = json.dumps({'data':data})
+        context['jsd'] = json.dumps(jsd)
 
         
 
