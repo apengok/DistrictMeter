@@ -120,11 +120,44 @@ def gettreenode(request):
 def getchartd(request):
     data = [random.randint(2,13), 20, 6, 10, 20, 30]
 
-    return JsonResponse({'data':data})
+    return JsonResponse({'data':data})  
 
 class rt_curveView(TemplateView):
     """docstring for rt_curveView"""
     template_name = 'virvo/rt_curve.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(rt_curveView, self).get_context_data(*args, **kwargs)
+        context['page_title'] = '实时曲线'
+        pk = self.kwargs.get('pk') or 1
+        orgs = Organization.objects.get(pk=pk)
+        stations_list = Stations.objects.filter(belongto=orgs)
+        context['station_list'] = stations_list
+
+        for station in stations_list:
+            pass
+
+        rt_dataset = []
+        def curse_data(s):
+            result = {
+                'chart_id':'chart_{}'.format(s.station_name),
+                'data':[1,2,3,4,5,6],
+                'station_name':s.station_name,
+                'caliber':s.caliber
+            }
+            return result
+        for s in stations_list:
+            rt_dataset.append(curse_data(s) )
+        
+        context['rt_dataset'] = rt_dataset
+        print(rt_dataset)
+
+        data = [random.randint(2,13), 20, 6, 10, 20, 30]
+        context['jsd'] = json.dumps({'data':data})
+
+        
+
+        return context
         
 
 

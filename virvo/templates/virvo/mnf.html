@@ -55,11 +55,11 @@
                 });
  
                     
-                    option.series[0].data = server_info;
+                option.series[0].data = server_info;
 
-                    myChart.setOption(option, true);
- 
-                }, 2000);  
+                myChart.setOption(option, true);
+
+            }, 2000);  
  
          window.onresize = function () {
             myChart.resize();      

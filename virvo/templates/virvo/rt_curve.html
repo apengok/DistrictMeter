@@ -9,18 +9,19 @@
 
 {% block content %}
   <div class="curve_content">
+    {% for rt in rt_dataset %}
       <div class="curve_item">
-        <div id="main" style="width: 300px;height:220px;"></div>
+        <div id="{{ rt.chart_id }}" style="width: 300px;height:220px;"></div>
+        <div >{{ rt.station_name }}</div>
+        <div>{{ rt.caliber }}</div>
+      </div>
+    {% endfor %}
+      <!-- <div class="curve_item">
+        <div id="main2" style="width: 300px;height:220px;"></div>
         <div >沙田水厂淡水</div>
         <div>DN200</div>
-      </div>
-      <div class="curve_item">2</div>
-      <div class="curve_item">3</div>
-      <div class="curve_item">4</div>
-      <div class="curve_item">1</div>
-      <div class="curve_item">2</div>
-      <div class="curve_item">3</div>
-      <div class="curve_item">4</div>
+      </div> -->
+      
 
   </div>
   <div id="myposition"></div>
@@ -30,30 +31,73 @@
 {% block javascript %}
  {{ block.super }}
     <SCRIPT LANGUAGE="JavaScript">
+
        // 基于准备好的dom，初始化echarts实例
-        var myChart = echarts.init(document.getElementById('main'));
-console.log(myChart);
+        // var myChart = echarts.init(document.getElementById('main'));
+        var server_info;
         // 指定图表的配置项和数据
         var option = {
             // title: {
             //     text: 'ECharts 入门示例'
             // },
             tooltip: {},
-            // legend: {
-            //     data:['销量']
-            // },
-            xAxis: {
-                data: ["0:00",,,,,,,"8:00","16:00","24:00"]
+            legend: {
+                data:['flow']
             },
-            yAxis: {},
+            xAxis: {
+                data: ["0:00","","08:00","","16:00","","24:00"]
+            },
+            yAxis: {
+              name:'m3/h'
+            },
             series: [{
-                name: '销量',
+                name: 'time',
                 type: 'line',
-                data: [215, 320, 360, 1000, 1089, 1420, 320, 360, 1000, 1089, 1420]
+                data: [5, 20, 36, 10, 10, 20]
             }]
         };
 
+var a = {{ jsd|safe }};
+      console.log(a);
+      var curitems = $('.curve_item');
+      console.log(curitems);
+      for (var i = curitems.length - 1; i >= 0; i--) {
+        element=curitems[i];
+        console.log(element.firstElementChild);
+        myChart = echarts.init(element.firstElementChild);
+        option.series[0].data = a.data;
+        myChart.setOption(option, true);
+        
+      }
+
+      
+
+      
+
+
         // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
+        // myChart.setOption(option);
+
+        // // setInterval( function () {     
+ 
+        //         $.ajax({
+        //             type: 'GET',
+        //             url: '/virvo/getchartd',
+        //             dataType: 'json',
+        //             success: function (json) {
+        //                 server_info = json['data'];
+        //             }
+        //         });
+ 
+                    
+        //         option.series[0].data = server_info;
+
+                // myChart.setOption(option, true);
+
+            // }, 2000);  
+ 
+        //  window.onresize = function () {
+        //     myChart.resize();      
+        // };
     </SCRIPT>
 {% endblock %}      
