@@ -40,8 +40,9 @@
 
               <!-- dropdown menu -->
               <ul class="dropdown-menu">
-                  <li><a href="{% url 'virvo:map_monitor'  %}">地图监控</a></li>
+                  <li><a href="{% url 'virvo:map_monitor' dma_id=1 %}">地图监控</a></li>
                   <li><a href="{% url 'virvo:rt_curve' dma_id=1 %}">实时曲线</a></li>
+                  <li><a href="{% url 'virvo:rt_data' dma_id=1 %}">实时数据</a></li>
               </ul>
               
             </div>
@@ -61,9 +62,15 @@
               <p><span>数据分析</span></p>
               
             </div>
-            <div class="col-md-2" style="top: 20px;">
+            <div class="dropdown col-md-2" style="top: 20px;">
               
               <span class="fa fa-angle-right"></span>
+
+              <!-- dropdown menu -->
+              <ul class="dropdown-menu">
+                  <li><a href="{% url 'virvo:daily_use' dma_id=1 %}">日用水分析</a></li>
+                  
+              </ul>
               
             </div>
         </div>

@@ -109,3 +109,69 @@ class Stations(models.Model):
         return self.station_name
     
 
+class MeterFlow(models.Model):
+    stations        = models.ForeignKey(Stations,blank=True, null=True,on_delete=models.CASCADE) 
+    comm_status     = models.CharField('状态', max_length=30, blank=True, null=True)  # Field name made lowercase.
+    read_time       = models.DateTimeField('最新采样时间', auto_now_add=True )  # Field name made lowercase.
+    read_interval   = models.CharField('采样间隔min', max_length=128, blank=True, null=True)  # Field name made lowercase.
+    report_interval = models.CharField('上报间隔h', max_length=128, blank=True, null=True)  # Field name made lowercase.
+    instance_flow   = models.CharField('瞬时流量m³/h', max_length=30, blank=True, null=True)  # Field name made lowercase.
+    postive_flow    = models.CharField('正向流量m³', max_length=30, blank=True, null=True)  # Field name made lowercase.
+    reverse_flow    = models.CharField('反向流量m³', max_length=30, blank=True, null=True)  # Field name made lowercase.
+    base_power      = models.CharField('基表电量%', max_length=30, blank=True, null=True)  # Field name made lowercase.
+    trans_power     = models.CharField('远传电量%', max_length=30, blank=True, null=True)  # Field name made lowercase.
+    signals         = models.CharField('信号强度%', max_length=30, blank=True, null=True)  # Field name made lowercase.
+    
+    
+    class Meta:
+        managed = True
+        db_table = 'meterflow'
+        
+
+    def __unicode__(self):
+        return '%s_flow'%(self.stations.station_name)
+
+    def __str__(self):
+        return '%s_flow'%(self.stations.station_name)
+
+
+class MeterPress(models.Model):
+    stations        = models.ForeignKey(Stations,blank=True, null=True,on_delete=models.CASCADE) 
+    read_time       = models.DateTimeField('最新采样时间', auto_now_add=True )  # Field name made lowercase.
+    read_interval   = models.CharField('采样间隔min', max_length=128, blank=True, null=True)  # Field name made lowercase.
+    report_interval = models.CharField('上报间隔h', max_length=128, blank=True, null=True)  # Field name made lowercase.
+    press           = models.CharField('压力Mpa', max_length=30, blank=True, null=True)  # Field name made lowercase.
+    
+    
+    
+    class Meta:
+        managed = True
+        db_table = 'meterpress'
+        
+
+    def __unicode__(self):
+        return '%s_press'%(self.stations.station_name)       
+
+    def __str__(self):
+        return '%s_flow'%(self.stations.station_name) 
+
+
+class Alarms(models.Model):
+    stations        = models.ForeignKey(Stations,blank=True, null=True,on_delete=models.CASCADE) 
+    report_time     = models.DateTimeField('报警时间',auto_now_add=True)
+    alarm_type      = models.CharField('报警类型',max_length=30,null=True,blank=True)
+    process_status  = models.CharField('处理状态',max_length=30,null=True,blank=True)
+    process_by      = models.CharField('处理人',max_length=30,null=True,blank=True)
+    process_time    = models.DateTimeField('处理时间',auto_now=False,null=True,blank=True)
+    notes           = models.CharField('备注',max_length=300,null=True,blank=True)
+
+
+    class Meta:
+        managed = True
+        db_table = 'alarms'
+
+    def __unicode__(self):
+        return '%s_alarms'%(self.stations.station_name)       
+
+    def __str__(self):
+        return '%s_alarms'%(self.stations.station_name) 

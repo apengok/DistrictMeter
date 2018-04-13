@@ -21,16 +21,14 @@ urlpatterns = [
     url(r'createdma/$',views.create_dma,name='create_dma'),
     url(r'dma/(?P<pk>\d+)/$', views.DMAListView.as_view(),name='dma_manager'),
 
-    # url(r'dma/(?P<pk>\d+)/station/?$', views.StationsView.as_view(),name='station_home'),
-    # url(r'station/(?P<pk>\d+)/?$', views.StationFormUpdateView.as_view(),name='station_manager'),
-    # url(r'createstation/$',views.create_station,name='create_station'),
-    
-    # url(r'list/(?P<pk>\d+)/edit/$', views.StationsUpdateView.as_view(),name='station_edit'),
+    url(r'^dma/(?P<dma_id>\d+)/daily/$', views.DailyuseView.as_view(), name="daily_use"),
     
     url(r'mnf/$', views.MNFView.as_view(),name='mnf'),
-    url(r'mapmonitor/$', TemplateView.as_view(template_name='virvo/map_monitor.html'),name='map_monitor'),
+    url(r'^dma/(?P<dma_id>\d+)/mapmonitor/?$', TemplateView.as_view(template_name='virvo/map_monitor.html'),name='map_monitor'),
 
     url(r'^dma/(?P<dma_id>\d+)/rt_curve/$', views.rt_curveView.as_view(), name="rt_curve"),
+    url(r'^dma/(?P<dma_id>\d+)/rt_data/$', views.rt_dataView.as_view(), name="rt_data"),
+    url(r'^station/alarms/(?P<pk>[0-9]+)/?$', views.StationsAlarmView.as_view(), name='stations_alarms_message'),
 
     # 
     url(r'^station/create/?$', views.StationsCreateMangerView.as_view(), name='stations_create_manager'),

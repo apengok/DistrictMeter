@@ -62,11 +62,11 @@
       <div class=" content">
         <!-- breadcrumbs -->
         <div class="breads center">
-          <div class="bred_text ">{% block breadcrumbs %}<a href="#"><span class="fa fa-home">首页</span></a> / 站点管理{% endblock %}</div>
+          <div class="bred_text ">{% block breadcrumbs %}<a href="{% url 'home' %}"><span class="fa fa-home">首页</span></a> / 站点管理{% endblock %}</div>
         </div>
           <!-- page title -->
         <div class="page_title center">
-          <div class="pg_text"><span>{% block page_title %}站点管理{% endblock %}</span></div>
+          <div class="pg_text"><span>{% block page_title %}{{ page_title }}{% endblock %}</span></div>
         </div>
         
         <!-- main contents -->

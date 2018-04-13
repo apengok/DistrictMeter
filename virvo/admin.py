@@ -34,3 +34,19 @@ class DMABaseinfoAdmin(admin.ModelAdmin):
             'night_use',      
             'cxc_value',     
         ]
+
+
+
+@admin.register(models.MeterFlow)
+class StationsAdmin(admin.ModelAdmin):
+    list_display = ['stations','comm_status','read_time','read_interval','report_interval','instance_flow','postive_flow','reverse_flow','base_power','trans_power','signals']    
+
+
+@admin.register(models.MeterPress)
+class StationsAdmin(admin.ModelAdmin):
+    list_display = ['stations','read_time','read_interval','report_interval','press',]    
+
+@admin.register(models.Alarms)
+class StationsAdmin(admin.ModelAdmin):
+    list_display = ['stations','report_time','alarm_type','process_status','process_by','process_time','notes',]    
+

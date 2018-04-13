@@ -57,20 +57,20 @@
               <table id="tb_stations" class="table table-bordered">
                 <thead>
                   <tr>
-                    <th class="id orderable"><a href="?sort=id">ID</a></th>
+                    
+                    <th >序号</th>
                     <th>选择</th>
                     <th></th>
-                    <th class="orderable station_name"><a href="?sort=station_name">站点名称</a></th>
-                    <th class="meter_property orderable"><a href="?sort=meter_property">用水性质</a></th>
-                    <th class="meter_type orderable"><a href="?sort=meter_type">表具类型</a></th>
-                    <th class="meter_code orderable"><a href="?sort=meter_code">表具编号</a></th>
-                    <th class="orderable simno"><a href="?sort=simno">SIM卡号</a></th>
-                    <th class="caliber orderable"><a href="?sort=caliber">口径</a></th>
-                    <th class="belongto orderable"><a href="?sort=belongto">所属组织</a></th>
-                    <th class="big_user orderable"><a href="?sort=big_user">大用户</a></th>
-                    <th class="focus orderable"><a href="?sort=focus">重点关注</a></th>
-                    <th class="installed orderable"><a href="?sort=installed">安装日期</a></th>
-                    
+                    <th >站点名称</th>
+                    <th >用水性质</th>
+                    <th >表具类型</th>
+                    <th >表具编号</th>
+                    <th >SIM卡号</th>
+                    <th >口径</th>
+                    <th >所属组织</th>
+                    <th >大用户</th>
+                    <th >重点关注</th>
+                    <th >安装日期</th>
                     
                   </tr>
   
@@ -118,7 +118,7 @@
         console.log('stations_list_manger...')
 
         $(function(){
-          load_stationTree();
+          load_Tree('station');
         });
 
         $('body').on('hidden.bs.modal', '.modal', function () {

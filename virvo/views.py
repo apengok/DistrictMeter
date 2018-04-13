@@ -4,7 +4,7 @@ from __future__ import unicode_literals
 from django.shortcuts import get_object_or_404,render
 from django.http import HttpResponse,JsonResponse,HttpResponseRedirect
 from django.contrib import messages
-from . models import Organization,Stations,DMABaseinfo
+from . models import Organization,Stations,DMABaseinfo,Alarms
 import json
 import random
 from datetime import datetime
@@ -184,6 +184,21 @@ class rt_curveView(TemplateView):
         return context
         
 
+class rt_dataView(TemplateView):
+    """docstring for rt_curveView"""
+    template_name = 'virvo/rt_data.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(rt_dataView, self).get_context_data(*args, **kwargs)
+        context['page_title'] = '实时数据'
+        dma_id = self.kwargs.get('dma_id') or 1
+        orgs = Organization.objects.get(pk=dma_id)
+        stations_list = Stations.objects.filter(belongto=orgs)
+        context['stations_list'] = stations_list
+
+        
+
+        return context
 
 class MNFView(TemplateView):
     """docstring for StationsView"""
@@ -366,3 +381,70 @@ class StationsUpdateManagerView(UpdateView):
         context = super(StationsUpdateManagerView, self).get_context_data(**kwargs)
         context['page_title'] = '修改站点'
         return context
+
+
+class StationsAlarmView(DetailView):
+    """docstring for StationsAlarmView"""
+    template_name = 'virvo/alarminfo.html'
+
+
+    def get_queryset(self):
+        pk = self.kwargs.get('pk')
+
+        return Alarms.objects.all()
+        
+    def get_context_data(self, **kwargs):
+        context = super(StationsAlarmView, self).get_context_data(**kwargs)
+        context['page_title'] = '报警信息'
+
+        pk = self.kwargs.get('pk')
+        print(pk)
+
+        qs = Stations.objects.get(id=pk)
+
+        context['qs'] = qs.alarms_set.all()
+        return context
+
+
+
+class DailyuseView(TemplateView):
+    """docstring for DailyuseView"""
+    template_name = 'virvo/daily_use.html'
+
+    def get_context_data(self, *args, **kwargs):
+        context = super(DailyuseView, self).get_context_data(*args, **kwargs)
+        context['page_title'] = '日用水分析'
+        dma_id = self.kwargs.get('dma_id') or 1
+        orgs = Organization.objects.get(pk=dma_id)
+        stations_list = Stations.objects.filter(belongto=orgs)
+        context['station_list'] = stations_list
+
+        for station in stations_list:
+            pass
+
+        rt_dataset = []
+        def curse_data(s):
+            result = {
+                'chart_id':'chart_{}'.format(s.station_name),
+                'data':[1,2,3,4,5,6],
+                'station_name':s.station_name,
+                'caliber':s.caliber
+            }
+            return result
+
+        jsd=[]
+        for s in stations_list:
+            rt_dataset.append(curse_data(s) )
+            jsd.append({'data':[random.randint(2,13), random.randint(2,13), random.randint(2,13), random.randint(2,13), random.randint(2,13), random.randint(2,13)],
+                'name':'chart_{}'.format(s.station_name)})
+        
+        context['rt_dataset'] = rt_dataset
+        dum=json.dumps(jsd)
+        # print(type(dum),dum)
+
+        data = [random.randint(2,13), 20, 6, 10, 20, 30]
+        context['jsd'] = json.dumps(jsd)
+
+        
+
+        return context        
