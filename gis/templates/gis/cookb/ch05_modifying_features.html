@@ -1,0 +1,84 @@
+{% extends 'gis/cookb/cookbook.html' %}
+
+{% block title %}Openlayer3 cookbook|ch03 gml layer {% endblock %}
+
+
+{% block stylesheet %}
+<style type="text/css">
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    font-family: Arial, sans-serif;
+}
+
+.ol-attribution > ul {
+    font-size: 2.3rem;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <div id="js-map" class="map"></div>
+    
+    
+
+{% endblock %}
+
+
+{% block javascript %}
+
+
+<script type="text/javascript">
+/**
+ * Chapter 5
+ * Modifying features
+ *
+ * Peter J Langley
+ * http://www.codechewing.com
+ */
+var map = new ol.Map({
+    view: new ol.View({
+        zoom: 10,
+        center: [-12035468, 4686812]
+    }),
+    target: 'js-map',
+    layers: [
+        new ol.layer.Tile({ source: new ol.source.Stamen({
+            layer: 'terrain'
+        })}),
+        new ol.layer.Vector({
+            editable: true,
+            source: new ol.source.Vector({
+                url: '/gis/features.geojson',
+                format: new ol.format.GeoJSON({defaultDataProjection: 'EPSG:3857'})
+            })
+        })
+    ]
+});
+
+var select = new ol.interaction.Select({
+    filter: function(feature, layer) {
+        return layer.get('editable') &&
+            /Polygon|LineString/.test(
+                feature.getGeometry().getType()
+            );
+    },
+    condition: ol.events.condition.click
+});
+map.addInteraction(select);
+
+map.addInteraction(new ol.interaction.Modify({
+    features: select.getFeatures()
+}));
+
+map.addInteraction(new ol.interaction.Translate({
+    features: select.getFeatures()
+}));
+
+</script>
+{% endblock %}

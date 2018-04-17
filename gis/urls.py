@@ -12,6 +12,8 @@ urlpatterns = [
     url(r'^(?P<page>.+\.gml)$', views.StaticView.as_view()),
     url(r'^(?P<page>.+\.kml)$', views.StaticView.as_view()),
     url(r'^(?P<page>.+\.png)$', views.StaticView.as_view()),
+    url(r'^(?P<page>.+\.json)$', views.StaticView.as_view()),
+    url(r'^(?P<page>.+\.geojson)$', views.StaticView.as_view()),
 
     url(r'^getGeom',views.getGeom,name='getGeom'),
     url(r'^country/', TemplateView.as_view(template_name='gis/country.html')),
@@ -41,6 +43,14 @@ urlpatterns = [
     url(r'^cookbook/ch03-wkt-format/$',TemplateView.as_view(template_name='gis/cookb/ch03_wkt_format.html'),name='wkt_format'),
     url(r'^cookbook/ch03-markers/$',TemplateView.as_view(template_name='gis/cookb/ch03_markers.html'),name='markers'),
     url(r'^cookbook/ch03-removing-cloning-feature-overlays/$',TemplateView.as_view(template_name='gis/cookb/ch03_rcf_overlay.html'),name='rcf_overlay'),
+
+    url(r'^cookbook/ch05-drawing-features/$',TemplateView.as_view(template_name='gis/cookb/ch05_drawing_features.html'),name='drawing_features'),
+    url(r'^cookbook/ch05-modifying-features/$',TemplateView.as_view(template_name='gis/cookb/ch05_modifying_features.html'),name='modifying_features'),
+    url(r'^cookbook/ch05-measuring/$',TemplateView.as_view(template_name='gis/cookb/ch05_measuring.html'),name='measuring'),
+    url(r'^cookbook/ch05-add-remove-controls/$',TemplateView.as_view(template_name='gis/cookb/ch05_add_remove_features.html'),name='add_remove_control'),
+    url(r'^cookbook/ch05-geolocation/$',TemplateView.as_view(template_name='gis/cookb/ch05_geolocation.html'),name='geolocation'),
+    url(r'^cookbook/ch05-wms-feature-info/$',TemplateView.as_view(template_name='gis/cookb/ch05_wms_feature_info.html'),name='wms_feature_info'),
+    url(r'^cookbook/ch05-feature-info-from-source/$',TemplateView.as_view(template_name='gis/cookb/ch05_feature_info_from_source.html'),name='feature_info_from_source'),
 
 
     url(r'^cookbook/map-layer', TemplateView.as_view(template_name='gis/cookb/map-layers.html')),

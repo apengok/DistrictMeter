@@ -1,0 +1,175 @@
+{% extends 'gis/cookb/cookbook.html' %}
+
+{% block title %}Openlayer3 cookbook|ch03 gml layer {% endblock %}
+
+
+{% block stylesheet %}
+<style type="text/css">
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 30%;
+    font-family: Arial, sans-serif;
+}
+
+.pane {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 30%;
+    background: ghostwhite;
+    border-left: 5px solid lightsteelblue;
+    box-sizing: border-box;
+    padding: 0 20px;
+    font-family: Arial, sans-serif;
+}
+
+.ol-attribution > ul {
+    font-size: 2.3rem;
+}
+
+form {
+    padding: 15px 15px 0 15px;
+}
+
+.geom-types {
+    padding-top: 0;
+}
+
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <div id="js-map" class="map"></div>
+    <div class="pane">
+        <h1>Drawing Features</h1>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Layer</h3>
+            </div>
+            <form>
+                <div class="form-group">
+                    <select id="js-layer-select" class="form-control">
+                        <option value="vectorLayer1">Vector Layer 1</option>
+                        <option value="vectorLayer2">Vector Layer 2</option>
+                    </select>
+                </div>
+            </form>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Geometry type</h3>
+            </div>
+            <form class="geom-types">
+                <div class="form-group">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="geometries" value="None" checked>
+                            None
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="geometries" value="Point">
+                            Point
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="geometries" value="LineString">
+                            LineString
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="geometries" value="Polygon">
+                            Polygon
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="geometries" value="Circle">
+                            Circle
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+
+
+<script type="text/javascript">
+/**
+ * Chapter 5
+ * Drawing features across multiple vector layers
+ *
+ * Peter J Langley
+ * http://www.codechewing.com
+ */
+var vectorLayer1 = new ol.layer.Vector({
+    source: new ol.source.Vector()
+});
+
+var vectorLayer2 = new ol.layer.Vector({
+    source: new ol.source.Vector()
+});
+
+var map = new ol.Map({
+    view: new ol.View({
+        zoom: 10,
+        center: [-11863791, 3898899]
+    }),
+    target: 'js-map',
+    layers: [
+        new ol.layer.Tile({ source: new ol.source.Stamen({
+            layer: 'terrain'
+        })}),
+        vectorLayer1, vectorLayer2
+    ]
+});
+
+var layerSelect = $('#js-layer-select');
+var geomRadios = $('[name=geometries]');
+var drawControl;
+
+var updateDrawControl = function() {
+    var geometryType = geomRadios.filter(':checked').val();
+
+    map.removeInteraction(drawControl);
+
+    if (geometryType === 'None') return;
+
+    drawControl = new ol.interaction.Draw({
+        type: geometryType,
+        source: window[layerSelect.val()].getSource()
+    });
+
+    map.addInteraction(drawControl);
+};
+
+layerSelect.on('change', updateDrawControl);
+geomRadios.on('change', updateDrawControl);
+    
+
+</script>
+{% endblock %}

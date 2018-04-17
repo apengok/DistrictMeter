@@ -1,0 +1,182 @@
+{% extends 'gis/cookb/cookbook.html' %}
+
+{% block title %}Openlayer3 cookbook|ch03 gml layer {% endblock %}
+
+
+{% block stylesheet %}
+<style type="text/css">
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 30%;
+    font-family: Arial, sans-serif;
+}
+
+.pane {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 30%;
+    background: ghostwhite;
+    border-left: 5px solid lightsteelblue;
+    box-sizing: border-box;
+    padding: 0 20px;
+    font-family: Arial, sans-serif;
+}
+
+.ol-attribution > ul {
+    font-size: 2.3rem;
+}
+
+.ol-rotate {
+    top: 3em;
+}
+
+.ol-mouse-position {
+    right: 50px;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 2px;
+    padding: 0 3px;
+}
+
+.ol-scale-line {
+    left: 6px;
+    bottom: 225px;
+}
+
+.ol-overviewmap-map {
+    bottom: 60px;
+    position: absolute;
+}
+
+.btn-list {
+    padding: 15px 20px;
+}
+
+.btn-list li {
+    margin-bottom: 5px;
+}
+
+.ol-zoom-extent {
+    top: 5.6em;
+    right: .5em;
+    left: inherit;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <div id="js-map" class="map"></div>
+    <div class="pane">
+        <h1>Map Controls</h1>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Enable or disable the controls...</h3>
+            </div>
+            <ul id="js-buttons" class="btn-list list-inline">
+                <li>
+                    <button type="button" class="btn btn-success">Attribution</button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-success">FullScreen</button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-success">MousePosition</button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-success">OverviewMap</button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-success">Rotate</button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-success">ScaleLine</button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-success">Zoom</button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-success">ZoomSlider</button>
+                </li>
+                <li>
+                    <button type="button" class="btn btn-success">ZoomToExtent</button>
+                </li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+
+
+<script type="text/javascript">
+
+/**
+ * Chapter 5
+ * Adding and removing controls
+ *
+ * Peter J Langley
+ * http://www.codechewing.com
+ */
+var controls = [
+    new ol.control.Attribution({collapsed: false}),
+    new ol.control.FullScreen(),
+    new ol.control.MousePosition(),
+    new ol.control.OverviewMap({collapsed: false, collapsible: false}),
+    new ol.control.Rotate({autoHide: false}),
+    new ol.control.ScaleLine(),
+    new ol.control.Zoom(),
+    new ol.control.ZoomSlider(),
+    new ol.control.ZoomToExtent()
+];
+
+var map = new ol.Map({
+    view: new ol.View({
+        zoom: 7,
+        center: [3826743, 4325724]
+    }),
+    target: 'js-map',
+    layers: [
+        new ol.layer.Tile({
+            source: new ol.source.MapQuest({layer: 'osm'})
+        })
+    ],
+    controls: controls
+});
+
+var buttonList = document.getElementById('js-buttons');
+var controlEnabledRegex = /btn-success/;
+
+buttonList.addEventListener('click', function(event) {
+    var element = event.target;
+
+    if (element.nodeName === 'BUTTON') {
+        if (controlEnabledRegex.test(element.className)) {
+            map.getControls().forEach(function(control) {
+                if (control instanceof ol.control[element.innerHTML]) {
+                    map.removeControl(control);
+                }
+            });
+            element.className = element.className.replace('btn-success', 'btn-default');
+
+        } else {
+            controls.forEach(function(control) {
+                if (control instanceof ol.control[element.innerHTML]) {
+                    map.addControl(control);
+                }
+            });
+            element.className = element.className.replace('btn-default', 'btn-success');
+        }
+    }
+});
+
+</script>
+{% endblock %}

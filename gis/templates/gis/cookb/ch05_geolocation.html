@@ -1,0 +1,124 @@
+{% extends 'gis/cookb/cookbook.html' %}
+
+{% block title %}Openlayer3 cookbook|ch03 gml layer {% endblock %}
+
+
+{% block stylesheet %}
+<style type="text/css">
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 30%;
+    font-family: Arial, sans-serif;
+}
+
+.pane {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 30%;
+    background: ghostwhite;
+    border-left: 5px solid lightsteelblue;
+    box-sizing: border-box;
+    padding: 0 20px;
+    font-family: Arial, sans-serif;
+}
+
+.ol-attribution > ul {
+    font-size: 2.3rem;
+}
+
+.pane ul {
+    padding-top: 10px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+    <div id="js-map" class="map"></div>
+    <div class="pane">
+        <h1>Geolocation</h1>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Where am I?</h3>
+            </div>
+            <ul>
+                <li>Position: <code>[</code><samp id="js-position">n/a</samp><code>]</code></li>
+                <li>Speed: <samp id="js-speed">0</samp></li>
+                <li>Altitude: <samp id="js-altitude">n/a</samp></li>
+                <li>Heading: <samp id="js-heading">n/a</samp></li>
+            </ul>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+
+
+<script type="text/javascript">
+
+/**
+ * Chapter 5
+ * Working with geolocation
+ *
+ * Peter J Langley
+ * http://www.codechewing.com
+ */
+var locationCircle = new ol.Feature();
+var positionElem = document.getElementById('js-position');
+var speedElem = document.getElementById('js-speed');
+var altitudeElem = document.getElementById('js-altitude');
+var headingElem = document.getElementById('js-heading');
+
+var map = new ol.Map({
+    view: new ol.View({
+        zoom: 17,
+        center: [10030840, 6731350]
+    }),
+    target: 'js-map',
+    layers: [
+        new ol.layer.Tile({
+            source: new ol.source.OSM()
+        }),
+        new ol.layer.Vector({
+            source: new ol.source.Vector({
+                features: [locationCircle]
+            })
+        })
+    ]
+});
+
+new ol.Geolocation({
+    projection: map.getView().getProjection(),
+    tracking: true,
+    trackingOptions: {
+        enableHighAccuracy: true
+    }
+})
+.on('change', function() {
+    var position = this.getPosition();
+    var speed = this.getSpeed();
+    var altitude = this.getAltitude();
+    var heading = this.getHeading();
+
+    map.getView().setCenter(position);
+
+    locationCircle.setGeometry(
+        new ol.geom.Circle(position, 20)
+    );
+
+    positionElem.innerHTML = position.join(',<br>');
+    speedElem.innerHTML = speed ? speed.toFixed(3) + ' m/s' : 'n/a';
+    altitudeElem.innerHTML = altitude ? altitude.toFixed(3) + ' m' : 'n/a';
+    headingElem.innerHTML = heading ? heading.toFixed(3) + ' degrees' : 'n/a';
+});
+
+</script>
+{% endblock %}

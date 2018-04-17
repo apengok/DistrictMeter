@@ -1,0 +1,116 @@
+{% extends 'gis/cookb/cookbook.html' %}
+
+{% block title %}Openlayer3 cookbook|ch03 gml layer {% endblock %}
+
+
+{% block stylesheet %}
+<style type="text/css">
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 220px;
+    left: 0;
+    right: 0;
+    font-family: Arial, sans-serif;
+}
+
+.pane {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    height: 220px;
+    background: ghostwhite;
+    box-sizing: border-box;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+.ol-attribution > ul {
+    font-size: 2.3rem;
+}
+
+.panel {
+    height: 180px;
+}
+
+.feature-info {
+    overflow: scroll;
+    height: 140px;
+    padding: 10px;
+}
+</style>
+{% endblock %}
+
+{% block content %}
+    <div id="js-map" class="map"></div>
+    <div class="pane">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Feature Information</h3>
+            </div>
+            <div id="js-feature-info" class="feature-info"></div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+
+
+<script type="text/javascript">
+
+/**
+ * Chapter 5
+ * Getting information from a WMS server
+ *
+ * Peter J Langley
+ * http://www.codechewing.com
+ */
+var bgsSource = new ol.source.TileWMS({
+    url: 'http://ogc.bgs.ac.uk/cgi-bin/BGS_Bedrock_and_Superficial_Geology/wms',
+    params: {
+        LAYERS: 'BGS_EN_Bedrock_and_Superficial_Geology'
+    },
+    attributions: [
+        new ol.Attribution({
+            html: 'Contains <a href="http://bgs.ac.uk/">British Geological Survey</a> ' +
+            'materials &copy; NERC 2015'
+        })
+    ]
+});
+
+var map = new ol.Map({
+    view: new ol.View({
+        zoom: 7, center: [-146759, 7060335]
+    }),
+    target: 'js-map',
+    layers: [
+        new ol.layer.Tile({source: new ol.source.OSM()}),
+        new ol.layer.Tile({source: bgsSource})
+    ]
+});
+
+var $featureInfo = $('#js-feature-info');
+
+map.on('singleclick', function(event) {
+    var url = bgsSource.getGetFeatureInfoUrl(
+        event.coordinate,
+        map.getView().getResolution(),
+        map.getView().getProjection(),
+        {INFO_FORMAT: 'text/html'}
+    );
+
+    $.ajax({
+        type: 'GET',
+        url: url
+    }).done(function(data) {
+        $featureInfo.html(data.match(/<body>([\s\S]+)<\/body>/)[1]);
+        $featureInfo.find('table').addClass('table table-bordered table-condensed');
+    });
+});
+
+</script>
+{% endblock %}

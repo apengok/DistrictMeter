@@ -1,0 +1,160 @@
+{% extends 'gis/cookb/cookbook.html' %}
+
+{% block title %}Openlayer3 cookbook|ch03 gml layer {% endblock %}
+
+
+{% block stylesheet %}
+<style type="text/css">
+
+.map {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 30%;
+    font-family: Arial, sans-serif;
+}
+
+.pane {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    width: 30%;
+    background: ghostwhite;
+    border-left: 5px solid lightsteelblue;
+    box-sizing: border-box;
+    padding: 0 20px;
+    font-family: Arial, sans-serif;
+}
+
+.ol-attribution > ul {
+    font-size: 2.3rem;
+}
+
+form {
+    padding: 15px 15px 0 15px;
+}
+
+.measuring-types {
+    padding-top: 0;
+}
+
+.result-wrapper {
+    padding: 20px;
+}
+
+</style>
+{% endblock %}
+
+{% block content %}
+    <div id="js-map" class="map"></div>
+    <div class="pane">
+        <h1>Measuring</h1>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Measurement type</h3>
+            </div>
+            <form class="measuring-types">
+                <div class="form-group">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="measurement" value="Polygon" checked>
+                            Area
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="radio">
+                        <label>
+                            <input type="radio" name="measurement" value="LineString">
+                            Distance
+                        </label>
+                    </div>
+                </div>
+            </form>
+        </div>
+
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title">Result</h3>
+            </div>
+            <div class="result-wrapper">
+                <samp id="js-result">n/a</samp>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block javascript %}
+
+
+<script type="text/javascript">
+
+/**
+ * Chapter 5
+ * Measuring distances and areas
+ *
+ * Peter J Langley
+ * http://www.codechewing.com
+ */
+var vectorLayer = new ol.layer.Vector({
+    source: new ol.source.Vector()
+});
+
+var map = new ol.Map({
+    view: new ol.View({
+        zoom: 15,
+        center: [-13610530, 4555374]
+    }),
+    target: 'js-map',
+    layers: [
+        new ol.layer.Tile({ source: new ol.source.Stamen({
+            layer: 'terrain'
+        })}),
+        vectorLayer
+    ]
+});
+
+var measurementRadios = $('[type=radio]');
+var resultElement = $('#js-result');
+var measuringTool;
+
+var enableMeasuringTool = function() {
+    map.removeInteraction(measuringTool);
+
+    var geometryType = measurementRadios.filter(':checked').val();
+    var html = geometryType === 'Polygon' ? '<sup>2</sup>' : '';
+
+    measuringTool = new ol.interaction.Draw({
+        type: geometryType,
+        source: vectorLayer.getSource()
+    });
+
+    measuringTool.on('drawstart', function(event) {
+        vectorLayer.getSource().clear();
+
+        event.feature.on('change', function(event) {
+            var measurement = geometryType === 'Polygon'
+                ? event.target.getGeometry().getArea()
+                : event.target.getGeometry().getLength();
+
+            var measurementFormatted = measurement > 100
+                ? (measurement / 1000).toFixed(2) + 'km'
+                : measurement.toFixed(2) + 'm';
+
+            resultElement.html(measurementFormatted + html);
+        });
+    });
+
+    map.addInteraction(measuringTool);
+};
+
+measurementRadios.on('change', enableMeasuringTool);
+
+enableMeasuringTool();
+</script>
+{% endblock %}

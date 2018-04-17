@@ -118,14 +118,14 @@
                     <h2 class="h3">Chapter 5</h2>
 
                     <ol>
-                        <li><a href="/ch05/ch05-adding-removing-controls">Adding and removing controls</a></li>
-                        <li><a href="/ch05/ch05-geolocation">Working with geolocation</a></li>
+                        <li><a href="{% url 'gis:add_remove_control' %}">Adding and removing controls</a></li>
+                        <li><a href="{% url 'gis:geolocation' %}">Working with geolocation</a></li>
                         <li><a href="/ch05/ch05-controls-outside-map">Placing controls outside the map</a></li>
-                        <li><a href="/ch05/ch05-drawing-features">Drawing features across multiple vector layers</a></li>
-                        <li><a href="/ch05/ch05-modifying-features">Modifying features</a></li>
-                        <li><a href="/ch05/ch05-measuring">Measuring distances and areas</a></li>
-                        <li><a href="/ch05/ch05-feature-info-from-source">Getting feature information from a data source</a></li>
-                        <li><a href="/ch05/ch05-wms-feature-info">Getting information from a WMS server</a></li>
+                        <li><a href="{% url 'gis:drawing_features' %}">Drawing features across multiple vector layers</a></li>
+                        <li><a href="{% url 'gis:modifying_features' %}">Modifying features</a></li>
+                        <li><a href="{% url 'gis:measuring' %}">Measuring distances and areas</a></li>
+                        <li><a href="{% url 'gis:feature_info_from_source' %}">Getting feature information from a data source</a></li>
+                        <li><a href="{% url 'gis:wms_feature_info' %}">Getting information from a WMS server</a></li>
                     </ol>
                 </li>
             </ul>
