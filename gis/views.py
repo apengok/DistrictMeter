@@ -75,16 +75,17 @@ def getGeom(request):
         top = request.GET.get('top')
         right = request.GET.get('right')
         bottom = request.GET.get('bottom')
-        layerName = request.GET.get('layerName') or ''
+        className = request.GET.get('layerName') or ''
     
     if request.method == 'POST':
         left = request.POST.get('left')
         top = request.POST.get('top')
         right = request.POST.get('right')
         bottom = request.POST.get('bottom')
-        layerName = request.POST.get('layerName') or ''
+        className = request.POST.get('layerName') or ''
     
-    tablename = 'g_cloudlayer_meta_'+layerName
+    print(left,top,right,bottom,className)
+    tablename = 'g_cloudlayer_meta_'+className
     cls = get_table_by_name(tablename)
     
     
@@ -94,13 +95,16 @@ def getGeom(request):
     geom = Polygon.from_bbox(bbox)
     
     if cls is None:
-        return HttpResponse('cant find table:%s '%(tablename,) )
+        tablename = 'g_cloudlayer_meta_sx_gs_'+className
+        cls = get_table_by_name(tablename)
+        if cls is None:
+            return HttpResponse('cant find table:%s '%(tablename,) )
     
     #return HttpResponse(geom)
     geodata=cls.objects.filter(geomdata__intersects=geom)
     gd = [ d.geomdata.json for d in geodata]
     
-    
+    # print("\t\r\ngd:",gd)
     return return_feature_collection(gd)
     
 def countries(request):

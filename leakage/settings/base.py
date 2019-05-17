@@ -24,8 +24,9 @@ SECRET_KEY = 'v(&!is%xev5j)%kor)oy3ww^(ipa8rnk=)xbr^gg59nc5czi=8'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.1.145','localhost']
+ALLOWED_HOSTS = ['*']
 
+X_FRAME_OPTIONS = 'ALLOW-FROM http://192.168.1.51:8000/'
 
 # Application definition
 
@@ -42,18 +43,22 @@ INSTALLED_APPS = [
     'water',
     'virvo',
     'django_tables2',
+    'corsheaders',
     # 'crispy_forms',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'leakage.urls'
 

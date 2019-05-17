@@ -13,21 +13,21 @@ var appLayer = function (options) {
    return layer;
 }
 
-var latitude = 114.3524087439;//22.6942072709,114.3524087439
+var latitude = 114.3524087439;//22.6942072709,114.3524087439  af218d8a9536478231c24fa299fc48f5
 var longitude = 22.6942072709;
-
-var center = [latitude,longitude];
+var center = [118.41047,29.86299];
+// var center = [latitude,longitude];
 
 /*============================µØÐÎÍ¼²ã================================*/
 var normal_background = new appLayer({
-	urls: ['http://t0.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}',
-	        'http://t1.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}',
-			'http://t2.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}',
-			'http://t3.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}',
-			'http://t4.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}',
-			'http://t5.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}',
-			'http://t6.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}',
-			'http://t7.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}'],
+	urls: ['http://t0.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5',
+	        'http://t1.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5',
+			'http://t2.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5',
+			'http://t3.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5',
+			'http://t4.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5',
+			'http://t5.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5',
+			'http://t6.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5',
+			'http://t7.tianditu.com/DataServer?T=vec_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5'],
 	mapExtent: [-2.0037508342787E7, -2.0037508342787E7, 2.0037508342787E7, 2.0037508342787E7],
 	tilePixelRatio: 1,
 	fromProject: "EPSG:102100",
@@ -35,14 +35,14 @@ var normal_background = new appLayer({
 })
 
 var normal_data = new appLayer({
-	urls: ['http://t0.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}',
-	        'http://t1.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}',
-			'http://t2.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}',
-			'http://t3.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}',
-			'http://t4.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}',
-			'http://t5.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}',
-			'http://t6.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}',
-			'http://t7.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}'],
+	urls: ['http://t0.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5',
+	        'http://t1.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5',
+			'http://t2.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5',
+			'http://t3.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5',
+			'http://t4.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5',
+			'http://t5.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5',
+			'http://t6.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5',
+			'http://t7.tianditu.com/DataServer?T=cva_w&x={x}&y={y}&l={z}&tk=af218d8a9536478231c24fa299fc48f5'],
 	mapExtent: [-2.0037508342787E7, -2.0037508342787E7, 2.0037508342787E7, 2.0037508342787E7],
 	tilePixelRatio: 1,
 	fromProject: "EPSG:102100",
@@ -140,9 +140,9 @@ ol.layer.SXZDT = function(opt_options) {
     var topRight = ol.proj.transform(ol.extent.getTopRight(myExtent),'EPSG:3857', 'EPSG:4326');
     
     $.ajax({
-        url: '/map/getGeom',
+        url: '/gis/getGeom',
         data: "left=" + bottomLeft[0] + "&top=" + bottomLeft[1] + "&right=" + topRight[0] + "&bottom=" + topRight[1] + "&layerName="+this_.layerName_,
-        type: 'POST',
+        type: 'GET',
         success: function(res){
             //var geojsonObject = Ext.util.JSON.decode(res);
             var features = (new ol.format.GeoJSON()).readFeatures(res);
