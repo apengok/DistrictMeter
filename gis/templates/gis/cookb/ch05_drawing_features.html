@@ -207,9 +207,10 @@ var map = new ol.Map({
     }),
     target: 'js-map',
     layers: [
-        new ol.layer.Tile({
-            source: new ol.source.OSM()
-        }),
+        // new ol.layer.Tile({
+        //     source: new ol.source.OSM()
+        // }),
+        normal_background,
         vectorLayer1, vectorLayer2
     ],
     // layerGroup:arrNormal,
@@ -240,6 +241,20 @@ var updateDrawControl = function() {
         map.removeInteraction(drawControl);
         console.log(event.feature)
         feature = event.feature;
+        style = new ol.style.Style({
+            //I don't know how to get the color of your kml to fill each room
+            fill: new ol.style.Fill({ color: 'red' }),
+            stroke: new ol.style.Stroke({ color: '#000' }),
+            text: new ol.style.Text({
+                text: feature.get('name'),
+                font: '12px Calibri,sans-serif',
+                fill: new ol.style.Fill({ color: 'red' }),
+                stroke: new ol.style.Stroke({
+                    color: '#fff', width: 2
+                })
+            })
+        });
+        feature.setStyle(style);
         var coords = feature.getGeometry().getCoordinates();
         console.log(coords)
 
@@ -267,6 +282,25 @@ $("#loadgeojson").on("click",function(){
             var features = format.readFeatures(data,)
             console.log(features)
             vectorLayer1.getSource().addFeatures(features);
+            vectorLayer1.getSource().forEachFeature(function(feature){
+
+                            console.log(feature.getProperties());
+
+                            style = new ol.style.Style({
+                                //I don't know how to get the color of your kml to fill each room
+                                fill: new ol.style.Fill({ color: 'blue' }),
+                                stroke: new ol.style.Stroke({ color: '#000' }),
+                                text: new ol.style.Text({
+                                    text: feature.get('name'),
+                                    font: '12px Calibri,sans-serif',
+                                    fill: new ol.style.Fill({ color: 'red' }),
+                                    stroke: new ol.style.Stroke({
+                                        color: '#fff', width: 2
+                                    })
+                                })
+                            });
+                            feature.setStyle(style);
+                        });
             // var feature = vectorLayer.getSource().getFeatures()[28];
             var polygon = features[0].getGeometry();
             console.log(polygon)
