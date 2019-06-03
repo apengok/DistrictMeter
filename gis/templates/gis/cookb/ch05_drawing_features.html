@@ -270,12 +270,13 @@ layerSelect.on('change', updateDrawControl);
 geomRadios.on('change', updateDrawControl);
     
     var flag = false;
+    var WEBSITE_ROOT='http://192.168.1.51:8000/ggis';
 
 $("#loadgeojson").on("click",function(){
     flag= true;
     $.ajax({
             type:"GET",
-            url:"/gis/getgeojson/",
+            url:WEBSITE_ROOT+"/getgeojson/",
             // context:this
         }).done(function(data){
             var format = new ol.format.GeoJSON();//{dataProjection: 'EPSG:3857'}
