@@ -44,7 +44,7 @@ typing==3.6.1
 urlgrabber==3.9.1
 versioneer==0.18
 virtualenv==15.0.3
-Werkzeug==0.12.2
+Werkzeug==0.15.3
 WTForms==2.1
 wxPython==2.8.12.1
 wxPython-common==2.8.12.1
