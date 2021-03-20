@@ -12,7 +12,7 @@ idna==2.1
 imagesize==0.7.1
 ipaddress==1.0.17
 itsdangerous==0.24
-Jinja2==2.9.6
+Jinja2==2.11.3
 lxml==3.6.4
 MarkupSafe==1.0
 matplotlib==1.5.3
