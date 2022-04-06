@@ -39,7 +39,7 @@ six==1.10.0
 snowballstemmer==1.2.1
 Sphinx==1.6.2
 sphinxcontrib-websupport==1.0.1
-Twisted==11.0.0
+Twisted==22.2.0
 typing==3.6.1
 urlgrabber==3.9.1
 versioneer==0.18
